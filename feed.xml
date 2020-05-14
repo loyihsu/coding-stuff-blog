@@ -5,8 +5,8 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 15 May 2020 02:19:36 +0800</pubDate>
-    <lastBuildDate>Fri, 15 May 2020 02:19:36 +0800</lastBuildDate>
+    <pubDate>Fri, 15 May 2020 04:08:51 +0800</pubDate>
+    <lastBuildDate>Fri, 15 May 2020 04:08:51 +0800</lastBuildDate>
     <generator>Jekyll v4.0.1</generator>
     
       <item>
@@ -24,8 +24,8 @@
 &lt;p&gt;As we focus on the growth of the time complexity, there are two things we consider trivial when calculating time complexity.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;O(N)&lt;/em&gt; and &lt;em&gt;O(2N)&lt;/em&gt; are both considered &lt;em&gt;O(N)&lt;/em&gt;, as it would grow the same, just starting from a different place on the plane.&lt;/li&gt;
-  &lt;li&gt;When calculating something like &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt; + N)&lt;/em&gt;, only &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt; would affect the growth when the input size gets bigger and bigger. Therefore, the &lt;em&gt;O(N)&lt;/em&gt; part is trivial. &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;+N)&lt;/em&gt; is the same as &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;As we only consider the growth for big-O notation, &lt;em&gt;O(N)&lt;/em&gt; and &lt;em&gt;O(2N)&lt;/em&gt; are both considered &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;When calculating something like &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt; + N)&lt;/em&gt;, &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt; would dominate the growth when the input size gets bigger. Therefore, the &lt;em&gt;O(N)&lt;/em&gt; part is trivial. &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;+N)&lt;/em&gt; is the same as &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;The following are some common time complexities, the higher in the table is faster:&lt;/p&gt;

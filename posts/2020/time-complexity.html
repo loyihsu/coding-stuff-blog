@@ -98,8 +98,8 @@
 <p>As we focus on the growth of the time complexity, there are two things we consider trivial when calculating time complexity.</p>
 
 <ul>
-  <li><em>O(N)</em> and <em>O(2N)</em> are both considered <em>O(N)</em>, as it would grow the same, just starting from a different place on the plane.</li>
-  <li>When calculating something like <em>O(N<sup>2</sup> + N)</em>, only <em>O(N<sup>2</sup>)</em> would affect the growth when the input size gets bigger and bigger. Therefore, the <em>O(N)</em> part is trivial. <em>O(N<sup>2</sup>+N)</em> is the same as <em>O(N<sup>2</sup>)</em>.</li>
+  <li>As we only consider the growth for big-O notation, <em>O(N)</em> and <em>O(2N)</em> are both considered <em>O(N)</em>.</li>
+  <li>When calculating something like <em>O(N<sup>2</sup> + N)</em>, <em>O(N<sup>2</sup>)</em> would dominate the growth when the input size gets bigger. Therefore, the <em>O(N)</em> part is trivial. <em>O(N<sup>2</sup>+N)</em> is the same as <em>O(N<sup>2</sup>)</em>.</li>
 </ul>
 
 <p>The following are some common time complexities, the higher in the table is faster:</p>
