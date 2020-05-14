@@ -228,7 +228,7 @@
 <p>As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:</p>
 
 <ul>
-  <li>Native sort function takes <em>O(N log N)</em>.</li>
+  <li>Native <code class="highlighter-rouge">sorted</code> function takes <em>O(N log N)</em>.</li>
   <li>The nested loops take <em>O(N<sup>2</sup>)</em></li>
   <li>Generating output happens within the nested loops, so it wouldn’t take extra time.</li>
 </ul>
@@ -239,7 +239,7 @@
 
 <p>So the bottleneck we had above was the <code class="highlighter-rouge">firstIndex(of:)</code> function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.</p>
 
-<p>How can we improve on that? With a dictionary, a data structure implemented with hashmap in Swift, the search can be reduced to constant time (<em>O(1)</em>). The construction of the dictionary only takes linear processing of the sorted array (<em>O(N)</em>).</p>
+<p>How can we improve on that? With the Dictionary, a data structure implemented with hash table in Swift, the search can be reduced to constant time (<em>O(1)</em>). The construction of the Dictionary only takes linear processing of the sorted array (<em>O(N)</em>).</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
     <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
@@ -264,7 +264,7 @@
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
 <span class="k">for</span> <span class="n">num</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
-    <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">posMap</span><span class="p">[</span><span class="n">num</span><span class="p">]</span><span class="o">!</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="k">return</span> <span class="n">output</span>
 </code></pre></div></div>
@@ -274,7 +274,7 @@
 <p>Let’s calculate the time complexity of this version:</p>
 
 <ul>
-  <li>Sorting nums takes <em>O(N log N)</em>.</li>
+  <li>Sorting <code class="highlighter-rouge">nums</code> takes <em>O(N log N)</em>.</li>
   <li>Generating the map takes <em>O(N)</em>.</li>
   <li>Generating output takes <em>O(N)</em>.</li>
 </ul>

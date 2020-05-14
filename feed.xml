@@ -5,8 +5,8 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 15 May 2020 04:08:51 +0800</pubDate>
-    <lastBuildDate>Fri, 15 May 2020 04:08:51 +0800</lastBuildDate>
+    <pubDate>Fri, 15 May 2020 06:55:45 +0800</pubDate>
+    <lastBuildDate>Fri, 15 May 2020 06:55:45 +0800</lastBuildDate>
     <generator>Jekyll v4.0.1</generator>
     
       <item>
@@ -154,7 +154,7 @@
 &lt;p&gt;As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Native sort function takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;Native &lt;code class=&quot;highlighter-rouge&quot;&gt;sorted&lt;/code&gt; function takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;The nested loops take &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;&lt;/li&gt;
   &lt;li&gt;Generating output happens within the nested loops, so it wouldn’t take extra time.&lt;/li&gt;
 &lt;/ul&gt;
@@ -165,7 +165,7 @@
 
 &lt;p&gt;So the bottleneck we had above was the &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.&lt;/p&gt;
 
-&lt;p&gt;How can we improve on that? With a dictionary, a data structure implemented with hashmap in Swift, the search can be reduced to constant time (&lt;em&gt;O(1)&lt;/em&gt;). The construction of the dictionary only takes linear processing of the sorted array (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;How can we improve on that? With the Dictionary, a data structure implemented with hash table in Swift, the search can be reduced to constant time (&lt;em&gt;O(1)&lt;/em&gt;). The construction of the Dictionary only takes linear processing of the sorted array (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smallerNumbersThanCurrent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -190,7 +190,7 @@
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;posMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -200,7 +200,7 @@
 &lt;p&gt;Let’s calculate the time complexity of this version:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Sorting nums takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;Sorting &lt;code class=&quot;highlighter-rouge&quot;&gt;nums&lt;/code&gt; takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;Generating the map takes &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;Generating output takes &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
