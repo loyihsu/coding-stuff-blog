@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Coding Stuff - Loyi talks about coding stuff here</title>
+    <meta name="description" content="Coding Stuff - Loyi talks about coding stuff here." />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
+    <meta name="apple-mobile-web-app-title" content="Coding Stuff" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu%20Mono" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="home-template">
+  
+      <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Improving on an Algorithm: Time Complexity</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2020-05-14">14 May 2020</time>
+                
+                    on algorithm, time-complexity, and big-o
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="http://codes.loyi.dev/">
+                
+                    <span class="blog-title">Coding Stuff</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2020-05-14">14 May 2020</time>
+            
+                on algorithm, time-complexity, and big-o
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Improving on an Algorithm: Time Complexity</h1> -->
+
+        <section class="post-content">
+            <p>Recently, when I was looking at an old solution I wrote months ago for a LeetCode problem, <a href="https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/">How many numbers are smaller than the current number</a>, I suddenly found that although my previous solution used some tricks in an attempt to do it faster, the function I used made it as slow as the time complexity of a brute force solution.</p>
+
+<h3 id="wait-what-is-time-complexity">Wait, What is Time Complexity</h3>
+
+<p>Time complexity is a common concept in the Computer Science world. However, as it is a necessary tool for the discussion here, let’s make sure we are on the same page before we start.</p>
+
+<p>Time complexity is a measurement of running time of an algorithm. It is estimated by counting the ‘steps’ of an algorithm.</p>
+
+<p>When calculating time complexity, we focus on the ‘growth’ of running time as the input size grows. We use ‘big-O notation’ to represent the time complexity of an algorithm, such as <em>O(1)</em>, <em>O(N)</em>, <em>O(N log N)</em>, <em>O(N<sup>2</sup>)</em>, <em>O(2<sup>N</sup>)</em>, etc, where <em>N</em> represents the input size.</p>
+
+<p>As we focus on the growth of the time complexity, there are two things we consider trivial when calculating time complexity.</p>
+
+<ul>
+  <li><em>O(N)</em> and <em>O(2N)</em> are both considered <em>O(N)</em>, as it would grow the same, just starting from a different place on the plane.</li>
+  <li>When calculating something like <em>O(N<sup>2</sup> + N)</em>, only <em>O(N<sup>2</sup>)</em> would affect the growth when the input size gets bigger and bigger. Therefore, the <em>O(N)</em> part is trivial. <em>O(N<sup>2</sup>+N)</em> is the same as <em>O(N<sup>2</sup>)</em>.</li>
+</ul>
+
+<p>The following are some common time complexities, the higher in the table is faster:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Big-O Notation</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>O(1)</em></td>
+      <td>constant time</td>
+    </tr>
+    <tr>
+      <td><em>O(log N)</em></td>
+      <td>logarithmic time</td>
+    </tr>
+    <tr>
+      <td><em>O(N)</em></td>
+      <td>linear time</td>
+    </tr>
+    <tr>
+      <td><em>O(N log N)</em></td>
+      <td>linearithmic time</td>
+    </tr>
+    <tr>
+      <td><em>O(N<sup>2</sup>)</em></td>
+      <td>quadratic time</td>
+    </tr>
+    <tr>
+      <td><em>O(2<sup>N</sup>)</em></td>
+      <td>exponential time</td>
+    </tr>
+    <tr>
+      <td><em>O(N!)</em></td>
+      <td>factorial time</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="why-improving-time-complexity-matters">Why improving time complexity matters?</h4>
+
+<p>Although computers nowadays run pretty fast, when the algorithm has, for instance, an exponential time complexity, the programme can still take pretty long to complete when the input size gets huge.</p>
+
+<p>However, there is not always a way to solve a problem with faster algorithms—like it is impossible to solve a sorting problem within linear processing (<em>O(N)</em>). The best we can get for sorting is <em>O(N log N)</em>.</p>
+
+<p>If it is possible to find an algorithm that solves the problem with better time complexity, it would always be better even when the computers are getting faster and faster nowadays. A bad computer running an algorithm with good time complexity can still potentially outrun a good computer running an algorithm with bad time complexity.</p>
+
+<h3 id="brute-force">Brute Force</h3>
+
+<p>A brute force algorithm is usually the slowest way to solve a problem. It works by working through every possible combination and find the answer.</p>
+
+<p>A brute force method to solve this problem can look like:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+        <span class="k">var</span> <span class="nv">temp</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="p">{</span>
+                    <span class="n">temp</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="c1">// Nested for loops takes N * N steps</span>
+        <span class="c1">// (N steps for each step)</span>
+        
+        <span class="k">return</span> <span class="n">output</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As we would need the nested for-in loops, each taking <em>N</em> steps, this algorithm easily reach the realm of <em>O(N<sup>2</sup>)</em>—any faster way to solve this problem would be an improvement.</p>
+
+<h3 id="consider-ver-1-solution">Consider Ver. 1 Solution</h3>
+
+<p>The following code was my first attempt:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
+     <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
+         <span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+         <span class="k">var</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
+
+         <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
+             <span class="k">if</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="c1">// N steps</span>
+                 <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+             <span class="p">}</span>
+         <span class="p">}</span>
+         <span class="c1">// Still N * N steps</span>
+
+         <span class="k">return</span> <span class="n">output</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Let’s walk through this code first.</p>
+
+<p>The trick for this code is that with a sorted array, the first index of the item would be the number that is smaller than the item.</p>
+
+<p>So in the beginning, we prepared an empty <code class="highlighter-rouge">[Int]</code> array for output. As the input array would not be sorted, we use the native sorting function, implemented with Timsort algorithm (<em>O(N log N)</em>), to get the sorted array.</p>
+
+<p>Let’s consider this sample input/output:</p>
+
+<blockquote>
+  <p>Sample Input: [5,1,4,4,2]</p>
+
+  <p>Sample Output: [4,0,2,2,1]</p>
+</blockquote>
+
+<p>If we sort the array, we would get [1,2,4,4,5], the index would be [0,1,2,3,4]. Whenever we want to know how many numbers are smaller than 5, we just need to find the index of the first instance of it in the sorted array.</p>
+
+<p>It may seem better, but it ends up being as slow as the brute force method.</p>
+
+<p>The reason for it is that to get the index of the first instance in the array, I used the <code class="highlighter-rouge">firstIndex(of:)</code> function here.</p>
+
+<p>In Swift, <code class="highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup></em>).</p>
+
+<p>As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:</p>
+
+<ul>
+  <li>Native sort function takes <em>O(N log N)</em>.</li>
+  <li>The nested loops take <em>O(N<sup>2</sup>)</em></li>
+  <li>Generating output happens within the nested loops, so it wouldn’t take extra time.</li>
+</ul>
+
+<p>Therefore, although we have used the native sort function to sort the array, an <em>O(N log N)</em>) algorithm, the time complexity is still at <em>O(N<sup>2</sup>) + O(N log N)</em>, which is still <em>O(N<sup>2</sup>)</em>.</p>
+
+<h3 id="then-how-to-improve-it">Then How to Improve It</h3>
+
+<p>So the bottleneck we had above was the <code class="highlighter-rouge">firstIndex(of:)</code> function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.</p>
+
+<p>How can we improve on that? With a dictionary, a data structure implemented with hashmap in Swift, the search can be reduced to constant time (<em>O(1)</em>). The construction of the dictionary only takes linear processing of the sorted array (<em>O(N)</em>).</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
+        <span class="k">var</span> <span class="nv">posMap</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">:</span><span class="kt">Int</span><span class="p">]()</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">enumerated</span><span class="p">()</span> <span class="k">where</span> <span class="n">posMap</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="c1">// for-loop: N steps</span>
+            <span class="n">posMap</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">nums</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">posMap</span><span class="p">[</span><span class="nv">$0</span><span class="p">]</span><span class="o">!</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When generating the <code class="highlighter-rouge">posMap</code>, we record only the first instance by asking it to only record it when there is no record for the value in the dictionary yet. We would record the number (value) as the <code class="highlighter-rouge">key</code> of the dictionary, and the index as the dictionary <code class="highlighter-rouge">value</code>.</p>
+
+<p>As a result, when we ask for where is the index (<code class="highlighter-rouge">value</code>) of a number (<code class="highlighter-rouge">key</code>), we can get it by calling posMap[<code class="highlighter-rouge">key</code>] (returns the corresponding <code class="highlighter-rouge">value</code>).</p>
+
+<p>The <code class="highlighter-rouge">return</code> part of this version is a fancier, shorter way to write the following code with the <code class="highlighter-rouge">map</code> function.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+<span class="k">for</span> <span class="n">num</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
+    <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="n">output</span>
+</code></pre></div></div>
+
+<p>So we can easily see that this part take a N step loop (<em>O(N)</em>).</p>
+
+<p>Let’s calculate the time complexity of this version:</p>
+
+<ul>
+  <li>Sorting nums takes <em>O(N log N)</em>.</li>
+  <li>Generating the map takes <em>O(N)</em>.</li>
+  <li>Generating output takes <em>O(N)</em>.</li>
+</ul>
+
+<p>So <em>O(N log N) + O(N) + O(N)</em> is <em>O(N log N)</em>, better than the previous <em>O(N<sup>2</sup>)</em> method.</p>
+
+<p>Time complexity may be a complicated concept in the beginning. Nonetheless, it provides us with a nice tool to look into the pros and cons of our algorithm at hand. Although we may not endlessly improve on our algorithm, it is always a good thing to have an idea of what is holding back our code.</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Yu-Sung Loyi Hsu's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Yu-Sung Loyi Hsu </h4>
+                    <!-- Author Bio -->
+                    <p>
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an Indie Swift Developer.
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=Improving on an Algorithm: Time Complexity&amp;url=http://codes.loyi.dev/posts/2020/time-complexity.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://codes.loyi.dev/posts/2020/time-complexity.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://codes.loyi.dev/posts/2020/time-complexity.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+            <!-- Disqus comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">Coding Stuff</a> &copy; 
+              2020 &bull; All rights reserved.
+               
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+
+    
+
+    </script>   
+</body>
+</html>

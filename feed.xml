@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>Loyi talks about coding stuff here</description>
+    <link>http://codes.loyi.dev///</link>
+    <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 15 May 2020 01:48:43 +0800</pubDate>
+    <lastBuildDate>Fri, 15 May 2020 01:48:43 +0800</lastBuildDate>
+    <generator>Jekyll v4.0.1</generator>
+    
+      <item>
+        <title>Improving on an Algorithm: Time Complexity</title>
+        <description>&lt;p&gt;Recently, when I was looking at an old solution I wrote months ago for a LeetCode problem, &lt;a href=&quot;https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/&quot;&gt;How many numbers are smaller than the current number&lt;/a&gt;, I suddenly found that although my previous solution used some tricks in an attempt to do it faster, the function I used made it as slow as the time complexity of a brute force solution.&lt;/p&gt;
+
+&lt;h3 id=&quot;wait-what-is-time-complexity&quot;&gt;Wait, What is Time Complexity&lt;/h3&gt;
+
+&lt;p&gt;Time complexity is a common concept in the Computer Science world. However, as it is a necessary tool for the discussion here, let’s make sure we are on the same page before we start.&lt;/p&gt;
+
+&lt;p&gt;Time complexity is a measurement of running time of an algorithm. It is estimated by counting the ‘steps’ of an algorithm.&lt;/p&gt;
+
+&lt;p&gt;When calculating time complexity, we focus on the ‘growth’ of running time as the input size grows. We use ‘big-O notation’ to represent the time complexity of an algorithm, such as &lt;em&gt;O(1)&lt;/em&gt;, &lt;em&gt;O(N)&lt;/em&gt;, &lt;em&gt;O(N log N)&lt;/em&gt;, &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;, &lt;em&gt;O(2&lt;sup&gt;N&lt;/sup&gt;)&lt;/em&gt;, etc, where &lt;em&gt;N&lt;/em&gt; represents the input size.&lt;/p&gt;
+
+&lt;p&gt;As we focus on the growth of the time complexity, there are two things we consider trivial when calculating time complexity.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;O(N)&lt;/em&gt; and &lt;em&gt;O(2N)&lt;/em&gt; are both considered &lt;em&gt;O(N)&lt;/em&gt;, as it would grow the same, just starting from a different place on the plane.&lt;/li&gt;
+  &lt;li&gt;When calculating something like &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt; + N)&lt;/em&gt;, only &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt; would affect the growth when the input size gets bigger and bigger. Therefore, the &lt;em&gt;O(N)&lt;/em&gt; part is trivial. &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;+N)&lt;/em&gt; is the same as &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following are some common time complexities, the higher in the table is faster:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Big-O Notation&lt;/th&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(1)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;constant time&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(log N)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;logarithmic time&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(N)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;linear time&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(N log N)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;linearithmic time&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;quadratic time&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(2&lt;sup&gt;N&lt;/sup&gt;)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;exponential time&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;O(N!)&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;factorial time&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;why-improving-time-complexity-matters&quot;&gt;Why improving time complexity matters?&lt;/h4&gt;
+
+&lt;p&gt;Although computers nowadays run pretty fast, when the algorithm has, for instance, an exponential time complexity, the programme can still take pretty long to complete when the input size gets huge.&lt;/p&gt;
+
+&lt;p&gt;However, there is not always a way to solve a problem with faster algorithms—like it is impossible to solve a sorting problem within linear processing (&lt;em&gt;O(N)&lt;/em&gt;). The best we can get for sorting is &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;If it is possible to find an algorithm that solves the problem with better time complexity, it would always be better even when the computers are getting faster and faster nowadays. A bad computer running an algorithm with good time complexity can still potentially outrun a good computer running an algorithm with bad time complexity.&lt;/p&gt;
+
+&lt;h3 id=&quot;brute-force&quot;&gt;Brute Force&lt;/h3&gt;
+
+&lt;p&gt;A brute force algorithm is usually the slowest way to solve a problem. It works by working through every possible combination and find the answer.&lt;/p&gt;
+
+&lt;p&gt;A brute force method to solve this problem can look like:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smallerNumbersThanCurrent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// N steps&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// N steps&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Nested for loops takes N * N steps&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// (N steps for each step)&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we would need the nested for-in loops, each taking &lt;em&gt;N&lt;/em&gt; steps, this algorithm easily reach the realm of &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;—any faster way to solve this problem would be an improvement.&lt;/p&gt;
+
+&lt;h3 id=&quot;consider-ver-1-solution&quot;&gt;Consider Ver. 1 Solution&lt;/h3&gt;
+
+&lt;p&gt;The following code was my first attempt:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smallerNumbersThanCurrent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sorted&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// O(N log N)&lt;/span&gt;
+
+         &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// N steps&lt;/span&gt;
+             &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;firstIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                 &lt;span class=&quot;c1&quot;&gt;// N steps&lt;/span&gt;
+                 &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+             &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;c1&quot;&gt;// Still N * N steps&lt;/span&gt;
+
+         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s walk through this code first.&lt;/p&gt;
+
+&lt;p&gt;The trick for this code is that with a sorted array, the first index of the item would be the number that is smaller than the item.&lt;/p&gt;
+
+&lt;p&gt;So in the beginning, we prepared an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt; array for output. As the input array would not be sorted, we use the native sorting function, implemented with Timsort algorithm (&lt;em&gt;O(N log N)&lt;/em&gt;), to get the sorted array.&lt;/p&gt;
+
+&lt;p&gt;Let’s consider this sample input/output:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Sample Input: [5,1,4,4,2]&lt;/p&gt;
+
+  &lt;p&gt;Sample Output: [4,0,2,2,1]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If we sort the array, we would get [1,2,4,4,5], the index would be [0,1,2,3,4]. Whenever we want to know how many numbers are smaller than 5, we just need to find the index of the first instance of it in the sorted array.&lt;/p&gt;
+
+&lt;p&gt;It may seem better, but it ends up being as slow as the brute force method.&lt;/p&gt;
+
+&lt;p&gt;The reason for it is that to get the index of the first instance in the array, I used the &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function here.&lt;/p&gt;
+
+&lt;p&gt;In Swift, &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (&lt;em&gt;O(N)&lt;/em&gt;) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another &lt;em&gt;O(N)&lt;/em&gt;, what we have at hand become nested loops that both run through the input array one by one. That is &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Native sort function takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;The nested loops take &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;Generating output happens within the nested loops, so it wouldn’t take extra time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Therefore, although we have used the native sort function to sort the array, an &lt;em&gt;O(N log N)&lt;/em&gt;) algorithm, the time complexity is still at &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;) + O(N log N)&lt;/em&gt;, which is still &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;then-how-to-improve-it&quot;&gt;Then How to Improve It&lt;/h3&gt;
+
+&lt;p&gt;So the bottleneck we had above was the &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.&lt;/p&gt;
+
+&lt;p&gt;How can we improve on that? With a dictionary, a data structure implemented with hashmap in Swift, the search can be reduced to constant time (&lt;em&gt;O(1)&lt;/em&gt;). The construction of the dictionary only takes linear processing of the sorted array (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smallerNumbersThanCurrent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sorted&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// O(N log N)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;posMap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;enumerated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;posMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// for-loop: N steps&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;posMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;posMap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When generating the &lt;code class=&quot;highlighter-rouge&quot;&gt;posMap&lt;/code&gt;, we record only the first instance by asking it to only record it when there is no record for the value in the dictionary yet. We would record the number (value) as the &lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt; of the dictionary, and the index as the dictionary &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;As a result, when we ask for where is the index (&lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;) of a number (&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;), we can get it by calling posMap[&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;] (returns the corresponding &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt; part of this version is a fancier, shorter way to write the following code with the &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So we can easily see that this part take a N step loop (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;Let’s calculate the time complexity of this version:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Sorting nums takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;Generating the map takes &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;Generating output takes &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So &lt;em&gt;O(N log N) + O(N) + O(N)&lt;/em&gt; is &lt;em&gt;O(N log N)&lt;/em&gt;, better than the previous &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt; method.&lt;/p&gt;
+
+&lt;p&gt;Time complexity may be a complicated concept in the beginning. Nonetheless, it provides us with a nice tool to look into the pros and cons of our algorithm at hand. Although we may not endlessly improve on our algorithm, it is always a good thing to have an idea of what is holding back our code.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 14 May 2020 22:50:00 +0800</pubDate>
+        <link>http://codes.loyi.dev///posts/2020/time-complexity.html</link>
+        <guid isPermaLink="true">http://codes.loyi.dev///posts/2020/time-complexity.html</guid>
+        
+        
+        <category>algorithm</category>
+        
+        <category>time-complexity</category>
+        
+        <category>big-o</category>
+        
+      </item>
+    
+  </channel>
+</rss>
