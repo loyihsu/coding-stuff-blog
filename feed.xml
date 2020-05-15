@@ -5,8 +5,8 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 15 May 2020 06:55:45 +0800</pubDate>
-    <lastBuildDate>Fri, 15 May 2020 06:55:45 +0800</lastBuildDate>
+    <pubDate>Fri, 15 May 2020 14:44:35 +0800</pubDate>
+    <lastBuildDate>Fri, 15 May 2020 14:44:35 +0800</lastBuildDate>
     <generator>Jekyll v4.0.1</generator>
     
       <item>
@@ -195,7 +195,7 @@
 &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;So we can easily see that this part take a N step loop (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;So we can easily see that this part takes a N step loop (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
 
 &lt;p&gt;Let’s calculate the time complexity of this version:&lt;/p&gt;
 
