@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>
+    
+      Remotely Accessing a Home Computer behind Double NAT - Coding Stuff
+    
+    </title>
+    <meta name="description" content="Coding Stuff - Loyi talks about coding stuff here." />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
+    <meta name="apple-mobile-web-app-title" content="Coding Stuff" />
+
+    
+    <meta property="og:title" content="Remotely Accessing a Home Computer behind Double NAT - Coding Stuff" />
+    
+
+    <meta name="description" content="I used to host websites and web app services at home. However, as I recently moved and the Internet setup at the new house is quite different—my ISP at home ..." />
+    <meta property="og:description" content="I used to host websites and web app services at home. However, as I recently moved and the Internet setup at the new house is quite different—my ISP at home ..." />
+
+    <meta property="og:site_name" content="" />
+    
+    
+    <meta property="og:image" content="https://i.imgur.com/7FoHrAX.jpg" />
+    
+    
+    
+    <meta property="article:published_time" content="2021-12-31 03:06:00 +0800" />
+    
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu%20Mono" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="home-template">
+  
+      <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Remotely Accessing a Home Computer behind Double NAT</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2021-12-31">31 Dec 2021</time>
+                
+                    on server and remote
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="http://codes.loyi.dev/">
+                
+                    <span class="blog-title">Coding Stuff</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2021-12-31">31 Dec 2021</time>
+            
+                on server and remote
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Remotely Accessing a Home Computer behind Double NAT</h1> -->
+
+        <section class="post-content">
+            <p>I used to host websites and web app services at home. However, as I recently moved and the Internet setup at the new house is quite different—my ISP at home uses a giant central router to divide Internet access to each room. That is, a classic Double NAT scenerio. This is not a big deal if you are not trying to access your devices from outside the local network. However, when you need to do that, you will find it impossible because you have no access to the port forwarding features of the central router of the ISP.</p>
+
+<p>Therefore, I rented a server to host my website. However, the disk spaces I can rent under my budget is tiny. As I still want to host some space consuming services, I needed to find a way to build a system to access my local computer.</p>
+
+<p>The plan is like this: whenever a connection is initiated, it will be sent to the rented server, the server will then route the connection to my computer, and the computer will handle the request. When it is time to return anything, the connection will be sent through the same route back.</p>
+
+<p><img src="https://i.imgur.com/qQNltRz.png" alt="" />
+<small>Figure: Plan for this solution</small></p>
+
+<p>This may sound straight-forward, but the correct tools are required to get this done. Basically, I need a tool to set up a special tunnel between my computer and the rented server—and the tool I am using is Wireguard.</p>
+
+<p>Wireguard is basically a VPN app that can allow you to set up a direct tunnel between your server and your computer. It works like this, you assign an IP to the server (let’s say, 192.168.4.1) and assign another to the home computer (let’s say, 192.168.4.2). This solution is inspired by <a href="https://golb.hplar.ch/2019/01/expose-server-vpn.html">this blog post</a>.</p>
+
+<p>On the server side, the setup of Wireguard looks like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
+PrivateKey = &lt;Private key of the server goes here&gt;
+ListenPort = &lt;Any Port&gt;
+Address = 192.168.4.1
+
+[Peer]
+PublicKey =  &lt;Public key of the home computer goes here&gt;
+AllowedIPs = 192.168.4.2/32
+</code></pre></div></div>
+
+<p>On the home computer side, the configuration looks like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
+PrivateKey = &lt;Private key of the home computer goes here&gt;
+Address = 192.168.4.2
+
+[Peer]
+PublicKey = &lt;Public key of the server goes here&gt;
+AllowedIPs = 192.168.4.1/32
+Endpoint = &lt;Server URL&gt;:&lt;ListeningPort above&gt;
+PersistentKeepalive = 25
+</code></pre></div></div>
+
+<p>After both sides are set up and enabled, both sides will be able to ping each other with 192.168.4.1 (to server) and 192.168.4.2 (to home computer).</p>
+
+<p>As I use my server to host multiple other dockerized services, I already setup a system to use Apache2’s ProxyPass to serve different contents based on the URL. Therefore, on the server side, I then used the same feature to connect to the home computer. The setup looks something like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
+    ProxyPass / http://192.168.4.2:3000/
+    ProxyPassReverse / http://192.168.4.2:3000/
+&lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>The setup above will route any connection to <code class="highlighter-rouge">&lt;Server IP&gt;:80</code> to the <code class="highlighter-rouge">&lt;home computer&gt;:3000</code>. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
+    ServerName site.example.com
+    ProxyPass / http://192.168.4.2:3000/
+    ProxyPassReverse / http://192.168.4.2:3000/
+&lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the <code class="highlighter-rouge">site</code> subdomain to your server address (with an <code class="highlighter-rouge">A</code> record) or another address (with a <code class="highlighter-rouge">CNAME</code> record).</p>
+
+<p>See <a href="https://www.digitalocean.com/community/tutorials/how-to-use-apache-as-a-reverse-proxy-with-mod_proxy-on-ubuntu-16-04">this article</a> if you need a more detailed explanation of how to make ProxyPass work.</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Yu-Sung Loyi Hsu's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Yu-Sung Loyi Hsu </h4>
+                    <!-- Author Bio -->
+                    <p>
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an Indie Swift Developer.
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=Remotely Accessing a Home Computer behind Double NAT&amp;url=http://codes.loyi.dev/posts/2021/remote-access-home-computer-double-nat.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://codes.loyi.dev/posts/2021/remote-access-home-computer-double-nat.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <!-- Google Plus is discomissioned long ago. -->
+    <!--<a class="icon-google-plus" href="https://plus.google.com/share?url=http://codes.loyi.dev/posts/2021/remote-access-home-computer-double-nat.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>-->
+</section>
+
+            <!-- Disqus comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">Coding Stuff</a> &copy; 
+              2021 &bull; All rights reserved.
+               
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+
+    
+
+    </script>   
+</body>
+</html>

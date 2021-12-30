@@ -5,9 +5,83 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 19 Aug 2021 17:41:04 +0800</pubDate>
-    <lastBuildDate>Thu, 19 Aug 2021 17:41:04 +0800</lastBuildDate>
+    <pubDate>Fri, 31 Dec 2021 03:13:14 +0800</pubDate>
+    <lastBuildDate>Fri, 31 Dec 2021 03:13:14 +0800</lastBuildDate>
     <generator>Jekyll v4.0.1</generator>
+    
+      <item>
+        <title>Remotely Accessing a Home Computer behind Double NAT</title>
+        <description>&lt;p&gt;I used to host websites and web app services at home. However, as I recently moved and the Internet setup at the new house is quite different—my ISP at home uses a giant central router to divide Internet access to each room. That is, a classic Double NAT scenerio. This is not a big deal if you are not trying to access your devices from outside the local network. However, when you need to do that, you will find it impossible because you have no access to the port forwarding features of the central router of the ISP.&lt;/p&gt;
+
+&lt;p&gt;Therefore, I rented a server to host my website. However, the disk spaces I can rent under my budget is tiny. As I still want to host some space consuming services, I needed to find a way to build a system to access my local computer.&lt;/p&gt;
+
+&lt;p&gt;The plan is like this: whenever a connection is initiated, it will be sent to the rented server, the server will then route the connection to my computer, and the computer will handle the request. When it is time to return anything, the connection will be sent through the same route back.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/qQNltRz.png&quot; alt=&quot;&quot; /&gt;
+&lt;small&gt;Figure: Plan for this solution&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;This may sound straight-forward, but the correct tools are required to get this done. Basically, I need a tool to set up a special tunnel between my computer and the rented server—and the tool I am using is Wireguard.&lt;/p&gt;
+
+&lt;p&gt;Wireguard is basically a VPN app that can allow you to set up a direct tunnel between your server and your computer. It works like this, you assign an IP to the server (let’s say, 192.168.4.1) and assign another to the home computer (let’s say, 192.168.4.2). This solution is inspired by &lt;a href=&quot;https://golb.hplar.ch/2019/01/expose-server-vpn.html&quot;&gt;this blog post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;On the server side, the setup of Wireguard looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Interface]
+PrivateKey = &amp;lt;Private key of the server goes here&amp;gt;
+ListenPort = &amp;lt;Any Port&amp;gt;
+Address = 192.168.4.1
+
+[Peer]
+PublicKey =  &amp;lt;Public key of the home computer goes here&amp;gt;
+AllowedIPs = 192.168.4.2/32
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;On the home computer side, the configuration looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Interface]
+PrivateKey = &amp;lt;Private key of the home computer goes here&amp;gt;
+Address = 192.168.4.2
+
+[Peer]
+PublicKey = &amp;lt;Public key of the server goes here&amp;gt;
+AllowedIPs = 192.168.4.1/32
+Endpoint = &amp;lt;Server URL&amp;gt;:&amp;lt;ListeningPort above&amp;gt;
+PersistentKeepalive = 25
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After both sides are set up and enabled, both sides will be able to ping each other with 192.168.4.1 (to server) and 192.168.4.2 (to home computer).&lt;/p&gt;
+
+&lt;p&gt;As I use my server to host multiple other dockerized services, I already setup a system to use Apache2’s ProxyPass to serve different contents based on the URL. Therefore, on the server side, I then used the same feature to connect to the home computer. The setup looks something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+    ProxyPass / http://192.168.4.2:3000/
+    ProxyPassReverse / http://192.168.4.2:3000/
+&amp;lt;/VirtualHost&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The setup above will route any connection to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Server IP&amp;gt;:80&lt;/code&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;home computer&amp;gt;:3000&lt;/code&gt;. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+    ServerName site.example.com
+    ProxyPass / http://192.168.4.2:3000/
+    ProxyPassReverse / http://192.168.4.2:3000/
+&amp;lt;/VirtualHost&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the &lt;code class=&quot;highlighter-rouge&quot;&gt;site&lt;/code&gt; subdomain to your server address (with an &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; record) or another address (with a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; record).&lt;/p&gt;
+
+&lt;p&gt;See &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-use-apache-as-a-reverse-proxy-with-mod_proxy-on-ubuntu-16-04&quot;&gt;this article&lt;/a&gt; if you need a more detailed explanation of how to make ProxyPass work.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 31 Dec 2021 03:06:00 +0800</pubDate>
+        <link>http://codes.loyi.dev///posts/2021/remote-access-home-computer-double-nat.html</link>
+        <guid isPermaLink="true">http://codes.loyi.dev///posts/2021/remote-access-home-computer-double-nat.html</guid>
+        
+        
+        <category>server</category>
+        
+        <category>remote</category>
+        
+      </item>
     
       <item>
         <title>A Brief Introduction to SwiftUI</title>
