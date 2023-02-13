@@ -99,7 +99,7 @@
 
 <p>On the server side, the setup of Wireguard looks like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
 PrivateKey = &lt;Private key of the server goes here&gt;
 ListenPort = &lt;Any Port&gt;
 Address = 192.168.4.1
@@ -111,7 +111,7 @@ AllowedIPs = 192.168.4.2/32
 
 <p>On the home computer side, the configuration looks like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
 PrivateKey = &lt;Private key of the home computer goes here&gt;
 Address = 192.168.4.2
 
@@ -126,22 +126,22 @@ PersistentKeepalive = 25
 
 <p>As I use my server to host multiple other dockerized services, I already setup a system to use Apache2’s ProxyPass to serve different contents based on the URL. Therefore, on the server side, I then used the same feature to connect to the home computer. The setup looks something like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
     ProxyPass / http://192.168.4.2:3000/
     ProxyPassReverse / http://192.168.4.2:3000/
 &lt;/VirtualHost&gt;
 </code></pre></div></div>
 
-<p>The setup above will route any connection to <code class="highlighter-rouge">&lt;Server IP&gt;:80</code> to the <code class="highlighter-rouge">&lt;home computer&gt;:3000</code>. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:</p>
+<p>The setup above will route any connection to <code class="language-plaintext highlighter-rouge">&lt;Server IP&gt;:80</code> to the <code class="language-plaintext highlighter-rouge">&lt;home computer&gt;:3000</code>. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
     ServerName site.example.com
     ProxyPass / http://192.168.4.2:3000/
     ProxyPassReverse / http://192.168.4.2:3000/
 &lt;/VirtualHost&gt;
 </code></pre></div></div>
 
-<p>This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the <code class="highlighter-rouge">site</code> subdomain to your server address (with an <code class="highlighter-rouge">A</code> record) or another address (with a <code class="highlighter-rouge">CNAME</code> record).</p>
+<p>This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the <code class="language-plaintext highlighter-rouge">site</code> subdomain to your server address (with an <code class="language-plaintext highlighter-rouge">A</code> record) or another address (with a <code class="language-plaintext highlighter-rouge">CNAME</code> record).</p>
 
 <p>See <a href="https://www.digitalocean.com/community/tutorials/how-to-use-apache-as-a-reverse-proxy-with-mod_proxy-on-ubuntu-16-04">this article</a> if you need a more detailed explanation of how to make ProxyPass work.</p>
 
@@ -161,7 +161,7 @@ PersistentKeepalive = 25
                     <h4> Yu-Sung Loyi Hsu </h4>
                     <!-- Author Bio -->
                     <p>
-                        Hello there. I am Yu-Sung Loyi Hsu, and I am an Indie Swift Developer.
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an iOS Developer.
                     </p>
                 </section>
             
@@ -197,7 +197,7 @@ PersistentKeepalive = 25
     <footer class="site-footer clearfix">
       <section class="copyright">
         <a href="/">Coding Stuff</a> &copy; 
-              2021 &bull; All rights reserved.
+              2023 &bull; All rights reserved.
                
       </section>
       <section class="poweredby">Made with Jekyll using 

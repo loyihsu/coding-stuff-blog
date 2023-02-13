@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>
+    
+      The (Not-So) Peculiar Case of Function Retain in Swift - Coding Stuff
+    
+    </title>
+    <meta name="description" content="Coding Stuff - Loyi talks about coding stuff here." />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
+    <meta name="apple-mobile-web-app-title" content="Coding Stuff" />
+
+    
+    <meta property="og:title" content="The (Not-So) Peculiar Case of Function Retain in Swift - Coding Stuff" />
+    
+
+    <meta name="description" content="Consider the following Swift code:" />
+    <meta property="og:description" content="Consider the following Swift code:" />
+
+    <meta property="og:site_name" content="" />
+    
+    
+    <meta property="og:image" content="https://i.imgur.com/7FoHrAX.jpg" />
+    
+    
+    
+    <meta property="article:published_time" content="2023-02-13 21:00:00 +0800" />
+    
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu%20Mono" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="home-template">
+  
+      <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">The (Not-So) Peculiar Case of Function Retain in Swift</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2023-02-13">13 Feb 2023</time>
+                
+                    on swift, retain-cycle, ios-development, closure, and function
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="http://codes.loyi.dev/">
+                
+                    <span class="blog-title">Coding Stuff</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2023-02-13">13 Feb 2023</time>
+            
+                on swift, retain-cycle, ios-development, closure, and function
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">The (Not-So) Peculiar Case of Function Retain in Swift</h1> -->
+
+        <section class="post-content">
+            <p>Consider the following Swift code:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">A</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">action</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"hello world"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"A is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">B</span><span class="p">()</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">B</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+    
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"B is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="kc">nil</span>
+
+<span class="c1">// [Console Output]</span>
+<span class="c1">// A is deinited</span>
+<span class="c1">// B is deinited</span>
+</code></pre></div></div>
+
+<p>This code may look fine—because it is. However, what if we make the following change?</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">A</span> <span class="p">{</span>
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"A is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">B</span><span class="p">()</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">action</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"hello world"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">B</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+    
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"B is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="kc">nil</span>
+
+<span class="c1">// [Console Output]</span>
+<span class="c1">// (nothing)</span>
+</code></pre></div></div>
+
+<p>Okay, so the action of class <code class="language-plaintext highlighter-rouge">A</code> is changed from an instance variable to an instance method. It should be fine, right? However, the problem is: it isn’t. If you exec the code, you will find the execution result different from the former one. There is a clear retain cycle—when <code class="language-plaintext highlighter-rouge">a</code> is set to <code class="language-plaintext highlighter-rouge">nil</code>, both instances are not released.</p>
+
+<p>But why is it the case?</p>
+
+<p>Now let’s complicate the things a little bit to illustrate.</p>
+
+<h2 id="to-complicate-the-thing">To complicate the thing</h2>
+
+<p>Now let’s put an instance variable of a counter into class <code class="language-plaintext highlighter-rouge">A</code>, and we increment the variable in action.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">A</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"A is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">B</span><span class="p">()</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+</code></pre></div></div>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">A</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"A is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">B</span><span class="p">()</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">action</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+</code></pre></div></div>
+
+<p>With the two implementations above, we can already see some difference. The implementation using a closure would ask us to explicitly refer to <code class="language-plaintext highlighter-rouge">self</code> as it captures it. But why don’t we need to do that it the method version? Well, because an instance method by definition always implicitly captures <code class="language-plaintext highlighter-rouge">self</code>.</p>
+
+<p>If you don’t see why it is retaining <code class="language-plaintext highlighter-rouge">self</code> (I don’t see any <code class="language-plaintext highlighter-rouge">self</code> here?), maybe thinking of it this way can help:</p>
+
+<p>Any instance method can be written as <code class="language-plaintext highlighter-rouge">ClassName.methodName(instanceName)</code>. For instance, the following two method calls are identical, except that one line uses optional-chaining while the the other line uses a forced-unwrap:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ...</span>
+
+<span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
+<span class="n">a</span><span class="p">?</span><span class="o">.</span><span class="nf">action</span><span class="p">()</span>
+<span class="kt">A</span><span class="o">.</span><span class="nf">action</span><span class="p">(</span><span class="n">a</span><span class="o">!</span><span class="p">)()</span>
+</code></pre></div></div>
+
+<p>So when passing an action to the instance variable of <code class="language-plaintext highlighter-rouge">B</code> with <code class="language-plaintext highlighter-rouge">action</code>, we are basically writing <code class="language-plaintext highlighter-rouge">A.action(self)</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">A</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">counter</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"A is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">B</span><span class="p">()</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="kt">A</span><span class="o">.</span><span class="nf">action</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">action</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">B</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+    
+    <span class="kd">deinit</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"B is deinited"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="kc">nil</span>
+
+<span class="c1">// [Console Output]</span>
+<span class="c1">// (nothing)</span>
+</code></pre></div></div>
+
+<h2 id="if-you-are-not-convinced-yet">If you are not convinced yet</h2>
+
+<p>Okay, in case that didn’t help, let’s discuss further.</p>
+
+<p>While it would be obvious in the first place when the retain cycle happened, let’s show it with another piece of code. So what is the behaviour when an instance is not released? While, it lives longer in memory when the reference we have is already away.</p>
+
+<p>With a simpler example:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">printLine</span><span class="p">:</span> <span class="p">((</span><span class="n">_</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Printer</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">printedLines</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kd">func</span> <span class="nf">printLine</span><span class="p">(</span><span class="nv">line</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printedLines</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">printedLines</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">instance</span><span class="p">:</span> <span class="kt">MyClass</span><span class="p">?</span> <span class="o">=</span> <span class="kt">MyClass</span><span class="p">()</span>
+<span class="k">var</span> <span class="nv">printer</span><span class="p">:</span> <span class="kt">Printer</span><span class="p">?</span> <span class="o">=</span> <span class="kt">Printer</span><span class="p">()</span>
+<span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="n">printLine</span> <span class="o">=</span> <span class="n">printer</span><span class="p">?</span><span class="o">.</span><span class="n">printLine</span>
+<span class="n">printer</span> <span class="o">=</span> <span class="kc">nil</span>
+
+<span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Hello world"</span><span class="p">)</span>
+<span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Goodbye world"</span><span class="p">)</span>
+
+<span class="c1">// [Console Output]</span>
+<span class="c1">// ["Hello world"]</span>
+<span class="c1">// ["Hello world", "Goodbye world"]</span>
+</code></pre></div></div>
+
+<p>We can see we already lose access to the printer when we set it to <code class="language-plaintext highlighter-rouge">nil</code>, but we can still use the instance through the <code class="language-plaintext highlighter-rouge">printLine</code> variable in the <code class="language-plaintext highlighter-rouge">instance</code>.</p>
+
+<p>Consider we use a closure and we <code class="language-plaintext highlighter-rouge">weak</code> the reference to <code class="language-plaintext highlighter-rouge">self</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">printLine</span><span class="p">:</span> <span class="p">((</span><span class="n">_</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Printer</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">printedLines</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">printLine</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="n">line</span> <span class="k">in</span>
+        <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">printedLines</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">printedLines</span> <span class="p">??</span> <span class="p">[])</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">instance</span><span class="p">:</span> <span class="kt">MyClass</span><span class="p">?</span> <span class="o">=</span> <span class="kt">MyClass</span><span class="p">()</span>
+<span class="k">var</span> <span class="nv">printer</span><span class="p">:</span> <span class="kt">Printer</span><span class="p">?</span> <span class="o">=</span> <span class="kt">Printer</span><span class="p">()</span>
+<span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="n">printLine</span> <span class="o">=</span> <span class="n">printer</span><span class="p">?</span><span class="o">.</span><span class="n">printLine</span>
+<span class="n">printer</span> <span class="o">=</span> <span class="kc">nil</span>
+
+<span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Hello world"</span><span class="p">)</span>
+<span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Goodbye world"</span><span class="p">)</span>
+
+<span class="c1">// [Console Output]</span>
+<span class="c1">// []</span>
+<span class="c1">// []</span>
+</code></pre></div></div>
+
+<p>What a big surprise! As the closure does not retain <code class="language-plaintext highlighter-rouge">self</code>, so when the printer reference is removed, there is no reference left, the instance of printer would be deinitialised.</p>
+
+<h2 id="the-takeaway">The Takeaway</h2>
+
+<p>An instance method always implicitly captures <code class="language-plaintext highlighter-rouge">self</code>, so <strong>NEVER</strong> assign it as closure to another class’s instance, especially when <code class="language-plaintext highlighter-rouge">self</code> owns the instance as it would cause a retain cycle.</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Yu-Sung Loyi Hsu's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Yu-Sung Loyi Hsu </h4>
+                    <!-- Author Bio -->
+                    <p>
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an iOS Developer.
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=The (Not-So) Peculiar Case of Function Retain in Swift&amp;url=http://codes.loyi.dev/posts/2023/self-retained-when-passing-functions-as-closures.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://codes.loyi.dev/posts/2023/self-retained-when-passing-functions-as-closures.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <!-- Google Plus is discomissioned long ago. -->
+    <!--<a class="icon-google-plus" href="https://plus.google.com/share?url=http://codes.loyi.dev/posts/2023/self-retained-when-passing-functions-as-closures.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>-->
+</section>
+
+            <!-- Disqus comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">Coding Stuff</a> &copy; 
+              2023 &bull; All rights reserved.
+               
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+
+    
+
+    </script>   
+</body>
+</html>

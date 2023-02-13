@@ -100,7 +100,7 @@
 
 <p>A sample view with ‘Hello World’ on the screen in SwiftUI.</p>
 
-<p>This framework provides a simpler way to create UI with a set of tools. You can describe what you want, and it would pick the suitable UI elements for you. Take the code above for example: if you want a line of text on the screen saying ‘Hello World’, you simply need to write <code class="highlighter-rouge">Text("Hello World")</code> and it would generate the view for you.</p>
+<p>This framework provides a simpler way to create UI with a set of tools. You can describe what you want, and it would pick the suitable UI elements for you. Take the code above for example: if you want a line of text on the screen saying ‘Hello World’, you simply need to write <code class="language-plaintext highlighter-rouge">Text("Hello World")</code> and it would generate the view for you.</p>
 
 <h3 id="benefits-same-syntax-across-platforms">Benefits: Same Syntax Across Platforms</h3>
 
@@ -119,15 +119,15 @@
 <p>We would build our app with the following steps:</p>
 
 <ul>
-  <li>Step 1: Create a <code class="highlighter-rouge">ContentView</code></li>
+  <li>Step 1: Create a <code class="language-plaintext highlighter-rouge">ContentView</code></li>
   <li>Step 2: Create a list to store our numbers</li>
   <li>Step 3: Create a button above the list to add numbers</li>
   <li>Step 4: Create the empty list view</li>
 </ul>
 
-<h3 id="create-a-contentview">Create a <code class="highlighter-rouge">ContentView</code></h3>
+<h3 id="create-a-contentview">Create a <code class="language-plaintext highlighter-rouge">ContentView</code></h3>
 
-<p>So let’s start with a basic <code class="highlighter-rouge">ContentView</code> in SwiftUI.</p>
+<p>So let’s start with a basic <code class="language-plaintext highlighter-rouge">ContentView</code> in SwiftUI.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -156,7 +156,7 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">@State</code> property would tell the UI framework to update the view when the variable is updated. Then, we can display the array with a SwiftUI <code class="highlighter-rouge">List</code>.</p>
+<p>The <code class="language-plaintext highlighter-rouge">@State</code> property would tell the UI framework to update the view when the variable is updated. Then, we can display the array with a SwiftUI <code class="language-plaintext highlighter-rouge">List</code>.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
@@ -169,7 +169,7 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>For <code class="highlighter-rouge">List</code> would require the array to be <code class="highlighter-rouge">Identifiable</code>, we add a <code class="highlighter-rouge">id: \.self</code> here. This would work in most cases, but you can use a custom <code class="highlighter-rouge">struct</code> that conform to <code class="highlighter-rouge">Identifiable</code>, too. Like this:</p>
+<p>For <code class="language-plaintext highlighter-rouge">List</code> would require the array to be <code class="language-plaintext highlighter-rouge">Identifiable</code>, we add a <code class="language-plaintext highlighter-rouge">id: \.self</code> here. This would work in most cases, but you can use a custom <code class="language-plaintext highlighter-rouge">struct</code> that conform to <code class="language-plaintext highlighter-rouge">Identifiable</code>, too. Like this:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ListItem</span><span class="p">:</span> <span class="kt">Identifiable</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">UUID</span><span class="p">()</span>        <span class="c1">// Create a unique ID for each item</span>
@@ -210,9 +210,9 @@
 
 <h3 id="create-a-button-above-the-list-to-add-numbers">Create a button above the list to add numbers</h3>
 
-<p>Create a button is pretty simple, but to add a button above the list, we would need a ‘stack’. We would be using <code class="highlighter-rouge">VStack</code> here, which is a vertical stack. In a <code class="highlighter-rouge">VStack</code>, the items would be arranged vertically. There are also <code class="highlighter-rouge">HStack</code> (horizontal stack), and <code class="highlighter-rouge">ZStack</code> (overlaying stack).</p>
+<p>Create a button is pretty simple, but to add a button above the list, we would need a ‘stack’. We would be using <code class="language-plaintext highlighter-rouge">VStack</code> here, which is a vertical stack. In a <code class="language-plaintext highlighter-rouge">VStack</code>, the items would be arranged vertically. There are also <code class="language-plaintext highlighter-rouge">HStack</code> (horizontal stack), and <code class="language-plaintext highlighter-rouge">ZStack</code> (overlaying stack).</p>
 
-<p>So let’s put a <code class="highlighter-rouge">VStack</code>, and put a button above my <code class="highlighter-rouge">List</code>.</p>
+<p>So let’s put a <code class="language-plaintext highlighter-rouge">VStack</code>, and put a button above my <code class="language-plaintext highlighter-rouge">List</code>.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
@@ -253,9 +253,9 @@
 
 <p><img src="https://i.imgur.com/5oMfvLI.png" alt="Development Screenshot 4" /></p>
 
-<p>Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use <code class="highlighter-rouge">Int.random(in: 0...1000)</code> to create a random number between 0 and 1000 (included).</p>
+<p>Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use <code class="language-plaintext highlighter-rouge">Int.random(in: 0...1000)</code> to create a random number between 0 and 1000 (included).</p>
 
-<p>To add an item to an array dynamically, we can use <code class="highlighter-rouge">append</code> function.</p>
+<p>To add an item to an array dynamically, we can use <code class="language-plaintext highlighter-rouge">append</code> function.</p>
 
 <p>Therefore, the code would look like this:</p>
 
@@ -279,7 +279,7 @@
 
 <p><img src="/assets/articles/sample-20200921-01.gif" alt="Sample 1" /></p>
 
-<p>Let’s now substitute our sample list items with an empty array (<code class="highlighter-rouge">[Int]()</code>).</p>
+<p>Let’s now substitute our sample list items with an empty array (<code class="language-plaintext highlighter-rouge">[Int]()</code>).</p>
 
 <p><img src="https://i.imgur.com/5kGKdNq.png" alt="Development Screenshot 5" /></p>
 
@@ -287,7 +287,7 @@
 
 <p>We mentioned that we need to display ‘No numbers available’ when there is nothing available.</p>
 
-<p>SwiftUI is a declarative UI framework, which means we declare everything and use some conditions to control what to show and what to hide. We would use the <code class="highlighter-rouge">isEmpty</code> property of our <code class="highlighter-rouge">numbers</code> array to be the deciding factor here. We would just display the text here.</p>
+<p>SwiftUI is a declarative UI framework, which means we declare everything and use some conditions to control what to show and what to hide. We would use the <code class="language-plaintext highlighter-rouge">isEmpty</code> property of our <code class="language-plaintext highlighter-rouge">numbers</code> array to be the deciding factor here. We would just display the text here.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
@@ -319,7 +319,7 @@
 
 <p><img src="/assets/articles/sample-20200921-02.gif" alt="Sample 2" /></p>
 
-<p>We can simply add a <code class="highlighter-rouge">Spacer()</code> below the <code class="highlighter-rouge">Text</code> and the problem would be solved.</p>
+<p>We can simply add a <code class="language-plaintext highlighter-rouge">Spacer()</code> below the <code class="language-plaintext highlighter-rouge">Text</code> and the problem would be solved.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
@@ -376,7 +376,7 @@
                     <h4> Yu-Sung Loyi Hsu </h4>
                     <!-- Author Bio -->
                     <p>
-                        Hello there. I am Yu-Sung Loyi Hsu, and I am an Indie Swift Developer.
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an iOS Developer.
                     </p>
                 </section>
             
@@ -412,7 +412,7 @@
     <footer class="site-footer clearfix">
       <section class="copyright">
         <a href="/">Coding Stuff</a> &copy; 
-              2021 &bull; All rights reserved.
+              2023 &bull; All rights reserved.
                
       </section>
       <section class="poweredby">Made with Jekyll using 

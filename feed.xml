@@ -5,9 +5,263 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 31 Dec 2021 03:23:08 +0800</pubDate>
-    <lastBuildDate>Fri, 31 Dec 2021 03:23:08 +0800</lastBuildDate>
-    <generator>Jekyll v4.0.1</generator>
+    <pubDate>Mon, 13 Feb 2023 21:23:41 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Feb 2023 21:23:41 +0800</lastBuildDate>
+    <generator>Jekyll v4.3.2</generator>
+    
+      <item>
+        <title>The (Not-So) Peculiar Case of Function Retain in Swift</title>
+        <description>&lt;p&gt;Consider the following Swift code:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)?&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;B is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [Console Output]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// A is deinited&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// B is deinited&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This code may look fine—because it is. However, what if we make the following change?&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)?&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;B is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [Console Output]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// (nothing)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Okay, so the action of class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; is changed from an instance variable to an instance method. It should be fine, right? However, the problem is: it isn’t. If you exec the code, you will find the execution result different from the former one. There is a clear retain cycle—when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt; is set to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nil&lt;/code&gt;, both instances are not released.&lt;/p&gt;
+
+&lt;p&gt;But why is it the case?&lt;/p&gt;
+
+&lt;p&gt;Now let’s complicate the things a little bit to illustrate.&lt;/p&gt;
+
+&lt;h2 id=&quot;to-complicate-the-thing&quot;&gt;To complicate the thing&lt;/h2&gt;
+
+&lt;p&gt;Now let’s put an instance variable of a counter into class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;, and we increment the variable in action.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With the two implementations above, we can already see some difference. The implementation using a closure would ask us to explicitly refer to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt; as it captures it. But why don’t we need to do that it the method version? Well, because an instance method by definition always implicitly captures &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you don’t see why it is retaining &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt; (I don’t see any &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt; here?), maybe thinking of it this way can help:&lt;/p&gt;
+
+&lt;p&gt;Any instance method can be written as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ClassName.methodName(instanceName)&lt;/code&gt;. For instance, the following two method calls are identical, except that one line uses optional-chaining while the the other line uses a forced-unwrap:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So when passing an action to the instance variable of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt; with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;action&lt;/code&gt;, we are basically writing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A.action(self)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)?&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;B is deinited&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [Console Output]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// (nothing)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;if-you-are-not-convinced-yet&quot;&gt;If you are not convinced yet&lt;/h2&gt;
+
+&lt;p&gt;Okay, in case that didn’t help, let’s discuss further.&lt;/p&gt;
+
+&lt;p&gt;While it would be obvious in the first place when the retain cycle happened, let’s show it with another piece of code. So what is the behaviour when an instance is not released? While, it lives longer in memory when the reference we have is already away.&lt;/p&gt;
+
+&lt;p&gt;With a simpler example:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyClass&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)?&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Printer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printedLines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printedLines&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printedLines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printLine&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printLine&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;printer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Goodbye world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [Console Output]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// [&quot;Hello world&quot;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// [&quot;Hello world&quot;, &quot;Goodbye world&quot;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can see we already lose access to the printer when we set it to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nil&lt;/code&gt;, but we can still use the instance through the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;printLine&lt;/code&gt; variable in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;instance&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Consider we use a closure and we &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;weak&lt;/code&gt; the reference to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyClass&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)?&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Printer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printedLines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printedLines&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printedLines&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[])&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printLine&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;printer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printLine&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;printer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;printLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Goodbye world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// [Console Output]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// []&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// []&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What a big surprise! As the closure does not retain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;, so when the printer reference is removed, there is no reference left, the instance of printer would be deinitialised.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-takeaway&quot;&gt;The Takeaway&lt;/h2&gt;
+
+&lt;p&gt;An instance method always implicitly captures &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;, so &lt;strong&gt;NEVER&lt;/strong&gt; assign it as closure to another class’s instance, especially when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt; owns the instance as it would cause a retain cycle.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 13 Feb 2023 21:00:00 +0800</pubDate>
+        <link>http://codes.loyi.dev///posts/2023/self-retained-when-passing-functions-as-closures.html</link>
+        <guid isPermaLink="true">http://codes.loyi.dev///posts/2023/self-retained-when-passing-functions-as-closures.html</guid>
+        
+        
+        <category>swift</category>
+        
+        <category>retain-cycle</category>
+        
+        <category>ios-development</category>
+        
+        <category>closure</category>
+        
+        <category>function</category>
+        
+      </item>
     
       <item>
         <title>Remotely Accessing a Home Computer behind Double NAT</title>
@@ -25,7 +279,7 @@
 
 &lt;p&gt;On the server side, the setup of Wireguard looks like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Interface]
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Interface]
 PrivateKey = &amp;lt;Private key of the server goes here&amp;gt;
 ListenPort = &amp;lt;Any Port&amp;gt;
 Address = 192.168.4.1
@@ -37,7 +291,7 @@ AllowedIPs = 192.168.4.2/32
 
 &lt;p&gt;On the home computer side, the configuration looks like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Interface]
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Interface]
 PrivateKey = &amp;lt;Private key of the home computer goes here&amp;gt;
 Address = 192.168.4.2
 
@@ -52,22 +306,22 @@ PersistentKeepalive = 25
 
 &lt;p&gt;As I use my server to host multiple other dockerized services, I already setup a system to use Apache2’s ProxyPass to serve different contents based on the URL. Therefore, on the server side, I then used the same feature to connect to the home computer. The setup looks something like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
     ProxyPass / http://192.168.4.2:3000/
     ProxyPassReverse / http://192.168.4.2:3000/
 &amp;lt;/VirtualHost&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;The setup above will route any connection to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Server IP&amp;gt;:80&lt;/code&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;home computer&amp;gt;:3000&lt;/code&gt;. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:&lt;/p&gt;
+&lt;p&gt;The setup above will route any connection to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;Server IP&amp;gt;:80&lt;/code&gt; to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;home computer&amp;gt;:3000&lt;/code&gt;. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
     ServerName site.example.com
     ProxyPass / http://192.168.4.2:3000/
     ProxyPassReverse / http://192.168.4.2:3000/
 &amp;lt;/VirtualHost&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the &lt;code class=&quot;highlighter-rouge&quot;&gt;site&lt;/code&gt; subdomain to your server address (with an &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; record) or another address (with a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; record).&lt;/p&gt;
+&lt;p&gt;This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site&lt;/code&gt; subdomain to your server address (with an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; record) or another address (with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; record).&lt;/p&gt;
 
 &lt;p&gt;See &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-use-apache-as-a-reverse-proxy-with-mod_proxy-on-ubuntu-16-04&quot;&gt;this article&lt;/a&gt; if you need a more detailed explanation of how to make ProxyPass work.&lt;/p&gt;
 </description>
@@ -99,7 +353,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;A sample view with ‘Hello World’ on the screen in SwiftUI.&lt;/p&gt;
 
-&lt;p&gt;This framework provides a simpler way to create UI with a set of tools. You can describe what you want, and it would pick the suitable UI elements for you. Take the code above for example: if you want a line of text on the screen saying ‘Hello World’, you simply need to write &lt;code class=&quot;highlighter-rouge&quot;&gt;Text(&quot;Hello World&quot;)&lt;/code&gt; and it would generate the view for you.&lt;/p&gt;
+&lt;p&gt;This framework provides a simpler way to create UI with a set of tools. You can describe what you want, and it would pick the suitable UI elements for you. Take the code above for example: if you want a line of text on the screen saying ‘Hello World’, you simply need to write &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Text(&quot;Hello World&quot;)&lt;/code&gt; and it would generate the view for you.&lt;/p&gt;
 
 &lt;h3 id=&quot;benefits-same-syntax-across-platforms&quot;&gt;Benefits: Same Syntax Across Platforms&lt;/h3&gt;
 
@@ -118,15 +372,15 @@ PersistentKeepalive = 25
 &lt;p&gt;We would build our app with the following steps:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Step 1: Create a &lt;code class=&quot;highlighter-rouge&quot;&gt;ContentView&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Step 1: Create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ContentView&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Step 2: Create a list to store our numbers&lt;/li&gt;
   &lt;li&gt;Step 3: Create a button above the list to add numbers&lt;/li&gt;
   &lt;li&gt;Step 4: Create the empty list view&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;create-a-contentview&quot;&gt;Create a &lt;code class=&quot;highlighter-rouge&quot;&gt;ContentView&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;create-a-contentview&quot;&gt;Create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ContentView&lt;/code&gt;&lt;/h3&gt;
 
-&lt;p&gt;So let’s start with a basic &lt;code class=&quot;highlighter-rouge&quot;&gt;ContentView&lt;/code&gt; in SwiftUI.&lt;/p&gt;
+&lt;p&gt;So let’s start with a basic &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ContentView&lt;/code&gt; in SwiftUI.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -155,7 +409,7 @@ PersistentKeepalive = 25
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; property would tell the UI framework to update the view when the variable is updated. Then, we can display the array with a SwiftUI &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@State&lt;/code&gt; property would tell the UI framework to update the view when the variable is updated. Then, we can display the array with a SwiftUI &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
@@ -168,7 +422,7 @@ PersistentKeepalive = 25
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt; would require the array to be &lt;code class=&quot;highlighter-rouge&quot;&gt;Identifiable&lt;/code&gt;, we add a &lt;code class=&quot;highlighter-rouge&quot;&gt;id: \.self&lt;/code&gt; here. This would work in most cases, but you can use a custom &lt;code class=&quot;highlighter-rouge&quot;&gt;struct&lt;/code&gt; that conform to &lt;code class=&quot;highlighter-rouge&quot;&gt;Identifiable&lt;/code&gt;, too. Like this:&lt;/p&gt;
+&lt;p&gt;For &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; would require the array to be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Identifiable&lt;/code&gt;, we add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id: \.self&lt;/code&gt; here. This would work in most cases, but you can use a custom &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;struct&lt;/code&gt; that conform to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Identifiable&lt;/code&gt;, too. Like this:&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ListItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Identifiable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UUID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;// Create a unique ID for each item&lt;/span&gt;
@@ -209,9 +463,9 @@ PersistentKeepalive = 25
 
 &lt;h3 id=&quot;create-a-button-above-the-list-to-add-numbers&quot;&gt;Create a button above the list to add numbers&lt;/h3&gt;
 
-&lt;p&gt;Create a button is pretty simple, but to add a button above the list, we would need a ‘stack’. We would be using &lt;code class=&quot;highlighter-rouge&quot;&gt;VStack&lt;/code&gt; here, which is a vertical stack. In a &lt;code class=&quot;highlighter-rouge&quot;&gt;VStack&lt;/code&gt;, the items would be arranged vertically. There are also &lt;code class=&quot;highlighter-rouge&quot;&gt;HStack&lt;/code&gt; (horizontal stack), and &lt;code class=&quot;highlighter-rouge&quot;&gt;ZStack&lt;/code&gt; (overlaying stack).&lt;/p&gt;
+&lt;p&gt;Create a button is pretty simple, but to add a button above the list, we would need a ‘stack’. We would be using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VStack&lt;/code&gt; here, which is a vertical stack. In a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VStack&lt;/code&gt;, the items would be arranged vertically. There are also &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HStack&lt;/code&gt; (horizontal stack), and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZStack&lt;/code&gt; (overlaying stack).&lt;/p&gt;
 
-&lt;p&gt;So let’s put a &lt;code class=&quot;highlighter-rouge&quot;&gt;VStack&lt;/code&gt;, and put a button above my &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So let’s put a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VStack&lt;/code&gt;, and put a button above my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
@@ -252,9 +506,9 @@ PersistentKeepalive = 25
 
 &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/5oMfvLI.png&quot; alt=&quot;Development Screenshot 4&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use &lt;code class=&quot;highlighter-rouge&quot;&gt;Int.random(in: 0...1000)&lt;/code&gt; to create a random number between 0 and 1000 (included).&lt;/p&gt;
+&lt;p&gt;Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Int.random(in: 0...1000)&lt;/code&gt; to create a random number between 0 and 1000 (included).&lt;/p&gt;
 
-&lt;p&gt;To add an item to an array dynamically, we can use &lt;code class=&quot;highlighter-rouge&quot;&gt;append&lt;/code&gt; function.&lt;/p&gt;
+&lt;p&gt;To add an item to an array dynamically, we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;append&lt;/code&gt; function.&lt;/p&gt;
 
 &lt;p&gt;Therefore, the code would look like this:&lt;/p&gt;
 
@@ -278,7 +532,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;&lt;img src=&quot;/assets/articles/sample-20200921-01.gif&quot; alt=&quot;Sample 1&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Let’s now substitute our sample list items with an empty array (&lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]()&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Let’s now substitute our sample list items with an empty array (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[Int]()&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/5kGKdNq.png&quot; alt=&quot;Development Screenshot 5&quot; /&gt;&lt;/p&gt;
 
@@ -286,7 +540,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;We mentioned that we need to display ‘No numbers available’ when there is nothing available.&lt;/p&gt;
 
-&lt;p&gt;SwiftUI is a declarative UI framework, which means we declare everything and use some conditions to control what to show and what to hide. We would use the &lt;code class=&quot;highlighter-rouge&quot;&gt;isEmpty&lt;/code&gt; property of our &lt;code class=&quot;highlighter-rouge&quot;&gt;numbers&lt;/code&gt; array to be the deciding factor here. We would just display the text here.&lt;/p&gt;
+&lt;p&gt;SwiftUI is a declarative UI framework, which means we declare everything and use some conditions to control what to show and what to hide. We would use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;isEmpty&lt;/code&gt; property of our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;numbers&lt;/code&gt; array to be the deciding factor here. We would just display the text here.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
@@ -318,7 +572,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;&lt;img src=&quot;/assets/articles/sample-20200921-02.gif&quot; alt=&quot;Sample 2&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;We can simply add a &lt;code class=&quot;highlighter-rouge&quot;&gt;Spacer()&lt;/code&gt; below the &lt;code class=&quot;highlighter-rouge&quot;&gt;Text&lt;/code&gt; and the problem would be solved.&lt;/p&gt;
+&lt;p&gt;We can simply add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Spacer()&lt;/code&gt; below the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Text&lt;/code&gt; and the problem would be solved.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
@@ -496,7 +750,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;The trick for this code is that with a sorted array, the first index of the item would be the number that is smaller than the item.&lt;/p&gt;
 
-&lt;p&gt;So in the beginning, we prepared an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt; array for output. As the input array would not be sorted, we use the native sorting function, implemented with Timsort algorithm (&lt;em&gt;O(N log N)&lt;/em&gt;), to get the sorted array.&lt;/p&gt;
+&lt;p&gt;So in the beginning, we prepared an empty &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[Int]&lt;/code&gt; array for output. As the input array would not be sorted, we use the native sorting function, implemented with Timsort algorithm (&lt;em&gt;O(N log N)&lt;/em&gt;), to get the sorted array.&lt;/p&gt;
 
 &lt;p&gt;Let’s consider this sample input/output:&lt;/p&gt;
 
@@ -510,14 +764,14 @@ PersistentKeepalive = 25
 
 &lt;p&gt;It may seem better, but it ends up being as slow as the brute force method.&lt;/p&gt;
 
-&lt;p&gt;The reason for it is that to get the index of the first instance in the array, I used the &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function here.&lt;/p&gt;
+&lt;p&gt;The reason for it is that to get the index of the first instance in the array, I used the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function here.&lt;/p&gt;
 
-&lt;p&gt;In Swift, &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (&lt;em&gt;O(N)&lt;/em&gt;) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another &lt;em&gt;O(N)&lt;/em&gt;, what we have at hand become nested loops that both run through the input array one by one. That is &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;In Swift, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (&lt;em&gt;O(N)&lt;/em&gt;) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another &lt;em&gt;O(N)&lt;/em&gt;, what we have at hand become nested loops that both run through the input array one by one. That is &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt;).&lt;/p&gt;
 
 &lt;p&gt;As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Native &lt;code class=&quot;highlighter-rouge&quot;&gt;sorted&lt;/code&gt; function takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;Native &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sorted&lt;/code&gt; function takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;The nested loops take &lt;em&gt;O(N&lt;sup&gt;2&lt;/sup&gt;)&lt;/em&gt;&lt;/li&gt;
   &lt;li&gt;Generating output happens within the nested loops, so it wouldn’t take extra time.&lt;/li&gt;
 &lt;/ul&gt;
@@ -526,7 +780,7 @@ PersistentKeepalive = 25
 
 &lt;h3 id=&quot;then-how-to-improve-it&quot;&gt;Then How to Improve It&lt;/h3&gt;
 
-&lt;p&gt;So the bottleneck we had above was the &lt;code class=&quot;highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.&lt;/p&gt;
+&lt;p&gt;So the bottleneck we had above was the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;firstIndex(of:)&lt;/code&gt; function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.&lt;/p&gt;
 
 &lt;p&gt;How can we improve on that? With the Dictionary, a data structure implemented with hash table in Swift, the search can be reduced to constant time (&lt;em&gt;O(1)&lt;/em&gt;). The construction of the Dictionary only takes linear processing of the sorted array (&lt;em&gt;O(N)&lt;/em&gt;).&lt;/p&gt;
 
@@ -545,11 +799,11 @@ PersistentKeepalive = 25
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;When generating the &lt;code class=&quot;highlighter-rouge&quot;&gt;posMap&lt;/code&gt;, we record only the first instance by asking it to only record it when there is no record for the value in the dictionary yet. We would record the number (value) as the &lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt; of the dictionary, and the index as the dictionary &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When generating the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;posMap&lt;/code&gt;, we record only the first instance by asking it to only record it when there is no record for the value in the dictionary yet. We would record the number (value) as the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key&lt;/code&gt; of the dictionary, and the index as the dictionary &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;value&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;As a result, when we ask for where is the index (&lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;) of a number (&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;), we can get it by calling posMap[&lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;] (returns the corresponding &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;As a result, when we ask for where is the index (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;value&lt;/code&gt;) of a number (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key&lt;/code&gt;), we can get it by calling posMap[&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key&lt;/code&gt;] (returns the corresponding &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;value&lt;/code&gt;).&lt;/p&gt;
 
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt; part of this version is a fancier, shorter way to write the following code with the &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; function.&lt;/p&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return&lt;/code&gt; part of this version is a fancier, shorter way to write the following code with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;map&lt;/code&gt; function.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -563,7 +817,7 @@ PersistentKeepalive = 25
 &lt;p&gt;Let’s calculate the time complexity of this version:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Sorting &lt;code class=&quot;highlighter-rouge&quot;&gt;nums&lt;/code&gt; takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;Sorting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nums&lt;/code&gt; takes &lt;em&gt;O(N log N)&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;Generating the map takes &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;Generating output takes &lt;em&gt;O(N)&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
