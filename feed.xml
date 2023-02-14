@@ -5,8 +5,8 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 13 Feb 2023 21:23:41 +0800</pubDate>
-    <lastBuildDate>Mon, 13 Feb 2023 21:23:41 +0800</lastBuildDate>
+    <pubDate>Tue, 14 Feb 2023 21:46:12 +0800</pubDate>
+    <lastBuildDate>Tue, 14 Feb 2023 21:46:12 +0800</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
     
       <item>
@@ -240,7 +240,7 @@
 &lt;span class=&quot;c1&quot;&gt;// []&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;What a big surprise! As the closure does not retain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;, so when the printer reference is removed, there is no reference left, the instance of printer would be deinitialised.&lt;/p&gt;
+&lt;p&gt;What a big surprise! As the closure does not retain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;, when the printer reference is removed, there is no reference left, the instance of printer would be deinitialised.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-takeaway&quot;&gt;The Takeaway&lt;/h2&gt;
 
