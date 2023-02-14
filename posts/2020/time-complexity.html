@@ -207,7 +207,7 @@
 
 <p>The trick for this code is that with a sorted array, the first index of the item would be the number that is smaller than the item.</p>
 
-<p>So in the beginning, we prepared an empty <code class="highlighter-rouge">[Int]</code> array for output. As the input array would not be sorted, we use the native sorting function, implemented with Timsort algorithm (<em>O(N log N)</em>), to get the sorted array.</p>
+<p>So in the beginning, we prepared an empty <code class="language-plaintext highlighter-rouge">[Int]</code> array for output. As the input array would not be sorted, we use the native sorting function, implemented with Timsort algorithm (<em>O(N log N)</em>), to get the sorted array.</p>
 
 <p>Let’s consider this sample input/output:</p>
 
@@ -221,14 +221,14 @@
 
 <p>It may seem better, but it ends up being as slow as the brute force method.</p>
 
-<p>The reason for it is that to get the index of the first instance in the array, I used the <code class="highlighter-rouge">firstIndex(of:)</code> function here.</p>
+<p>The reason for it is that to get the index of the first instance in the array, I used the <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> function here.</p>
 
-<p>In Swift, <code class="highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup></em>).</p>
+<p>In Swift, <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup></em>).</p>
 
 <p>As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:</p>
 
 <ul>
-  <li>Native <code class="highlighter-rouge">sorted</code> function takes <em>O(N log N)</em>.</li>
+  <li>Native <code class="language-plaintext highlighter-rouge">sorted</code> function takes <em>O(N log N)</em>.</li>
   <li>The nested loops take <em>O(N<sup>2</sup>)</em></li>
   <li>Generating output happens within the nested loops, so it wouldn’t take extra time.</li>
 </ul>
@@ -237,7 +237,7 @@
 
 <h3 id="then-how-to-improve-it">Then How to Improve It</h3>
 
-<p>So the bottleneck we had above was the <code class="highlighter-rouge">firstIndex(of:)</code> function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.</p>
+<p>So the bottleneck we had above was the <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.</p>
 
 <p>How can we improve on that? With the Dictionary, a data structure implemented with hash table in Swift, the search can be reduced to constant time (<em>O(1)</em>). The construction of the Dictionary only takes linear processing of the sorted array (<em>O(N)</em>).</p>
 
@@ -256,11 +256,11 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>When generating the <code class="highlighter-rouge">posMap</code>, we record only the first instance by asking it to only record it when there is no record for the value in the dictionary yet. We would record the number (value) as the <code class="highlighter-rouge">key</code> of the dictionary, and the index as the dictionary <code class="highlighter-rouge">value</code>.</p>
+<p>When generating the <code class="language-plaintext highlighter-rouge">posMap</code>, we record only the first instance by asking it to only record it when there is no record for the value in the dictionary yet. We would record the number (value) as the <code class="language-plaintext highlighter-rouge">key</code> of the dictionary, and the index as the dictionary <code class="language-plaintext highlighter-rouge">value</code>.</p>
 
-<p>As a result, when we ask for where is the index (<code class="highlighter-rouge">value</code>) of a number (<code class="highlighter-rouge">key</code>), we can get it by calling posMap[<code class="highlighter-rouge">key</code>] (returns the corresponding <code class="highlighter-rouge">value</code>).</p>
+<p>As a result, when we ask for where is the index (<code class="language-plaintext highlighter-rouge">value</code>) of a number (<code class="language-plaintext highlighter-rouge">key</code>), we can get it by calling posMap[<code class="language-plaintext highlighter-rouge">key</code>] (returns the corresponding <code class="language-plaintext highlighter-rouge">value</code>).</p>
 
-<p>The <code class="highlighter-rouge">return</code> part of this version is a fancier, shorter way to write the following code with the <code class="highlighter-rouge">map</code> function.</p>
+<p>The <code class="language-plaintext highlighter-rouge">return</code> part of this version is a fancier, shorter way to write the following code with the <code class="language-plaintext highlighter-rouge">map</code> function.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
 <span class="k">for</span> <span class="n">num</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
@@ -274,7 +274,7 @@
 <p>Let’s calculate the time complexity of this version:</p>
 
 <ul>
-  <li>Sorting <code class="highlighter-rouge">nums</code> takes <em>O(N log N)</em>.</li>
+  <li>Sorting <code class="language-plaintext highlighter-rouge">nums</code> takes <em>O(N log N)</em>.</li>
   <li>Generating the map takes <em>O(N)</em>.</li>
   <li>Generating output takes <em>O(N)</em>.</li>
 </ul>
@@ -299,7 +299,7 @@
                     <h4> Yu-Sung Loyi Hsu </h4>
                     <!-- Author Bio -->
                     <p>
-                        Hello there. I am Yu-Sung Loyi Hsu, and I am an Indie Swift Developer.
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an iOS Developer.
                     </p>
                 </section>
             
@@ -335,7 +335,7 @@
     <footer class="site-footer clearfix">
       <section class="copyright">
         <a href="/">Coding Stuff</a> &copy; 
-              2021 &bull; All rights reserved.
+              2023 &bull; All rights reserved.
                
       </section>
       <section class="poweredby">Made with Jekyll using 
