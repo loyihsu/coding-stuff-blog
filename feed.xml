@@ -5,9 +5,321 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 14 Feb 2023 21:46:12 +0800</pubDate>
-    <lastBuildDate>Tue, 14 Feb 2023 21:46:12 +0800</lastBuildDate>
-    <generator>Jekyll v4.3.2</generator>
+    <pubDate>Mon, 20 Nov 2023 00:35:49 +0800</pubDate>
+    <lastBuildDate>Mon, 20 Nov 2023 00:35:49 +0800</lastBuildDate>
+    <generator>Jekyll v3.9.0</generator>
+    
+      <item>
+        <title>What on earth is &quot;inout&quot;?</title>
+        <description>&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt; may be the most baffling API in the Swift language. At first sight, it seems pretty straightforward.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inout&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Anyone who has written some C-like language would think that it is passing the reference of a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt; to the function to perform any action within it. Although that would overlap with the behaviour of any reference type and breaks the image of a nice, local logic of value types, it is straightforward enough that people can bear with the idea that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt; turns a value type variable into a reference type variable temporarily.&lt;/p&gt;
+
+&lt;p&gt;But is it really that way? Let’s first check the official &lt;a href=&quot;https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations/#In-Out-Parameters&quot;&gt;documentation&lt;/a&gt;. The definition of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt; according to the documentation is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In-out parameters are passed as follows:&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;When the function is called, the value of the argument is copied.&lt;/li&gt;
+    &lt;li&gt;In the body of the function, the copy is modified.&lt;/li&gt;
+    &lt;li&gt;When the function returns, the copy’s value is assigned to the original argument.&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;p&gt;This behavior is known as &lt;em&gt;copy-in copy-out&lt;/em&gt; or &lt;em&gt;call by value result&lt;/em&gt;. For example, when a computed property or a property with observers is passed as an in-out parameter, its getter is called as part of the function call and its setter is called as part of the function return.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, according to this &lt;em&gt;copy-in copy-out&lt;/em&gt; behaviour, it does not pass the reference to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt; variable but copies the value as the parameter and writes the function output back to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt; variable.&lt;/p&gt;
+
+&lt;p&gt;Therefore, the code above would be quite similar to writing the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If the story ends here, it may simply be strange behaviour as defined by Swift. However, things start to get even stranger when we delve deeper into it.&lt;/p&gt;
+
+&lt;p&gt;Let’s add a print statement inside the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addOne(_:)&lt;/code&gt; function scope that prints the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt; variable.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;before: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;after: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When executed, this will print:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;before:  0  
+after:  1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is pretty much what we expect. Let’s instead check the implementation with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inout&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;before: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;before: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We would expect to print the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt; as 0 since nothing has been added yet. However, let’s see what happens.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Simultaneous accesses to 0x106344130, but modification requires exclusive access.
+Previous access (a modification) started at  (0x104a10418).
+Current access (a read) started at:
+0    libswiftCore.dylib                 0x000000019294e17c swift::runtime::AccessSet::insert(swift::runtime::Access*, void*, void*, swift::ExclusivityFlags) + 428
+1    libswiftCore.dylib                 0x000000019294e390 swift_beginAccess + 72
+4    InoutExp                           0x00000001047767f8 main + 0
+5    CoreFoundation                     0x00000001803ee450 __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 20
+6    CoreFoundation                     0x00000001803eda4c __CFRunLoopDoBlocks + 352
+7    CoreFoundation                     0x00000001803e813c __CFRunLoopRun + 788
+8    CoreFoundation                     0x00000001803e7aec CFRunLoopRunSpecific + 572
+9    GraphicsServices                   0x000000018e7cdb20 GSEventRunModal + 160
+10   UIKitCore                          0x00000001852bac78 -[UIApplication _run] + 868
+11   UIKitCore                          0x00000001852bebd8 UIApplicationMain + 124
+12   InoutExp                           0x00000001047767f8 main + 348
+Fatal access conflict detected.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is a simultaneous access issue where we try to print the higher-scoped &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt;. If you set a breakpoint after the value is modified, you would see that both the higher-scoped &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;number&lt;/code&gt; and the lower-scoped &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;value&lt;/code&gt; are updated to the new value.&lt;/p&gt;
+
+&lt;p&gt;Okay, this looks pretty much like the behaviour of passing by reference. But it is not in alignment with the documentation here. What happened here?&lt;/p&gt;
+
+&lt;p&gt;If we take a closer look at the &lt;a href=&quot;https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations#In-Out-Parameters&quot;&gt;documentation&lt;/a&gt;, there is some additional information about this.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;As an optimization, when the argument is a value stored at a physical address in memory, the same memory location is used both inside and outside the function body. The optimized behavior is known as &lt;em&gt;call by reference&lt;/em&gt;; it satisfies all of the requirements of the copy-in copy-out model while removing the overhead of copying. Write your code using the model given by copy-in copy-out, without depending on the call-by-reference optimization, so that it behaves correctly with or without the optimization.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, according to this description, it is, by definition, &lt;em&gt;copy-in copy-out&lt;/em&gt;. But under the hood, it is, in fact, &lt;em&gt;passed by reference&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;According to the &lt;a href=&quot;https://github.com/apple/swift-book/commit/171ef6f1658995154887ef15fbd5593cb57e919d&quot;&gt;git history&lt;/a&gt;, the description of optimization with &lt;em&gt;pass by reference&lt;/em&gt; has been around since Swift 2.1.&lt;/p&gt;
+
+&lt;h1 id=&quot;what-about-under-the-hood&quot;&gt;What about under the hood?&lt;/h1&gt;
+
+&lt;p&gt;This is just the documentation, so you might wonder what it is like under the hood. Luckily, looking into how Swift code is compiled is rather straightforward, as we can easily dump the SIL generated during the compile process.&lt;/p&gt;
+
+&lt;p&gt;We will use this example for our experiment.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inout&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;addOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We would use the following command for this purpose. According to the official &lt;a href=&quot;https://github.com/apple/swift/blob/main/docs/DebuggingTheCompiler.md#printing-the-intermediate-representations&quot;&gt;documentation&lt;/a&gt;, this command will ‘print the SIL immediately after SILGen’:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swiftc &lt;span class=&quot;nt&quot;&gt;-emit-silgen&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; file.swift
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After we run the command on the file, we see the following code in the terminal window.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sil_stage raw
+
+import Builtin
+import Swift
+import SwiftShims
+
+@_hasStorage @_hasInitialValue var number: Int { get set }
+
+func addOne(_ value: inout Int)
+
+// number
+sil_global hidden @$s4test6numberSivp : $Int
+
+// main
+sil [ossa] @main : $@convention(c) (Int32, UnsafeMutablePointer&amp;lt;Optional&amp;lt;UnsafeMutablePointer&amp;lt;Int8&amp;gt;&amp;gt;&amp;gt;) -&amp;gt; Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer&amp;lt;Optional&amp;lt;UnsafeMutablePointer&amp;lt;Int8&amp;gt;&amp;gt;&amp;gt;):
+  alloc_global @$s4test6numberSivp                // id: %2
+  %3 = global_addr @$s4test6numberSivp : $*Int    // users: %9, %8
+  %4 = integer_literal $Builtin.IntLiteral, 0     // user: %7
+  %5 = metatype $@thin Int.Type                   // user: %7
+  // function_ref Int.init(_builtinIntegerLiteral:)
+  %6 = function_ref @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %7
+  %7 = apply %6(%4, %5) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %8
+  store %7 to [trivial] %3 : $*Int                // id: %8
+  %9 = begin_access [modify] [dynamic] %3 : $*Int // users: %12, %11
+  // function_ref addOne(_:)
+  %10 = function_ref @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&amp;gt; () // user: %11
+  %11 = apply %10(%9) : $@convention(thin) (@inout Int) -&amp;gt; ()
+  end_access %9 : $*Int                           // id: %12
+  %13 = integer_literal $Builtin.Int32, 0         // user: %14
+  %14 = struct $Int32 (%13 : $Builtin.Int32)      // user: %15
+  return %14 : $Int32                             // id: %15
+} // end sil function 'main'
+
+// Int.init(_builtinIntegerLiteral:)
+sil [transparent] [serialized] @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int
+
+// addOne(_:)
+sil hidden [ossa] @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&amp;gt; () {
+// %0 &quot;value&quot;                                     // users: %7, %1
+bb0(%0 : $*Int):
+  debug_value %0 : $*Int, var, name &quot;value&quot;, argno 1, expr op_deref // id: %1
+  %2 = metatype $@thin Int.Type                   // user: %9
+  %3 = integer_literal $Builtin.IntLiteral, 1     // user: %6
+  %4 = metatype $@thin Int.Type                   // user: %6
+  // function_ref Int.init(_builtinIntegerLiteral:)
+  %5 = function_ref @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %6
+  %6 = apply %5(%3, %4) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %9
+  %7 = begin_access [modify] [unknown] %0 : $*Int // users: %10, %9
+  // function_ref static Int.+= infix(_:_:)
+  %8 = function_ref @$sSi2peoiyySiz_SitFZ : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; () // user: %9
+  %9 = apply %8(%7, %6, %2) : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; ()
+  end_access %7 : $*Int                           // id: %10
+  %11 = tuple ()                                  // user: %12
+  return %11 : $()                                // id: %12
+} // end sil function '$s4test6addOneyySizF'
+
+// static Int.+= infix(_:_:)
+sil [transparent] [serialized] @$sSi2peoiyySiz_SitFZ : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; ()
+
+
+
+// Mappings from '#fileID' to '#filePath':
+//   'test/test.swift' =&amp;gt; 'test.swift'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Okay, this is not the easiest thing to read in the world. We can pinpoint some noteworthy parts here.&lt;/p&gt;
+
+&lt;p&gt;First, let’s take a look at the main function.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// main
+sil [ossa] @main : $@convention(c) (Int32, UnsafeMutablePointer&amp;lt;Optional&amp;lt;UnsafeMutablePointer&amp;lt;Int8&amp;gt;&amp;gt;&amp;gt;) -&amp;gt; Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer&amp;lt;Optional&amp;lt;UnsafeMutablePointer&amp;lt;Int8&amp;gt;&amp;gt;&amp;gt;):
+  alloc_global @$s4test6numberSivp                // id: %2
+  %3 = global_addr @$s4test6numberSivp : $*Int    // users: %9, %8
+  %4 = integer_literal $Builtin.IntLiteral, 0     // user: %7
+  %5 = metatype $@thin Int.Type                   // user: %7
+  // function_ref Int.init(_builtinIntegerLiteral:)
+  %6 = function_ref @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %7
+  %7 = apply %6(%4, %5) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %8
+  store %7 to [trivial] %3 : $*Int                // id: %8
+  %9 = begin_access [modify] [dynamic] %3 : $*Int // users: %12, %11
+  // function_ref addOne(_:)
+  %10 = function_ref @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&amp;gt; () // user: %11
+  %11 = apply %10(%9) : $@convention(thin) (@inout Int) -&amp;gt; ()
+  end_access %9 : $*Int                           // id: %12
+  %13 = integer_literal $Builtin.Int32, 0         // user: %14
+  %14 = struct $Int32 (%13 : $Builtin.Int32)      // user: %15
+  return %14 : $Int32                             // id: %15
+} // end sil function 'main'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We first see a few commands that appear to be a direct correspondence to this code.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can see at first &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%3&lt;/code&gt; is pointed to a global address and an integer is initialised to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%7&lt;/code&gt;, and then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%7&lt;/code&gt; is stored to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%3 = global_addr @$s4test6numberSivp : $*Int    // users: %9, %8
+%4 = integer_literal $Builtin.IntLiteral, 0     // user: %7
+%5 = metatype $@thin Int.Type                   // user: %7
+// function_ref Int.init(_builtinIntegerLiteral:)
+%6 = function_ref @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %7
+%7 = apply %6(%4, %5) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %8
+store %7 to [trivial] %3 : $*Int                // id: %8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then the part we are interested in comes.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%9 = begin_access [modify] [dynamic] %3 : $*Int // users: %12, %11
+// function_ref addOne(_:)
+%10 = function_ref @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&amp;gt; () // user: %11
+%11 = apply %10(%9) : $@convention(thin) (@inout Int) -&amp;gt; ()
+end_access %9 : $*Int                           // id: %12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It uses &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%9&lt;/code&gt; to begin modifying access to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%3&lt;/code&gt;, and it passes the entire &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%9&lt;/code&gt; to the function reference. It then marks the end access to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%9&lt;/code&gt; after execution.&lt;/p&gt;
+
+&lt;p&gt;So, if we want to investigate further, we need to focus on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addOne(_:)&lt;/code&gt; part of the SIL.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// addOne(_:)
+sil hidden [ossa] @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&amp;gt; () {
+// %0 &quot;value&quot;                                     // users: %7, %1
+bb0(%0 : $*Int):
+  debug_value %0 : $*Int, var, name &quot;value&quot;, argno 1, expr op_deref // id: %1
+  %2 = metatype $@thin Int.Type                   // user: %9
+  %3 = integer_literal $Builtin.IntLiteral, 1     // user: %6
+  %4 = metatype $@thin Int.Type                   // user: %6
+  // function_ref Int.init(_builtinIntegerLiteral:)
+  %5 = function_ref @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %6
+  %6 = apply %5(%3, %4) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %9
+  %7 = begin_access [modify] [unknown] %0 : $*Int // users: %10, %9
+  // function_ref static Int.+= infix(_:_:)
+  %8 = function_ref @$sSi2peoiyySiz_SitFZ : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; () // user: %9
+  %9 = apply %8(%7, %6, %2) : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; ()
+  end_access %7 : $*Int                           // id: %10
+  %11 = tuple ()                                  // user: %12
+  return %11 : $()                                // id: %12
+} // end sil function '$s4test6addOneyySizF'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We first see that it creates the number 1 and stores it in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%6&lt;/code&gt; for later execution.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%2 = metatype $@thin Int.Type                   // user: %9
+%3 = integer_literal $Builtin.IntLiteral, 1     // user: %6
+%4 = metatype $@thin Int.Type                   // user: %6
+// function_ref Int.init(_builtinIntegerLiteral:)
+%5 = function_ref @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %6
+%6 = apply %5(%3, %4) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int // user: %9
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then we see that it begins accessing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%0&lt;/code&gt;, which is the passed value from outside the function, and points to it in %7, and directly applies the execution to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%7&lt;/code&gt;, and ends access to it.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%7 = begin_access [modify] [unknown] %0 : $*Int // users: %10, %9
+// function_ref static Int.+= infix(_:_:)
+%8 = function_ref @$sSi2peoiyySiz_SitFZ : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; () // user: %9
+%9 = apply %8(%7, %6, %2) : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; ()
+end_access %7 : $*Int
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is no point where any value is copied out of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%7&lt;/code&gt; and performs any action, and then written back to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%7&lt;/code&gt;, according to what we see above.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;begin_access&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;end_access&lt;/code&gt; pair is according to the &lt;a href=&quot;https://github.com/apple/swift/blob/98e65d015979c7b5a58a6ecf2d8598a6f7c85794/docs/SILMemoryAccess.md?plain=1#L191&quot;&gt;documentation&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;begin_access&lt;/code&gt; identifies the address of the formal access and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;end_access&lt;/code&gt; delimits the scope of the access.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;According to the description, it appears that it is directly locking and sending the memory address to the function reference — which is probably the reason why we are seeing a ‘Simultaneous accesses to 0x106344130, but modification requires exclusive access’ error in the earlier experiment.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt; is a strange concept. At first glance, it appears to be passing an address to something. Just when you think it breaks the value type model, it reveals that it actually follows a safer model — the &lt;em&gt;copy-in copy-out&lt;/em&gt; model. However, just when you begin to understand and make sense of it, it surprises you again by stating that it does not want the overhead of &lt;em&gt;copy-in copy-out&lt;/em&gt;, so it shares the same memory address inside and outside the function. Just when you think, ‘so, it’s pass by reference,’ they confirm, but explain it’s just an optimization and you should pretend it’s copy-in copy-out, even though it doesn’t seem to be used anywhere under the hood.&lt;/p&gt;
+
+&lt;p&gt;So what is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt; exactly? It is defined as &lt;em&gt;copy-in copy-out&lt;/em&gt;, but its implementation is pass by reference. Who knows, maybe someday we will see the real &lt;em&gt;copy-in copy-out&lt;/em&gt; model make a comeback — or come into effect for real?&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 20 Nov 2023 00:00:00 +0800</pubDate>
+        <link>http://codes.loyi.dev///posts/2023/inout.html</link>
+        <guid isPermaLink="true">http://codes.loyi.dev///posts/2023/inout.html</guid>
+        
+        
+        <category>swift</category>
+        
+        <category>inout</category>
+        
+      </item>
     
       <item>
         <title>The (Not-So) Peculiar Case of Function Retain in Swift</title>
