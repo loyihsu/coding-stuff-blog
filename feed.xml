@@ -5,9 +5,93 @@
     <description>Loyi talks about coding stuff here</description>
     <link>http://codes.loyi.dev///</link>
     <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 26 May 2024 00:13:39 +0800</pubDate>
-    <lastBuildDate>Sun, 26 May 2024 00:13:39 +0800</lastBuildDate>
-    <generator>Jekyll v3.9.0</generator>
+    <pubDate>Sat, 09 Nov 2024 11:16:30 +0800</pubDate>
+    <lastBuildDate>Sat, 09 Nov 2024 11:16:30 +0800</lastBuildDate>
+    <generator>Jekyll v4.3.4</generator>
+    
+      <item>
+        <title>To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</title>
+        <description>&lt;p&gt;With the growing popularity of The Composable Architecture (TCA), it undoubtedly offers several advantages, including structured state and event management, precise side-effect handling, testability, and streamlined dependency management. Notably, its architecture simplifies testing, allowing developers to efficiently and reliably validate functionality.&lt;/p&gt;
+
+&lt;p&gt;However, with the increasing number of dependencies, one of the most significant challenges in maintaining code over time is managing the ever-changing set of frameworks. As popular frameworks like RxSwift rise and fall, it’s crucial to pause and carefully consider the implications before introducing a new one.&lt;/p&gt;
+
+&lt;h1 id=&quot;challenges-and-considerations&quot;&gt;Challenges and Considerations&lt;/h1&gt;
+
+&lt;p&gt;To understand the potential issues that might arise after a framework’s popularity declines, we can examine a well-known example: RxSwift. Its popularity has significantly diminished, primarily due to Apple’s introduction of its proprietary reactive programming solution, Combine. Although TCA may not encounter direct competition of this magnitude, it could face similar challenges in the long term:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Architectural Dependence&lt;/strong&gt;: Both RxSwift and TCA are architecture-heavy, with RxSwift typically pairing with MVVM and TCA aligning closely with Redux principles. Committing to a specific architecture due to a dependency can lead to technical debt if adjustments or an architectural shift become necessary later on.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Talent Acquisition&lt;/strong&gt;: Popular frameworks can initially attract skilled developers, as many are keen to use the latest tools. However, if a framework’s popularity wanes, finding new talent with relevant experience may become more challenging.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;TCA also presents unique challenges inherent to Redux-style architectures:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Setup Complexity&lt;/strong&gt;: Setting up each page requires creating distinct State, Action, and Reducer components and binding them to the view, which can increase initial setup time.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Risk of Shared State Complexity&lt;/strong&gt;: As the app grows, shared state can become overly complex, introducing dependencies that increase the risk of unexpected behaviours, as changes to shared states can affect multiple areas of the app.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;points-for-discussion&quot;&gt;Points for Discussion&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Architecture-Heavy Requirements&lt;/strong&gt;: Relying on frameworks like MVVM or Redux can lead to technical debt if changes are needed later.
+    &lt;ul&gt;
+      &lt;li&gt;However, as software evolves, some degree of change is inevitable. Dependencies will always be part of the process, even if they shift over time. Even first-party dependencies shift over time (e.g., Apple’s transition from UIKit to SwiftUI). Rather than focusing on exit strategies, establishing clear and unified architectural standards can simplify maintenance and reduce complexity in the long run.&lt;/li&gt;
+      &lt;li&gt;On the other hand, the architecture-heavy nature of TCA can actually be beneficial, as the added complexity allows for more granular testing and helps prevent unasserted states.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Reliance on Trends&lt;/strong&gt;: The popularity of a framework can impact hiring; if its use declines, finding developers with relevant skills may become more challenging.
+    &lt;ul&gt;
+      &lt;li&gt;Investing in training and comprehensive documentation is essential for sustainability. Before adopting a framework, teams should conduct thorough research and prepare resources to facilitate onboarding.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;High Setup Cost Per Page&lt;/strong&gt;: Structuring State, Action, and Reducer for each page may increase development time.
+    &lt;ul&gt;
+      &lt;li&gt;In complex apps, this is often manageable, particularly if components are already organised in an MVVM structure. TCA further separates state, action, and reducer from the view model, with clear definitions for each. This enables future maintainers to locate state and logic easily, in well-defined locations.&lt;/li&gt;
+      &lt;li&gt;The upfront cost per page can be mitigated with Xcode templates and built-in macros, which streamline the setup process.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Risk of Bloated Shared State&lt;/strong&gt;: Without disciplined state management, shared state can evolve into a tangled web of dependencies, similar to the pitfalls of using global variables throughout an app.
+    &lt;ul&gt;
+      &lt;li&gt;Defining clear guidelines for shared state usage and implementing a review process can prevent unintended state sharing and help maintain codebase clarity.&lt;/li&gt;
+      &lt;li&gt;Avoid adding anything to shared state until it is necessary. Instead, place everything in a domain-specific state.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;When considering TCA adoption, it’s important to evaluate its fit for both small-scale projects and large commercial applications:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Small-Scale Projects&lt;/strong&gt;: For smaller apps, TCA may feel like overkill if the goal is basic functionality. However, if learning or testing TCA is the objective, fully committing to the framework—with complete testing—is ideal. TCA is particularly well-suited for developers exploring and experimenting with it or for teams or individual developers who rely heavily on unit tests, especially in the absence of dedicated QA support.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Large Commercial Applications&lt;/strong&gt;: In commercial applications, TCA can be highly effective, provided it is supported by thorough documentation, onboarding resources, and unified standards:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Commitment to a Single Standard&lt;/strong&gt;: Any framework works best when it is consistently applied across the app, minimising fragmentation and simplifying maintenance. Ideally, legacy components are gradually updated to the new standard to create uniformity.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Onboarding and Training Resources&lt;/strong&gt;: Developing onboarding materials, such as coding standards and training documentation, ensures that new hires integrate smoothly into the team’s technical stack.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Clear Guidelines for Shared State&lt;/strong&gt;: Defining and reviewing shared state usage prevents unintended dependencies and keeps the codebase manageable.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sat, 09 Nov 2024 00:00:00 +0800</pubDate>
+        <link>http://codes.loyi.dev///posts/2024/to-tca-or-not.html</link>
+        <guid isPermaLink="true">http://codes.loyi.dev///posts/2024/to-tca-or-not.html</guid>
+        
+        
+        <category>swift</category>
+        
+        <category>ios-development</category>
+        
+        <category>framework</category>
+        
+        <category>tca</category>
+        
+        <category>redux</category>
+        
+        <category>rxswift</category>
+        
+      </item>
     
       <item>
         <title>What on earth is &quot;inout&quot;?</title>
@@ -164,7 +248,7 @@ bb0(%0 : $Int32, %1 : $UnsafeMutablePointer&amp;lt;Optional&amp;lt;UnsafeMutable
   %13 = integer_literal $Builtin.Int32, 0         // user: %14
   %14 = struct $Int32 (%13 : $Builtin.Int32)      // user: %15
   return %14 : $Int32                             // id: %15
-} // end sil function 'main'
+} // end sil function &apos;main&apos;
 
 // Int.init(_builtinIntegerLiteral:)
 sil [transparent] [serialized] @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&amp;gt; Int
@@ -187,15 +271,15 @@ bb0(%0 : $*Int):
   end_access %7 : $*Int                           // id: %10
   %11 = tuple ()                                  // user: %12
   return %11 : $()                                // id: %12
-} // end sil function '$s4test6addOneyySizF'
+} // end sil function &apos;$s4test6addOneyySizF&apos;
 
 // static Int.+= infix(_:_:)
 sil [transparent] [serialized] @$sSi2peoiyySiz_SitFZ : $@convention(method) (@inout Int, Int, @thin Int.Type) -&amp;gt; ()
 
 
 
-// Mappings from '#fileID' to '#filePath':
-//   'test/test.swift' =&amp;gt; 'test.swift'
+// Mappings from &apos;#fileID&apos; to &apos;#filePath&apos;:
+//   &apos;test/test.swift&apos; =&amp;gt; &apos;test.swift&apos;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Okay, this is not the easiest thing to read in the world. We can pinpoint some noteworthy parts here.&lt;/p&gt;
@@ -221,7 +305,7 @@ bb0(%0 : $Int32, %1 : $UnsafeMutablePointer&amp;lt;Optional&amp;lt;UnsafeMutable
   %13 = integer_literal $Builtin.Int32, 0         // user: %14
   %14 = struct $Int32 (%13 : $Builtin.Int32)      // user: %15
   return %14 : $Int32                             // id: %15
-} // end sil function 'main'
+} // end sil function &apos;main&apos;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;We first see a few commands that appear to be a direct correspondence to this code.&lt;/p&gt;
@@ -271,7 +355,7 @@ bb0(%0 : $*Int):
   end_access %7 : $*Int                           // id: %10
   %11 = tuple ()                                  // user: %12
   return %11 : $()                                // id: %12
-} // end sil function '$s4test6addOneyySizF'
+} // end sil function &apos;$s4test6addOneyySizF&apos;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;We first see that it creates the number 1 and stores it in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%6&lt;/code&gt; for later execution.&lt;/p&gt;

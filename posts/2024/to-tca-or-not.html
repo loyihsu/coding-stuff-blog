@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>
+    
+      To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture - Coding Stuff
+    
+    </title>
+    <meta name="description" content="Coding Stuff - Loyi talks about coding stuff here." />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
+    <meta name="apple-mobile-web-app-title" content="Coding Stuff" />
+
+    
+    <meta property="og:title" content="To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture - Coding Stuff" />
+    
+
+    <meta name="description" content="With the growing popularity of The Composable Architecture (TCA), it undoubtedly offers several advantages, including structured state and event management, ..." />
+    <meta property="og:description" content="With the growing popularity of The Composable Architecture (TCA), it undoubtedly offers several advantages, including structured state and event management, ..." />
+
+    <meta property="og:site_name" content="" />
+    
+    
+    <meta property="og:image" content="https://i.imgur.com/7FoHrAX.jpg" />
+    
+    
+    
+    <meta property="article:published_time" content="2024-11-09 00:00:00 +0800" />
+    
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu%20Mono" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="home-template">
+  
+      <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</h1>
+            <section class="post-meta">
+                
+                    on swift, ios-development, framework, tca, redux, and rxswift
+                
+                <time class="post-date" datetime="2024-11-09">09 Nov 2024</time>
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="http://codes.loyi.dev/">
+                
+                    <span class="blog-title">Coding Stuff</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2024-11-09">09 Nov 2024</time>
+            
+                on swift, ios-development, framework, tca, redux, and rxswift
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</h1> -->
+
+        <section class="post-content">
+            <p>With the growing popularity of The Composable Architecture (TCA), it undoubtedly offers several advantages, including structured state and event management, precise side-effect handling, testability, and streamlined dependency management. Notably, its architecture simplifies testing, allowing developers to efficiently and reliably validate functionality.</p>
+
+<p>However, with the increasing number of dependencies, one of the most significant challenges in maintaining code over time is managing the ever-changing set of frameworks. As popular frameworks like RxSwift rise and fall, it’s crucial to pause and carefully consider the implications before introducing a new one.</p>
+
+<h1 id="challenges-and-considerations">Challenges and Considerations</h1>
+
+<p>To understand the potential issues that might arise after a framework’s popularity declines, we can examine a well-known example: RxSwift. Its popularity has significantly diminished, primarily due to Apple’s introduction of its proprietary reactive programming solution, Combine. Although TCA may not encounter direct competition of this magnitude, it could face similar challenges in the long term:</p>
+
+<ul>
+  <li><strong>Architectural Dependence</strong>: Both RxSwift and TCA are architecture-heavy, with RxSwift typically pairing with MVVM and TCA aligning closely with Redux principles. Committing to a specific architecture due to a dependency can lead to technical debt if adjustments or an architectural shift become necessary later on.</li>
+  <li><strong>Talent Acquisition</strong>: Popular frameworks can initially attract skilled developers, as many are keen to use the latest tools. However, if a framework’s popularity wanes, finding new talent with relevant experience may become more challenging.</li>
+</ul>
+
+<p>TCA also presents unique challenges inherent to Redux-style architectures:</p>
+
+<ul>
+  <li><strong>Setup Complexity</strong>: Setting up each page requires creating distinct State, Action, and Reducer components and binding them to the view, which can increase initial setup time.</li>
+  <li><strong>Risk of Shared State Complexity</strong>: As the app grows, shared state can become overly complex, introducing dependencies that increase the risk of unexpected behaviours, as changes to shared states can affect multiple areas of the app.</li>
+</ul>
+
+<h1 id="points-for-discussion">Points for Discussion</h1>
+
+<ul>
+  <li><strong>Architecture-Heavy Requirements</strong>: Relying on frameworks like MVVM or Redux can lead to technical debt if changes are needed later.
+    <ul>
+      <li>However, as software evolves, some degree of change is inevitable. Dependencies will always be part of the process, even if they shift over time. Even first-party dependencies shift over time (e.g., Apple’s transition from UIKit to SwiftUI). Rather than focusing on exit strategies, establishing clear and unified architectural standards can simplify maintenance and reduce complexity in the long run.</li>
+      <li>On the other hand, the architecture-heavy nature of TCA can actually be beneficial, as the added complexity allows for more granular testing and helps prevent unasserted states.</li>
+    </ul>
+  </li>
+  <li><strong>Reliance on Trends</strong>: The popularity of a framework can impact hiring; if its use declines, finding developers with relevant skills may become more challenging.
+    <ul>
+      <li>Investing in training and comprehensive documentation is essential for sustainability. Before adopting a framework, teams should conduct thorough research and prepare resources to facilitate onboarding.</li>
+    </ul>
+  </li>
+  <li><strong>High Setup Cost Per Page</strong>: Structuring State, Action, and Reducer for each page may increase development time.
+    <ul>
+      <li>In complex apps, this is often manageable, particularly if components are already organised in an MVVM structure. TCA further separates state, action, and reducer from the view model, with clear definitions for each. This enables future maintainers to locate state and logic easily, in well-defined locations.</li>
+      <li>The upfront cost per page can be mitigated with Xcode templates and built-in macros, which streamline the setup process.</li>
+    </ul>
+  </li>
+  <li><strong>Risk of Bloated Shared State</strong>: Without disciplined state management, shared state can evolve into a tangled web of dependencies, similar to the pitfalls of using global variables throughout an app.
+    <ul>
+      <li>Defining clear guidelines for shared state usage and implementing a review process can prevent unintended state sharing and help maintain codebase clarity.</li>
+      <li>Avoid adding anything to shared state until it is necessary. Instead, place everything in a domain-specific state.</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>When considering TCA adoption, it’s important to evaluate its fit for both small-scale projects and large commercial applications:</p>
+
+<ul>
+  <li><strong>Small-Scale Projects</strong>: For smaller apps, TCA may feel like overkill if the goal is basic functionality. However, if learning or testing TCA is the objective, fully committing to the framework—with complete testing—is ideal. TCA is particularly well-suited for developers exploring and experimenting with it or for teams or individual developers who rely heavily on unit tests, especially in the absence of dedicated QA support.</li>
+  <li><strong>Large Commercial Applications</strong>: In commercial applications, TCA can be highly effective, provided it is supported by thorough documentation, onboarding resources, and unified standards:
+    <ul>
+      <li><strong>Commitment to a Single Standard</strong>: Any framework works best when it is consistently applied across the app, minimising fragmentation and simplifying maintenance. Ideally, legacy components are gradually updated to the new standard to create uniformity.</li>
+      <li><strong>Onboarding and Training Resources</strong>: Developing onboarding materials, such as coding standards and training documentation, ensures that new hires integrate smoothly into the team’s technical stack.</li>
+      <li><strong>Clear Guidelines for Shared State</strong>: Defining and reviewing shared state usage prevents unintended dependencies and keeps the codebase manageable.</li>
+    </ul>
+  </li>
+</ul>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Yu-Sung Loyi Hsu's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Yu-Sung Loyi Hsu </h4>
+                    <!-- Author Bio -->
+                    <p>
+                        Hello there. I am Yu-Sung Loyi Hsu, and I am an iOS Developer.
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture&amp;url=http://codes.loyi.dev/posts/2024/to-tca-or-not.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://codes.loyi.dev/posts/2024/to-tca-or-not.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <!-- Google Plus is discomissioned long ago. -->
+    <!--<a class="icon-google-plus" href="https://plus.google.com/share?url=http://codes.loyi.dev/posts/2024/to-tca-or-not.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>-->
+</section>
+
+            <!-- Disqus comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">Coding Stuff</a> &copy; 
+              2024 &bull; All rights reserved.
+               
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+
+    
+
+    </script>   
+</body>
+</html>
