@@ -25,10 +25,12 @@
 {"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Loyi Hsu"},"description":"Notes on the things I can’t leave alone, mostly Swift and iOS.","headline":"Coding Stuff","image":"https://codes.loyi.dev/assets/images/og-default.png","name":"Coding Stuff","url":"https://codes.loyi.dev/"}</script>
 <!-- End Jekyll SEO tag -->
 
+    <meta name="tdm-reservation" content="1" />
 
     <link rel="icon" href="/assets/images/fav.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
-    <link rel="alternate" type="application/rss+xml" title="Coding Stuff" href="/feed.xml" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
+    
 
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -286,12 +288,15 @@
 
     // Open the customise panel under its trigger (absolute, so it scrolls with the page).
     var trigger = document.querySelector('[popovertarget="settings"]');
-    panel.addEventListener('beforetoggle', function (e) {
-      if (e.newState !== 'open') return;
+    var place = function () {
       var r = trigger.getBoundingClientRect();
       panel.style.top = (r.bottom + window.scrollY + 8) + 'px';
       panel.style.right = (root.clientWidth - r.right) + 'px';
-    });
+    };
+    var isOpen = function () { return panel.matches(':popover-open'); };
+    panel.addEventListener('beforetoggle', function (e) { if (e.newState === 'open') place(); });
+    // Follow the button when the layout moves under an open panel.
+    addEventListener('resize', function () { if (isOpen()) place(); });
     panel.addEventListener('toggle', function (e) {
       trigger.setAttribute('aria-expanded', e.newState === 'open');
     });
@@ -307,7 +312,11 @@
       quiet.checked = 'quiet' in root.dataset;
       quiet.addEventListener('change', function () {
         var on = quiet.checked;
-        var apply = function () { root.toggleAttribute('data-quiet', on); };
+        var apply = function () {
+          root.toggleAttribute('data-quiet', on);
+          // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
+          if (isOpen()) queueMicrotask(place);
+        };
         try { localStorage.setItem('quiet', on ? 'on' : 'off'); } catch (e) {}
         // Slide the layout into place where the browser supports view transitions.
         if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();

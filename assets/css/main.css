@@ -318,6 +318,10 @@ ul {
   view-transition-name: page-main;
 }
 
+.settings:popover-open {
+  view-transition-name: page-settings;
+}
+
 @media (min-width: 761px) {
   .masthead {
     view-transition-name: page-masthead;
@@ -342,11 +346,16 @@ ul {
   animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+::view-transition-group(page-settings) {
+  z-index: 10;
+}
+
 ::view-transition-old(page-masthead),
 ::view-transition-old(page-controls),
 ::view-transition-old(page-footer),
 ::view-transition-old(page-sidebar),
-::view-transition-old(page-main) {
+::view-transition-old(page-main),
+::view-transition-old(page-settings) {
   display: none;
 }
 
@@ -354,7 +363,8 @@ ul {
 ::view-transition-new(page-controls),
 ::view-transition-new(page-footer),
 ::view-transition-new(page-sidebar),
-::view-transition-new(page-main) {
+::view-transition-new(page-main),
+::view-transition-new(page-settings) {
   animation: none;
 }
 
@@ -730,6 +740,48 @@ ul {
   line-height: 1.65;
   color: var(--code-var);
   tab-size: 4;
+}
+.prose .diagram {
+  margin: 2rem 0;
+}
+.prose .diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  margin: 0 auto;
+  color: var(--ink-soft);
+}
+.prose .diagram .box {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.prose .diagram .wall, .prose .diagram .pointer {
+  stroke: var(--muted);
+}
+.prose .diagram .request {
+  stroke: var(--accent);
+}
+.prose .diagram .response {
+  stroke: var(--ink-soft);
+}
+.prose .diagram .head.request {
+  fill: var(--accent);
+}
+.prose .diagram .head.response {
+  fill: var(--ink-soft);
+}
+.prose .diagram .head.label {
+  fill: var(--muted);
+}
+.prose .diagram .name {
+  fill: var(--ink);
+  font: 500 17px var(--sans);
+}
+.prose .diagram .note {
+  fill: var(--muted);
+  font: 400 13px var(--mono);
 }
 .prose div.highlighter-rouge {
   margin: 0 0 1.4rem;
@@ -1130,21 +1182,19 @@ ul {
     display: none;
   }
   .reader {
-    grid-template-rows: auto 1fr auto auto auto;
-    grid-template-areas: ".     toggle" "main  main" "brand brand" "side  side" "foot  foot";
-  }
-  .reader .masthead {
-    margin-top: 1.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas: "brand toggle" "main  main" "side  side" "foot  foot";
   }
   .reader .sidebar {
-    margin-top: -1rem;
-    padding-bottom: 0;
+    margin-top: 1.5rem;
+    padding: 2rem 0 0;
+    border-top: 1px solid var(--line);
     border-bottom: 0;
   }
   .reader .site-footer {
     margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
   }
   .post-list {
     gap: 2.75rem;
@@ -1163,5 +1213,3 @@ ul {
     justify-content: flex-start;
   }
 }
-
-/*# sourceMappingURL=main.css.map */

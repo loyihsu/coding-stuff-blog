@@ -26,10 +26,12 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2021-12-31T03:06:00+08:00","datePublished":"2021-12-31T03:06:00+08:00","description":"Stuck behind an ISP’s Double NAT? How I used a rented server, a WireGuard tunnel and Apache’s ProxyPass to reach services on my home computer.","headline":"Remotely Accessing a Home Computer behind Double NAT","image":"https://codes.loyi.dev/assets/images/og-default.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2021/double-nat-remote-access"},"url":"https://codes.loyi.dev/posts/2021/double-nat-remote-access"}</script>
 <!-- End Jekyll SEO tag -->
 
+    <meta name="tdm-reservation" content="1" />
 
     <link rel="icon" href="/assets/images/fav.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
-    <link rel="alternate" type="application/rss+xml" title="Coding Stuff" href="/feed.xml" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
+    
 
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -135,7 +137,7 @@
         <div class="meta">
             <time datetime="2021-12-31">2021-12-31</time>
             <span aria-hidden="true">·</span>
-            <span>3 min read</span>
+            <span>4 min read</span>
         </div>
         
 <ul class="tags">
@@ -154,7 +156,36 @@
 
 <p>The plan is like this: whenever a connection is initiated, it will be sent to the rented server, the server will then route the connection to my computer, and the computer will handle the request. When it is time to return anything, the connection will be sent through the same route back.</p>
 
-<p><img src="https://i.imgur.com/qQNltRz.png" alt="Diagram: requests reach the rented server, travel through a tunnel to the home computer, and responses return the same way" /></p>
+<figure class="diagram">
+  <svg viewBox="0 0 640 344" role="img" aria-labelledby="double-nat-tunnel-title" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <title id="double-nat-tunnel-title">Diagram: requests reach the rented server, travel through a tunnel to the home computer, and responses return the same way</title>
+    <defs>
+      <marker id="dnt-head-request" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="head request" d="M0 0 10 5 0 10z" fill="currentColor" stroke="none" /></marker>
+      <marker id="dnt-head-response" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="head response" d="M0 0 10 5 0 10z" fill="currentColor" stroke="none" /></marker>
+      <marker id="dnt-head-label" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="head label" d="M0 0 10 5 0 10z" fill="currentColor" stroke="none" /></marker>
+    </defs>
+
+    <!-- From and back to the internet -->
+    <line class="request" x1="304" y1="16" x2="304" y2="80" marker-end="url(#dnt-head-request)" />
+    <line class="response" x1="336" y1="80" x2="336" y2="16" marker-end="url(#dnt-head-response)" />
+    <text class="note" x="290" y="46" text-anchor="end" fill="currentColor" stroke="none">request</text>
+    <text class="note" x="350" y="46" fill="currentColor" stroke="none">response</text>
+
+    <rect class="box" x="180" y="92" width="280" height="76" rx="38" />
+    <text class="name" x="320" y="136" text-anchor="middle" fill="currentColor" stroke="none">Rented Server</text>
+
+    <!-- The tunnel -->
+    <line class="wall" x1="284" y1="168" x2="284" y2="252" />
+    <line class="wall" x1="356" y1="168" x2="356" y2="252" />
+    <line class="request" x1="304" y1="182" x2="304" y2="238" marker-end="url(#dnt-head-request)" />
+    <line class="response" x1="336" y1="238" x2="336" y2="182" marker-end="url(#dnt-head-response)" />
+    <text class="note" x="206" y="214" text-anchor="end" fill="currentColor" stroke="none">special tunnel</text>
+    <line class="pointer" x1="216" y1="210" x2="270" y2="210" marker-end="url(#dnt-head-label)" />
+
+    <rect class="box" x="160" y="252" width="320" height="76" rx="38" />
+    <text class="name" x="320" y="296" text-anchor="middle" fill="currentColor" stroke="none">Home Computer</text>
+  </svg>
+</figure>
 
 <p>This may sound straight-forward, but the correct tools are required to get this done. Basically, I need a tool to set up a special tunnel between my computer and the rented server—and the tool I am using is Wireguard.</p>
 
@@ -272,12 +303,15 @@ PersistentKeepalive = 25
 
     // Open the customise panel under its trigger (absolute, so it scrolls with the page).
     var trigger = document.querySelector('[popovertarget="settings"]');
-    panel.addEventListener('beforetoggle', function (e) {
-      if (e.newState !== 'open') return;
+    var place = function () {
       var r = trigger.getBoundingClientRect();
       panel.style.top = (r.bottom + window.scrollY + 8) + 'px';
       panel.style.right = (root.clientWidth - r.right) + 'px';
-    });
+    };
+    var isOpen = function () { return panel.matches(':popover-open'); };
+    panel.addEventListener('beforetoggle', function (e) { if (e.newState === 'open') place(); });
+    // Follow the button when the layout moves under an open panel.
+    addEventListener('resize', function () { if (isOpen()) place(); });
     panel.addEventListener('toggle', function (e) {
       trigger.setAttribute('aria-expanded', e.newState === 'open');
     });
@@ -293,7 +327,11 @@ PersistentKeepalive = 25
       quiet.checked = 'quiet' in root.dataset;
       quiet.addEventListener('change', function () {
         var on = quiet.checked;
-        var apply = function () { root.toggleAttribute('data-quiet', on); };
+        var apply = function () {
+          root.toggleAttribute('data-quiet', on);
+          // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
+          if (isOpen()) queueMicrotask(place);
+        };
         try { localStorage.setItem('quiet', on ? 'on' : 'off'); } catch (e) {}
         // Slide the layout into place where the browser supports view transitions.
         if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();

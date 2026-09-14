@@ -26,10 +26,12 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2020-09-21T20:00:00+08:00","datePublished":"2020-09-21T20:00:00+08:00","description":"What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS.","headline":"A Brief Introduction to SwiftUI","image":"https://codes.loyi.dev/assets/images/og-default.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2020/intro-to-swiftui"},"url":"https://codes.loyi.dev/posts/2020/intro-to-swiftui"}</script>
 <!-- End Jekyll SEO tag -->
 
+    <meta name="tdm-reservation" content="1" />
 
     <link rel="icon" href="/assets/images/fav.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
-    <link rel="alternate" type="application/rss+xml" title="Coding Stuff" href="/feed.xml" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
+    
 
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -205,7 +207,7 @@
 
 <p>Let’s first look at what this looks like.</p>
 
-<p><img src="https://i.imgur.com/d27JeUM.png" alt="Development Screenshot 1" /></p>
+<p><img src="/assets/articles/screenshot-20200921-01.webp" alt="Development Screenshot 1" /></p>
 
 <p>You can see we have a ‘Hello, world!’ label on the screen and we have some spaces (paddings) around it.</p>
 
@@ -273,7 +275,7 @@
 
 <p>Let’s preview this now.</p>
 
-<p><img src="https://i.imgur.com/3qgMkbB.png" alt="Development Screenshot 2" /></p>
+<p><img src="/assets/articles/screenshot-20200921-02.webp" alt="Development Screenshot 2" /></p>
 
 <h3 id="create-a-button-above-the-list-to-add-numbers">Create a Button above the List to Add Numbers</h3>
 
@@ -297,7 +299,7 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="https://i.imgur.com/Jg5Ac6x.png" alt="Development Screenshot 3" /></p>
+<p><img src="/assets/articles/screenshot-20200921-03.webp" alt="Development Screenshot 3" /></p>
 
 <p>Now we have a button but it looks too high above. Let’s add some paddings around it.</p>
 
@@ -318,7 +320,7 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="https://i.imgur.com/5oMfvLI.png" alt="Development Screenshot 4" /></p>
+<p><img src="/assets/articles/screenshot-20200921-04.webp" alt="Development Screenshot 4" /></p>
 
 <p>Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use <code class="language-plaintext highlighter-rouge">Int.random(in: 0...1000)</code> to create a random number between 0 and 1000 (included).</p>
 
@@ -348,7 +350,7 @@
 
 <p>Let’s now substitute our sample list items with an empty array (<code class="language-plaintext highlighter-rouge">[Int]()</code>).</p>
 
-<p><img src="https://i.imgur.com/5kGKdNq.png" alt="Development Screenshot 5" /></p>
+<p><img src="/assets/articles/screenshot-20200921-05.webp" alt="Development Screenshot 5" /></p>
 
 <h3 id="create-the-empty-list-view">Create the Empty List View</h3>
 
@@ -419,11 +421,11 @@
 
 <p>As we created this app as a universal app, we simply select the pre-created build target of macOS, and we are good to go.</p>
 
-<p><img src="https://i.imgur.com/m0ZmMU6.png" alt="Development Screenshot 6" /></p>
+<p><img src="/assets/articles/screenshot-20200921-06.webp" alt="Development Screenshot 6" /></p>
 
 <p>As we build and run, the app is now successfully built for macOS.</p>
 
-<p><img src="https://i.imgur.com/FJjWNoB.png" alt="macOS Sample 1" /></p>
+<p><img src="/assets/articles/macos-sample-20200921-01.webp" alt="macOS Sample 1" /></p>
 
 <p>As we can see, with so little code, we can build a working cross-platform, native feeling app.</p>
 
@@ -491,12 +493,15 @@
 
     // Open the customise panel under its trigger (absolute, so it scrolls with the page).
     var trigger = document.querySelector('[popovertarget="settings"]');
-    panel.addEventListener('beforetoggle', function (e) {
-      if (e.newState !== 'open') return;
+    var place = function () {
       var r = trigger.getBoundingClientRect();
       panel.style.top = (r.bottom + window.scrollY + 8) + 'px';
       panel.style.right = (root.clientWidth - r.right) + 'px';
-    });
+    };
+    var isOpen = function () { return panel.matches(':popover-open'); };
+    panel.addEventListener('beforetoggle', function (e) { if (e.newState === 'open') place(); });
+    // Follow the button when the layout moves under an open panel.
+    addEventListener('resize', function () { if (isOpen()) place(); });
     panel.addEventListener('toggle', function (e) {
       trigger.setAttribute('aria-expanded', e.newState === 'open');
     });
@@ -512,7 +517,11 @@
       quiet.checked = 'quiet' in root.dataset;
       quiet.addEventListener('change', function () {
         var on = quiet.checked;
-        var apply = function () { root.toggleAttribute('data-quiet', on); };
+        var apply = function () {
+          root.toggleAttribute('data-quiet', on);
+          // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
+          if (isOpen()) queueMicrotask(place);
+        };
         try { localStorage.setItem('quiet', on ? 'on' : 'off'); } catch (e) {}
         // Slide the layout into place where the browser supports view transitions.
         if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
