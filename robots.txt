@@ -1,1 +1,31 @@
+User-agent: *
+Disallow: /
+Content-Usage: train-ai=n, search=y
+
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: DuckDuckBot
+User-agent: OAI-SearchBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: ChatGPT-User
+User-agent: Claude-User
+User-agent: Perplexity-User
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: Slackbot
+User-agent: Discordbot
+User-agent: TelegramBot
+User-agent: facebookexternalhit
+User-agent: archive.org_bot
+Allow: /
+Content-Usage: train-ai=n, search=y
+
 Sitemap: https://codes.loyi.dev/sitemap.xml
