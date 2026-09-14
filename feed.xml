@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title></title>
-    <description>Loyi talks about coding stuff here</description>
-    <link>http://codes.loyi.dev///</link>
-    <atom:link href="http://codes.loyi.dev///feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Dec 2025 13:42:42 +0800</pubDate>
-    <lastBuildDate>Tue, 09 Dec 2025 13:42:42 +0800</lastBuildDate>
-    <generator>Jekyll v3.10.0</generator>
+    <title>Coding Stuff</title>
+    <description>Notes on the things I can&apos;t leave alone, mostly Swift and iOS.</description>
+    <link>https://codes.loyi.dev/</link>
+    <atom:link href="https://codes.loyi.dev/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 14 Sep 2026 14:18:14 +0800</pubDate>
+    <lastBuildDate>Mon, 14 Sep 2026 14:18:14 +0800</lastBuildDate>
+    <generator>Jekyll v4.4.1</generator>
     
       <item>
         <title>So Are We Bound to Be Replaced by AI?</title>
@@ -105,19 +105,13 @@
 &lt;p&gt;That is what makes a person obsolete — not the advancement of AI itself.&lt;/p&gt;
 </description>
         <pubDate>Tue, 09 Dec 2025 13:00:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2025/replaced-by-ai.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2025/replaced-by-ai.html</guid>
+        <link>https://codes.loyi.dev/posts/2025/replaced-by-ai</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2025/replaced-by-ai</guid>
         
         
-        <category>artificial-intelligence</category>
+        <category>ai</category>
         
-        <category>future-of-work</category>
-        
-        <category>developer-experience</category>
-        
-        <category>productivity</category>
-        
-        <category>tech-opinion</category>
+        <category>opinion</category>
         
       </item>
     
@@ -157,7 +151,7 @@
       &lt;li&gt;Investing in training and comprehensive documentation is essential for sustainability. Before adopting a framework, teams should conduct thorough research and prepare resources to facilitate onboarding.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;High Setup Cost Per Page&lt;/strong&gt;: Structuring State, Action, and Reducer for each page may increase development time.
+  &lt;li&gt;&lt;strong&gt;High Setup Cost per Page&lt;/strong&gt;: Structuring State, Action, and Reducer for each page may increase development time.
     &lt;ul&gt;
       &lt;li&gt;In complex apps, this is often manageable, particularly if components are already organised in an MVVM structure. TCA further separates state, action, and reducer from the view model, with clear definitions for each. This enables future maintainers to locate state and logic easily, in well-defined locations.&lt;/li&gt;
       &lt;li&gt;The upfront cost per page can be mitigated with Xcode templates and built-in macros, which streamline the setup process.&lt;/li&gt;
@@ -187,26 +181,22 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Sat, 09 Nov 2024 00:00:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2024/to-tca-or-not.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2024/to-tca-or-not.html</guid>
+        <link>https://codes.loyi.dev/posts/2024/to-tca-or-not</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2024/to-tca-or-not</guid>
         
         
         <category>swift</category>
         
-        <category>ios-development</category>
+        <category>ios</category>
         
-        <category>framework</category>
+        <category>architecture</category>
         
-        <category>tca</category>
-        
-        <category>redux</category>
-        
-        <category>rxswift</category>
+        <category>opinion</category>
         
       </item>
     
       <item>
-        <title>What on earth is &quot;inout&quot;?</title>
+        <title>What on Earth Is &quot;inout&quot;?</title>
         <description>&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inout&lt;/code&gt; may be the most baffling API in the Swift language. At first sight, it seems pretty straightforward.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
@@ -308,7 +298,7 @@ Fatal access conflict detected.
 
 &lt;p&gt;According to the &lt;a href=&quot;https://github.com/apple/swift-book/commit/171ef6f1658995154887ef15fbd5593cb57e919d&quot;&gt;git history&lt;/a&gt;, the description of optimization with &lt;em&gt;pass by reference&lt;/em&gt; has been around since Swift 2.1.&lt;/p&gt;
 
-&lt;h1 id=&quot;what-about-under-the-hood&quot;&gt;What about under the hood?&lt;/h1&gt;
+&lt;h1 id=&quot;what-about-under-the-hood&quot;&gt;What about under the Hood?&lt;/h1&gt;
 
 &lt;p&gt;This is just the documentation, so you might wonder what it is like under the hood. Luckily, looking into how Swift code is compiled is rather straightforward, as we can easily dump the SIL generated during the compile process.&lt;/p&gt;
 
@@ -507,13 +497,13 @@ end_access %7 : $*Int
 
 </description>
         <pubDate>Mon, 20 Nov 2023 00:00:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2023/inout.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2023/inout.html</guid>
+        <link>https://codes.loyi.dev/posts/2023/inout</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2023/inout</guid>
         
         
         <category>swift</category>
         
-        <category>inout</category>
+        <category>language-features</category>
         
       </item>
     
@@ -592,7 +582,7 @@ end_access %7 : $*Int
 
 &lt;p&gt;Now let’s complicate the things a little bit to illustrate.&lt;/p&gt;
 
-&lt;h2 id=&quot;to-complicate-the-thing&quot;&gt;To complicate the thing&lt;/h2&gt;
+&lt;h2 id=&quot;to-complicate-the-thing&quot;&gt;To Complicate the Thing&lt;/h2&gt;
 
 &lt;p&gt;Now let’s put an instance variable of a counter into class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;, and we increment the variable in action.&lt;/p&gt;
 
@@ -686,7 +676,7 @@ end_access %7 : $*Int
 &lt;span class=&quot;c1&quot;&gt;// (nothing)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;if-you-are-not-convinced-yet&quot;&gt;If you are not convinced yet&lt;/h2&gt;
+&lt;h2 id=&quot;if-you-are-not-convinced-yet&quot;&gt;If You Are Not Convinced Yet&lt;/h2&gt;
 
 &lt;p&gt;Okay, in case that didn’t help, let’s discuss further.&lt;/p&gt;
 
@@ -755,19 +745,13 @@ end_access %7 : $*Int
 &lt;p&gt;An instance method always implicitly captures &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt;, so &lt;strong&gt;NEVER&lt;/strong&gt; assign it as closure to another class’s instance, especially when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self&lt;/code&gt; owns the instance as it would cause a retain cycle.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Feb 2023 21:00:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2023/self-retained-when-passing-functions-as-closures.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2023/self-retained-when-passing-functions-as-closures.html</guid>
+        <link>https://codes.loyi.dev/posts/2023/function-retain-in-swift</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2023/function-retain-in-swift</guid>
         
         
         <category>swift</category>
         
-        <category>retain-cycle</category>
-        
-        <category>ios-development</category>
-        
-        <category>closure</category>
-        
-        <category>function</category>
+        <category>memory-management</category>
         
       </item>
     
@@ -779,7 +763,7 @@ end_access %7 : $*Int
 
 &lt;p&gt;The plan is like this: whenever a connection is initiated, it will be sent to the rented server, the server will then route the connection to my computer, and the computer will handle the request. When it is time to return anything, the connection will be sent through the same route back.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/qQNltRz.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/qQNltRz.png&quot; alt=&quot;Diagram: requests reach the rented server, travel through a tunnel to the home computer, and responses return the same way&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This may sound straight-forward, but the correct tools are required to get this done. Basically, I need a tool to set up a special tunnel between my computer and the rented server—and the tool I am using is Wireguard.&lt;/p&gt;
 
@@ -834,13 +818,11 @@ PersistentKeepalive = 25
 &lt;p&gt;See &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-use-apache-as-a-reverse-proxy-with-mod_proxy-on-ubuntu-16-04&quot;&gt;this article&lt;/a&gt; if you need a more detailed explanation of how to make ProxyPass work.&lt;/p&gt;
 </description>
         <pubDate>Fri, 31 Dec 2021 03:06:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2021/remote-access-home-computer-double-nat.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2021/remote-access-home-computer-double-nat.html</guid>
+        <link>https://codes.loyi.dev/posts/2021/double-nat-remote-access</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2021/double-nat-remote-access</guid>
         
         
-        <category>server</category>
-        
-        <category>remote</category>
+        <category>networking</category>
         
       </item>
     
@@ -869,7 +851,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;This magical framework, therefore, makes it possible for you to write your code once for one of the supported devices, and the UI would be ‘translated’ automatically to work on other (Apple) platforms if you later decide to set your build target to other operating systems. In other words, you can build your app with only iOS devices in mind with SwiftUI. If later you think ‘this would work great on macOS,’ with some setup, you can add a new build target to macOS and build for macOS devices.&lt;/p&gt;
 
-&lt;h2 id=&quot;word-is-cheap-show-the-code&quot;&gt;Word is cheap, show the code&lt;/h2&gt;
+&lt;h2 id=&quot;word-is-cheap-show-the-code&quot;&gt;Word Is Cheap, Show the Code&lt;/h2&gt;
 
 &lt;p&gt;The descriptions above may be a little abstract. Let’s build a mini app to show the power of SwiftUI.&lt;/p&gt;
 
@@ -903,7 +885,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;You can see we have a ‘Hello, world!’ label on the screen and we have some spaces (paddings) around it.&lt;/p&gt;
 
-&lt;h3 id=&quot;create-a-list-to-store-our-numbers&quot;&gt;Create a list to store our numbers&lt;/h3&gt;
+&lt;h3 id=&quot;create-a-list-to-store-our-numbers&quot;&gt;Create a List to Store Our Numbers&lt;/h3&gt;
 
 &lt;p&gt;So let’s start building our View.&lt;/p&gt;
 
@@ -969,7 +951,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/3qgMkbB.png&quot; alt=&quot;Development Screenshot 2&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;create-a-button-above-the-list-to-add-numbers&quot;&gt;Create a button above the list to add numbers&lt;/h3&gt;
+&lt;h3 id=&quot;create-a-button-above-the-list-to-add-numbers&quot;&gt;Create a Button above the List to Add Numbers&lt;/h3&gt;
 
 &lt;p&gt;Create a button is pretty simple, but to add a button above the list, we would need a ‘stack’. We would be using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VStack&lt;/code&gt; here, which is a vertical stack. In a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VStack&lt;/code&gt;, the items would be arranged vertically. There are also &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HStack&lt;/code&gt; (horizontal stack), and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZStack&lt;/code&gt; (overlaying stack).&lt;/p&gt;
 
@@ -1044,7 +1026,7 @@ PersistentKeepalive = 25
 
 &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/5kGKdNq.png&quot; alt=&quot;Development Screenshot 5&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;create-the-empty-list-view&quot;&gt;Create the empty list view&lt;/h3&gt;
+&lt;h3 id=&quot;create-the-empty-list-view&quot;&gt;Create the Empty List View&lt;/h3&gt;
 
 &lt;p&gt;We mentioned that we need to display ‘No numbers available’ when there is nothing available.&lt;/p&gt;
 
@@ -1122,15 +1104,15 @@ PersistentKeepalive = 25
 &lt;p&gt;As we can see, with so little code, we can build a working cross-platform, native feeling app.&lt;/p&gt;
 </description>
         <pubDate>Mon, 21 Sep 2020 20:00:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2020/intro-to-swiftui.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2020/intro-to-swiftui.html</guid>
+        <link>https://codes.loyi.dev/posts/2020/intro-to-swiftui</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2020/intro-to-swiftui</guid>
         
+        
+        <category>swift</category>
         
         <category>swiftui</category>
         
-        <category>introduction</category>
-        
-        <category>framework</category>
+        <category>ios</category>
         
       </item>
     
@@ -1138,7 +1120,7 @@ PersistentKeepalive = 25
         <title>Improving on an Algorithm: Time Complexity</title>
         <description>&lt;p&gt;Recently, when I was looking at an old solution I wrote months ago for a LeetCode problem, &lt;a href=&quot;https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/&quot;&gt;How many numbers are smaller than the current number&lt;/a&gt;, I suddenly found that although my previous solution used some tricks in an attempt to do it faster, the function I used made it as slow as the time complexity of a brute force solution.&lt;/p&gt;
 
-&lt;h3 id=&quot;wait-what-is-time-complexity&quot;&gt;Wait, What is Time Complexity&lt;/h3&gt;
+&lt;h3 id=&quot;wait-what-is-time-complexity&quot;&gt;Wait, What Is Time Complexity&lt;/h3&gt;
 
 &lt;p&gt;Time complexity is a common concept in the Computer Science world. However, as it is a necessary tool for the discussion here, let’s make sure we are on the same page before we start.&lt;/p&gt;
 
@@ -1194,7 +1176,7 @@ PersistentKeepalive = 25
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;why-improving-time-complexity-matters&quot;&gt;Why improving time complexity matters?&lt;/h4&gt;
+&lt;h4 id=&quot;why-improving-time-complexity-matters&quot;&gt;Why Improving Time Complexity Matters?&lt;/h4&gt;
 
 &lt;p&gt;Although computers nowadays run pretty fast, when the algorithm has, for instance, an exponential time complexity, the programme can still take pretty long to complete when the input size gets huge.&lt;/p&gt;
 
@@ -1335,15 +1317,11 @@ PersistentKeepalive = 25
 &lt;p&gt;Time complexity may be a complicated concept in the beginning. Nonetheless, it provides us with a nice tool to look into the pros and cons of our algorithm at hand. Although we may not endlessly improve on our algorithm, it is always a good thing to have an idea of what is holding back our code.&lt;/p&gt;
 </description>
         <pubDate>Thu, 14 May 2020 22:50:00 +0800</pubDate>
-        <link>http://codes.loyi.dev///posts/2020/time-complexity.html</link>
-        <guid isPermaLink="true">http://codes.loyi.dev///posts/2020/time-complexity.html</guid>
+        <link>https://codes.loyi.dev/posts/2020/time-complexity</link>
+        <guid isPermaLink="true">https://codes.loyi.dev/posts/2020/time-complexity</guid>
         
         
-        <category>algorithm</category>
-        
-        <category>time-complexity</category>
-        
-        <category>big-o</category>
+        <category>algorithms</category>
         
       </item>
     
