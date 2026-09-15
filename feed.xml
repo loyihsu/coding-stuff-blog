@@ -1,4 +1,205 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://codes.loyi.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://codes.loyi.dev/" rel="alternate" type="text/html" /><updated>2026-09-14T18:04:10+08:00</updated><id>https://codes.loyi.dev/feed.xml</id><title type="html">Coding Stuff</title><subtitle>Notes on the things I can&apos;t leave alone, mostly Swift and iOS.</subtitle><author><name>Loyi Hsu</name></author><entry><title type="html">So Are We Bound to Be Replaced by AI?</title><link href="https://codes.loyi.dev/posts/2025/replaced-by-ai" rel="alternate" type="text/html" title="So Are We Bound to Be Replaced by AI?" /><published>2025-12-09T13:00:00+08:00</published><updated>2025-12-09T13:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2025/replaced-by-ai</id><content type="html" xml:base="https://codes.loyi.dev/posts/2025/replaced-by-ai"><![CDATA[<p>My supervisor once said — back when ChatGPT had just appeared and before every company felt compelled to convince the world that they were an ‘AI company’ for fear of seeming old and outdated — <em>‘I’m not sure whether AI will replace humans, but AI will certainly replace people who don’t know how to use it.’</em></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://codes.loyi.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://codes.loyi.dev/" rel="alternate" type="text/html" /><updated>2026-09-15T23:39:16+08:00</updated><id>https://codes.loyi.dev/feed.xml</id><title type="html">Coding Stuff</title><subtitle>Notes on the things I can&apos;t leave alone, mostly Swift and iOS.</subtitle><author><name>Loyi Hsu</name></author><entry><title type="html">Coding Stuff Has a New Look</title><link href="https://codes.loyi.dev/posts/2026/redesigning-with-an-agent" rel="alternate" type="text/html" title="Coding Stuff Has a New Look" /><published>2026-09-15T23:35:00+08:00</published><updated>2026-09-15T23:35:00+08:00</updated><id>https://codes.loyi.dev/posts/2026/redesigning-with-an-agent</id><content type="html" xml:base="https://codes.loyi.dev/posts/2026/redesigning-with-an-agent"><![CDATA[<p>If you have visited Coding Stuff before, you may notice that things look a little different. Since 2020, this blog had been running on a third-party theme. It worked, but reading on it never quite felt right.</p>
+
+<p>So I drew a wireframe of what it should be and rebuilt the site from it, as a Jekyll theme of its own: <strong>lofy</strong>, as in lo-fi. This post walks through what has changed and why, and then takes a short detour into what building it with an AI agent taught me.</p>
+
+<h2 id="reading">Reading</h2>
+
+<p>The idea behind the new design is simple: <strong>everything on the page should either help you read or get out of the way.</strong></p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-home.webp" alt="The Coding Stuff home page in the light theme, with the sidebar on the left and the latest posts in a single column" class="screenshot" /><figcaption aria-hidden="true">The Coding Stuff home page in the light theme, with the sidebar on the left and the latest posts in a single column</figcaption></figure>
+
+<ul>
+  <li><strong>Distraction-free.</strong> There are no cover images or decorations between you and the first paragraph. The only images in a post are the ones that explain something.</li>
+  <li><strong>Images you can look at closely.</strong> Each image has a short caption underneath. Click one, like the one above, to open it larger; click it again to zoom in and drag around, and click the dark background to put it back.</li>
+  <li><strong>Type does the work.</strong> Headings and body text are set in Newsreader, a serif designed for reading on screens. The interface uses Inter, and code uses JetBrains Mono. All three come from Google Fonts, so the site looks the same on every device.</li>
+  <li><strong>A quiet structure.</strong> The sidebar holds only what you need to find your way around, and nothing else.</li>
+</ul>
+
+<h2 id="settings">Settings</h2>
+
+<p>A small <code class="language-plaintext highlighter-rouge">customise</code> button at the top of the page opens two settings.</p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-customise.webp" alt="The customise panel, open, with a theme control set to auto and a focus reading switch" class="screenshot" width="291" /><figcaption aria-hidden="true">The customise panel, open, with a theme control set to auto and a focus reading switch</figcaption></figure>
+
+<ul>
+  <li><strong>Theme</strong> can be set to <em>auto</em>, <em>light</em> or <em>dark</em>. <em>Auto</em> is the default and follows your system, even when it switches while you are reading; <em>light</em> and <em>dark</em> are remembered.</li>
+  <li><strong>Focus reading</strong> is available on posts and the About page on a desktop. It hides the sidebar and lets the header and footer fade back, leaving only the article. The layout slides into place rather than fading, so you can see where things went.</li>
+</ul>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-focus.gif" alt="Focus reading switched on and off in the dark theme: the sidebar slides away and the table of contents folds into a block above the article" class="screenshot" /><figcaption aria-hidden="true">Focus reading switched on and off in the dark theme: the sidebar slides away and the table of contents folds into a block above the article</figcaption></figure>
+
+<p>Both settings use text labels rather than icons. A reader should be able to read what a control does, not decode a symbol.</p>
+
+<h2 id="navigation">Navigation</h2>
+
+<ul>
+  <li><strong>On this page.</strong> Posts with headings get a table of contents. On wide screens, it sits expanded beside the article, so you always know where you are, marks the section you are reading, and scrolls on its own when the list is longer than the window. On smaller screens, it is a collapsible block above the text.</li>
+  <li><strong>Continue reading.</strong> Every post ends with up to five posts to read next: the next and previous posts first, followed by others that share a tag. A small label says why each one is there, such as <em>previous post</em> or <em>also in #swift</em>. When you finish an article, the best next read is often one about the same subject, not simply whatever came out next.</li>
+  <li><strong>Link previews.</strong> Hovering over a link to another post shows a small card with its date, title and summary, so you can decide whether to follow it without losing your place. Try it on <a href="/posts/2023/inout">the post about <code class="language-plaintext highlighter-rouge">inout</code></a>. It doesn’t appear on touch screens, where there is no hover.</li>
+  <li><strong>Heading anchors.</strong> Hovering over a heading reveals a <code class="language-plaintext highlighter-rouge">#</code> in the left margin, so you can link straight to a section while the heading itself stays aligned with the text.</li>
+  <li><strong>Tags and archive.</strong> Every post can be found by tag on the tags page, or by year in the archive.</li>
+  <li><strong>Cleaner addresses.</strong> Post URLs are shorter and no longer end in <code class="language-plaintext highlighter-rouge">.html</code>. Old links still work.</li>
+</ul>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-preview.webp" alt="A link preview card showing the date, title and summary of another post" class="screenshot" width="640" /><figcaption aria-hidden="true">A link preview card showing the date, title and summary of another post</figcaption></figure>
+
+<h2 id="mobile">Mobile</h2>
+
+<p>A phone is often where someone first lands on a post, usually from a link, so the small-screen layout makes its own decisions rather than squeezing the desktop one.</p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-mobile.webp" alt="A post on a phone: the site title, then straight into the post's title, date and tags" class="screenshot" width="390" /><figcaption aria-hidden="true">A post on a phone: the site title, then straight into the post's title, date and tags</figcaption></figure>
+
+<ul>
+  <li><strong>Posts start with the post.</strong> Below the site title comes the article itself. The links to the rest of the site wait at the end, after <em>continue reading</em>: someone arriving from a link came for this article, and looking around is what they do once they have read it.</li>
+  <li><strong>Pages start with the navigation.</strong> On the home page, About, Tags and Archive, a single quiet row of links sits under the site title, and the page you are on is simply darker and bolder. That row already names the page, so its title isn’t repeated below it.</li>
+  <li><strong>Nothing depends on hovering.</strong> Link previews stay out of the way on touch screens, the table of contents folds into a block above the text, and a zoomed-in image moves under your finger.</li>
+</ul>
+
+<h2 id="sharing">Sharing</h2>
+
+<p>When a post is shared in a chat app or on social media, its preview now shows that post rather than one generic card for the whole blog: its title, date and tags, set in the same type as the site.</p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-og.webp" alt="The share image for the post about inout: its title in large serif type, the date and tags below it, and the author and blog name along the bottom" class="screenshot" /><figcaption aria-hidden="true">The share image for the post about inout: its title in large serif type, the date and tags below it, and the author and blog name along the bottom</figcaption></figure>
+
+<p>Each of these images is made when the site is built, so a new post gets its own without any extra work, and a long title simply shrinks to fit.</p>
+
+<h2 id="code">Code</h2>
+
+<p>Most posts here contain code, so code blocks received the most attention. The question behind each change was the same: <em>what is the reader going to do with this?</em> Rather than describe them, here they are.</p>
+
+<p>A code block can carry a <strong>label</strong> showing which file it belongs to, and <strong>highlight</strong> the lines that matter:</p>
+
+<div data-label="Theme.swift" data-highlight="2" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">Theme</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">CaseIterable</span> <span class="p">{</span>
+<span class="hl"><span class="hl">    <span class="k">case</span> <span class="n">auto</span><span class="p">,</span> <span class="n">light</span><span class="p">,</span> <span class="n">dark</span></span>
+</span>
+    <span class="k">var</span> <span class="nv">label</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="n">rawValue</span><span class="o">.</span><span class="n">capitalized</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When code <strong>changes</strong>, the old and new lines can be shown together. Removed lines are marked in red and added lines in green. Try the copy button: it leaves the removed lines out, because you want the code as it is now, not the diff.</p>
+
+<div data-label="SettingsView.swift" data-removed="2,6" data-added="3,7-10" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SettingsView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-removed"><span class="hl hl-removed">    <span class="kd">@AppStorage</span><span class="p">(</span><span class="s">"isDarkMode"</span><span class="p">)</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">isDarkMode</span> <span class="o">=</span> <span class="kc">false</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="kd">@AppStorage</span><span class="p">(</span><span class="s">"theme"</span><span class="p">)</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">theme</span> <span class="o">=</span> <span class="kt">Theme</span><span class="o">.</span><span class="n">auto</span></span>
+</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-removed"><span class="hl hl-removed">        <span class="kt">Toggle</span><span class="p">(</span><span class="s">"Dark Mode"</span><span class="p">,</span> <span class="nv">isOn</span><span class="p">:</span> <span class="n">$isDarkMode</span><span class="p">)</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="kt">Picker</span><span class="p">(</span><span class="s">"Theme"</span><span class="p">,</span> <span class="nv">selection</span><span class="p">:</span> <span class="n">$theme</span><span class="p">)</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">            <span class="kt">ForEach</span><span class="p">(</span><span class="kt">Theme</span><span class="o">.</span><span class="n">allCases</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="kt">Text</span><span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="p">}</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="p">}</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="o">.</span><span class="nf">pickerStyle</span><span class="p">(</span><span class="o">.</span><span class="n">segmented</span><span class="p">)</span></span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Terminal commands</strong> get a terminal frame. Copying them leaves out the <code class="language-plaintext highlighter-rouge">$</code> prompts, because nobody wants to paste a prompt into their terminal.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>swift build
+<span class="gp">$</span><span class="w"> </span>swift run
+</code></pre></div></div>
+
+<p><strong>Program output</strong> has its own frame and no copy button, because nobody copies output. When it belongs to the code above it, the two are joined into one card:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">themes</span> <span class="o">=</span> <span class="kt">Theme</span><span class="o">.</span><span class="n">allCases</span><span class="o">.</span><span class="nf">map</span><span class="p">(\</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">themes</span><span class="o">.</span><span class="nf">joined</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">" / "</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Auto / Light / Dark
+</code></pre></div></div>
+
+<p><strong>Errors</strong> tint the whole block, so you can tell something went wrong before reading a single word. This one comes from the <a href="/posts/2023/inout"><code class="language-plaintext highlighter-rouge">inout</code> post</a>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">number</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="kd">func</span> <span class="nf">addOne</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="nf">addOne</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-error highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simultaneous accesses to 0x106344130, but modification requires exclusive access.
+</code></pre></div></div>
+
+<p>A compiler or runtime message mentioned on its own gets a small <strong>diagnostic card</strong> instead, for errors and warnings alike:</p>
+
+<p class="diagnostic-error">Cannot assign to value: 'theme' is a 'let' constant</p>
+
+<p class="diagnostic-warning">Variable 'result' was never mutated; consider changing to 'let' constant</p>
+
+<p><strong>Examples</strong> of input and output, such as a problem’s sample case, sit side by side:</p>
+
+<dl class="example">
+  <dt>Input</dt>
+  <dd>[8,1,2,2,3]</dd>
+  <dt>Output</dt>
+  <dd>[4,0,1,1,3]</dd>
+</dl>
+
+<p>A <strong>note</strong> sets an aside apart from the text, such as a caveat or a bit of background, so the explanation around it keeps its flow:</p>
+
+<p class="note">In <a href="/posts/2020/intro-to-swiftui">the SwiftUI introduction</a>, a note like this one explains why two equal numbers in a list can get their rows mixed up.</p>
+
+<p>And quotes can <strong>credit their source</strong>, as you will see in a moment. Finally, the one sentence a post comes down to can go into a <strong>takeaway</strong> card. This post has one near the end.</p>
+
+<p>The older posts have been updated to use them where they fit, so their code, output and conclusions read the same way.</p>
+
+<h2 id="built-with-an-ai-agent">Built with an AI Agent</h2>
+
+<p>I am an iOS developer, not a web developer, and most of the code behind this redesign was written by an AI coding agent. That deserves a few honest words, because it was neither as magical nor as disappointing as people tend to expect.</p>
+
+<p><strong>Where it helps.</strong> An agent is useful for turning a clear intention into working code, especially in a stack you don’t use every day. It can look things up, follow conventions consistently, write tests, and keep documentation in sync.</p>
+
+<p><strong>Where it doesn’t.</strong> It only knows what you tell it. It cannot tell whether a page <em>feels</em> right, whether a control is obvious, or whether a layout works on the device in your hand. It tends to add rather than remove. And it isn’t free: every unclear request costs another round of work.</p>
+
+<p>In other words, the agent made building the site much faster. It did not make any of the decisions above for me.</p>
+
+<h2 id="so-what-counts-as-a-chore">So What Counts as a Chore?</h2>
+
+<p>In <a href="/posts/2025/replaced-by-ai">my last post</a>, I wrote:</p>
+
+<blockquote>
+  <p>We only ask AI to do the things we don’t want to do.</p>
+
+  <p class="source"><a href="/posts/2025/replaced-by-ai">So Are We Bound to Be Replaced by AI?</a></p>
+</blockquote>
+
+<p>A project like this makes that sentence much less simple than it sounds.</p>
+
+<p>This is where I think my last post blurred two questions together: <em>is this boring?</em> and <em>is this indispensable?</em> Checking that the result works is boring, but indispensable. Deciding what a product should feel like is neither boring nor dispensable. Looking things up is boring and, most of the time, safe to hand over.</p>
+
+<p>And the answers differ from person to person. A designer who loves CSS may find implementation the best part of the job. A researcher may enjoy the digging more than anything else. For me, it depends on the project.</p>
+
+<h2 id="why-being-replaced-is-no-longer-the-point">Why ‘Being Replaced’ Is No Longer the Point</h2>
+
+<p>This is why I think <em>will AI replace us?</em> is slowly becoming the wrong question.</p>
+
+<p>It assumes that a job is a fixed bundle of tasks, and that AI either takes the bundle or it doesn’t. But the line between chore and non-chore doesn’t run <em>between</em> jobs. It runs through the middle of every job, and it runs through a different place for every person.</p>
+
+<p>AI doesn’t take a job. It takes whatever we hand to it. Hand over the chores, and you get more time for the parts that matter. Hand over the indispensable parts because they are boring, or the parts you enjoy because AI happens to be faster, and you have replaced yourself. If that comes down to laziness, AI was never the threat: anyone willing to do those parts properly could have taken your place long before it arrived.</p>
+
+<p>So the more useful question is:</p>
+
+<p class="takeaway">Which parts of your work are actually yours?</p>
+
+<h2 id="living-with-ai">Living with AI</h2>
+
+<p>Whether you are excited about AI or still a little doubtful — as I am — a few suggestions:</p>
+
+<ul>
+  <li><strong>Know your own map.</strong> For each part of your work, ask both questions: is it boring, and is it indispensable? Don’t borrow someone else’s answers.</li>
+  <li><strong>Delegate the work, not the accountability.</strong> You can hand over checking, but not the responsibility for what you ship.</li>
+  <li><strong>Protect the parts you enjoy.</strong> They are often the reason you do this work at all.</li>
+  <li><strong>Start from the product, not the technology.</strong> Building something to show off a technology and then looking for a use for it is a poor strategy. Start from what users need, then find, use, or even create the best technology for it.</li>
+  <li><strong>Be clear before you ask.</strong> Delegating isn’t free, and knowing what you want is the cheapest way to get it.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The new Coding Stuff is quieter, easier to read, and much kinder to code. I hope it makes the posts here more pleasant to spend time with.</p>
+
+<p>Building it with an agent didn’t convince me that AI will replace developers, nor that it won’t. It convinced me that the question matters less than knowing which parts of the work we should never hand over.</p>]]></content><author><name>Loyi Hsu</name></author><category term="announcement" /><category term="design" /><category term="ai" /><category term="opinion" /><summary type="html"><![CDATA[A tour of this blog's redesign and the reasoning behind it, what building it with an AI agent was like, and why 'will AI replace us?' is quietly becoming the wrong question.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2026-redesigning-with-an-agent.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2026-redesigning-with-an-agent.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">So Are We Bound to Be Replaced by AI?</title><link href="https://codes.loyi.dev/posts/2025/replaced-by-ai" rel="alternate" type="text/html" title="So Are We Bound to Be Replaced by AI?" /><published>2025-12-09T13:00:00+08:00</published><updated>2025-12-09T13:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2025/replaced-by-ai</id><content type="html" xml:base="https://codes.loyi.dev/posts/2025/replaced-by-ai"><![CDATA[<p>My supervisor once said — back when ChatGPT had just appeared and before every company felt compelled to convince the world that they were an ‘AI company’ for fear of seeming old and outdated — <em>‘I’m not sure whether AI will replace humans, but AI will certainly replace people who don’t know how to use it.’</em></p>
 
 <p>As sharp as that line is, it touches a deep fear (or excitement?) many of us share: <em>is this the end of humanity as we know it?</em> As AI becomes increasingly powerful, will we suddenly find ourselves out of work? Will we one day live in a world where androids (no pun intended) do everything for us while we simply sit at home being served?</p>
 
@@ -83,17 +284,17 @@
 
 <p>Returning to what my supervisor said, I would rephrase it like this:</p>
 
-<p><strong>‘I don’t know if AI will replace humans, but it will replace those who let AI think <em>for</em> them instead of using AI to help them think.’</strong></p>
+<p class="takeaway">‘I don’t know if AI will replace humans, but it will replace those who let AI think <em>for</em> them instead of using AI to help them think.’</p>
 
 <p>Using AI to eliminate drudgery and accelerate ideas makes you more capable, not less.</p>
 
 <p>But relying on AI to think in your place — to write code you cannot understand or to make decisions you cannot evaluate — leads to stagnation. You stop learning. You lose your judgement.</p>
 
-<p>That is what makes a person obsolete — not the advancement of AI itself.</p>]]></content><author><name>Loyi Hsu</name></author><category term="ai" /><category term="opinion" /><summary type="html"><![CDATA[AI won't replace people who use it to think better, only those who let it think for them. On what AI should take off our plates, and what it never will.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</title><link href="https://codes.loyi.dev/posts/2024/to-tca-or-not" rel="alternate" type="text/html" title="To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture" /><published>2024-11-09T00:00:00+08:00</published><updated>2024-11-09T00:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2024/to-tca-or-not</id><content type="html" xml:base="https://codes.loyi.dev/posts/2024/to-tca-or-not"><![CDATA[<p>With the growing popularity of The Composable Architecture (TCA), it undoubtedly offers several advantages, including structured state and event management, precise side-effect handling, testability, and streamlined dependency management. Notably, its architecture simplifies testing, allowing developers to efficiently and reliably validate functionality.</p>
+<p>That is what makes a person obsolete — not the advancement of AI itself.</p>]]></content><author><name>Loyi Hsu</name></author><category term="ai" /><category term="opinion" /><summary type="html"><![CDATA[AI won't replace people who use it to think better, only those who let it think for them. On what AI should take off our plates, and what it never will.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2025-replaced-by-ai.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2025-replaced-by-ai.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</title><link href="https://codes.loyi.dev/posts/2024/to-tca-or-not" rel="alternate" type="text/html" title="To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture" /><published>2024-11-09T00:00:00+08:00</published><updated>2024-11-09T00:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2024/to-tca-or-not</id><content type="html" xml:base="https://codes.loyi.dev/posts/2024/to-tca-or-not"><![CDATA[<p>With the growing popularity of The Composable Architecture (TCA), it undoubtedly offers several advantages, including structured state and event management, precise side-effect handling, testability, and streamlined dependency management. Notably, its architecture simplifies testing, allowing developers to efficiently and reliably validate functionality.</p>
 
 <p>However, with the increasing number of dependencies, one of the most significant challenges in maintaining code over time is managing the ever-changing set of frameworks. As popular frameworks like RxSwift rise and fall, it’s crucial to pause and carefully consider the implications before introducing a new one.</p>
 
-<h1 id="challenges-and-considerations">Challenges and Considerations</h1>
+<h2 id="challenges-and-considerations">Challenges and Considerations</h2>
 
 <p>To understand the potential issues that might arise after a framework’s popularity declines, we can examine a well-known example: RxSwift. Its popularity has significantly diminished, primarily due to Apple’s introduction of its proprietary reactive programming solution, Combine. Although TCA may not encounter direct competition of this magnitude, it could face similar challenges in the long term:</p>
 
@@ -109,7 +310,7 @@
   <li><strong>Risk of Shared State Complexity</strong>: As the app grows, shared state can become overly complex, introducing dependencies that increase the risk of unexpected behaviours, as changes to shared states can affect multiple areas of the app.</li>
 </ul>
 
-<h1 id="points-for-discussion">Points for Discussion</h1>
+<h2 id="points-for-discussion">Points for Discussion</h2>
 
 <ul>
   <li><strong>Architecture-Heavy Requirements</strong>: Relying on frameworks like MVVM or Redux can lead to technical debt if changes are needed later.
@@ -137,7 +338,7 @@
   </li>
 </ul>
 
-<h1 id="conclusion">Conclusion</h1>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>When considering TCA adoption, it’s important to evaluate its fit for both small-scale projects and large commercial applications:</p>
 
@@ -150,7 +351,7 @@
       <li><strong>Clear Guidelines for Shared State</strong>: Defining and reviewing shared state usage prevents unintended dependencies and keeps the codebase manageable.</li>
     </ul>
   </li>
-</ul>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="ios" /><category term="architecture" /><category term="opinion" /><summary type="html"><![CDATA[TCA brings structured state and great testability, but at what cost? Weighing framework dependence, setup overhead and shared state before adopting it.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">What on Earth Is “inout”?</title><link href="https://codes.loyi.dev/posts/2023/inout" rel="alternate" type="text/html" title="What on Earth Is “inout”?" /><published>2023-11-20T00:00:00+08:00</published><updated>2023-11-20T00:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2023/inout</id><content type="html" xml:base="https://codes.loyi.dev/posts/2023/inout"><![CDATA[<p><code class="language-plaintext highlighter-rouge">inout</code> may be the most baffling API in the Swift language. At first sight, it seems pretty straightforward.</p>
+</ul>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="ios" /><category term="architecture" /><category term="opinion" /><summary type="html"><![CDATA[TCA brings structured state and great testability, but at what cost? Weighing framework dependence, setup overhead and shared state before adopting it.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2024-to-tca-or-not.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2024-to-tca-or-not.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">What on Earth Is “inout”?</title><link href="https://codes.loyi.dev/posts/2023/inout" rel="alternate" type="text/html" title="What on Earth Is “inout”?" /><published>2023-11-20T00:00:00+08:00</published><updated>2023-11-20T00:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2023/inout</id><content type="html" xml:base="https://codes.loyi.dev/posts/2023/inout"><![CDATA[<p><code class="language-plaintext highlighter-rouge">inout</code> may be the most baffling API in the Swift language. At first sight, it seems pretty straightforward.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">number</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="kd">func</span> <span class="nf">addOne</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
@@ -160,7 +361,7 @@
 <span class="nf">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>    <span class="c1">// 1</span>
 </code></pre></div></div>
 
-<p>Anyone who has written some C-like language would think that it is passing the reference of a <code class="language-plaintext highlighter-rouge">number</code> to the function to perform any action within it. Although that would overlap with the behaviour of any reference type and breaks the image of a nice, local logic of value types, it is straightforward enough that people can bear with the idea that <code class="language-plaintext highlighter-rouge">inout</code> turns a value type variable into a reference type variable temporarily.</p>
+<p>Anyone who has written some C-like language would think that it is passing the reference of a <code class="language-plaintext highlighter-rouge">number</code> to the function to perform any action within it. Although that would overlap with the behaviour of any reference type and break the image of a nice, local logic of value types, it is straightforward enough that people can bear with the idea that <code class="language-plaintext highlighter-rouge">inout</code> turns a value type variable into a reference type variable temporarily.</p>
 
 <p>But is it really that way? Let’s first check the official <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations/#In-Out-Parameters">documentation</a>. The definition of <code class="language-plaintext highlighter-rouge">inout</code> according to the documentation is:</p>
 
@@ -174,6 +375,8 @@
   </ol>
 
   <p>This behavior is known as <em>copy-in copy-out</em> or <em>call by value result</em>. For example, when a computed property or a property with observers is passed as an in-out parameter, its getter is called as part of the function call and its setter is called as part of the function return.</p>
+
+  <p class="source"><a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations/#In-Out-Parameters">The Swift Programming Language: In-Out Parameters</a></p>
 </blockquote>
 
 <p>So, according to this <em>copy-in copy-out</em> behaviour, it does not pass the reference to the <code class="language-plaintext highlighter-rouge">number</code> variable but copies the value as the parameter and writes the function output back to the <code class="language-plaintext highlighter-rouge">number</code> variable.</p>
@@ -190,7 +393,7 @@
 
 <p>If the story ends here, it may simply be strange behaviour as defined by Swift. However, things start to get even stranger when we delve deeper into it.</p>
 
-<p>Let’s add a print statement inside the <code class="language-plaintext highlighter-rouge">addOne(_:)</code> function scope that prints the <code class="language-plaintext highlighter-rouge">number</code> variable.</p>
+<p>Let’s add a <code class="language-plaintext highlighter-rouge">print</code> statement inside the <code class="language-plaintext highlighter-rouge">addOne(_:)</code> function scope that prints the <code class="language-plaintext highlighter-rouge">number</code> variable.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">number</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="kd">func</span> <span class="nf">addOne</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
@@ -203,7 +406,7 @@
 
 <p>When executed, this will print:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>before:  0  
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>before:  0  
 after:  1
 </code></pre></div></div>
 
@@ -215,12 +418,12 @@ after:  1
     <span class="n">value</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="p">}</span>
 <span class="nf">addOne</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="s">"before: "</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"after: "</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>We would expect to print the <code class="language-plaintext highlighter-rouge">number</code> as 0 since nothing has been added yet. However, let’s see what happens.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simultaneous accesses to 0x106344130, but modification requires exclusive access.
+<div class="language-error highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simultaneous accesses to 0x106344130, but modification requires exclusive access.
 Previous access (a modification) started at  (0x104a10418).
 Current access (a read) started at:
 0    libswiftCore.dylib                 0x000000019294e17c swift::runtime::AccessSet::insert(swift::runtime::Access*, void*, void*, swift::ExclusivityFlags) + 428
@@ -245,13 +448,15 @@ Fatal access conflict detected.
 
 <blockquote>
   <p>As an optimization, when the argument is a value stored at a physical address in memory, the same memory location is used both inside and outside the function body. The optimized behavior is known as <em>call by reference</em>; it satisfies all of the requirements of the copy-in copy-out model while removing the overhead of copying. Write your code using the model given by copy-in copy-out, without depending on the call-by-reference optimization, so that it behaves correctly with or without the optimization.</p>
+
+  <p class="source"><a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations#In-Out-Parameters">The Swift Programming Language: In-Out Parameters</a></p>
 </blockquote>
 
 <p>So, according to this description, it is, by definition, <em>copy-in copy-out</em>. But under the hood, it is, in fact, <em>passed by reference</em>.</p>
 
-<p>According to the <a href="https://github.com/apple/swift-book/commit/171ef6f1658995154887ef15fbd5593cb57e919d">git history</a>, the description of optimization with <em>pass by reference</em> has been around since Swift 2.1.</p>
+<p>According to the <a href="https://github.com/swiftlang/swift-book/commit/171ef6f1658995154887ef15fbd5593cb57e919d">git history</a>, the description of optimization with <em>pass by reference</em> has been around since Swift 2.1.</p>
 
-<h1 id="what-about-under-the-hood">What about under the Hood?</h1>
+<h2 id="what-about-under-the-hood">What about under the Hood?</h2>
 
 <p>This is just the documentation, so you might wonder what it is like under the hood. Luckily, looking into how Swift code is compiled is rather straightforward, as we can easily dump the SIL generated during the compile process.</p>
 
@@ -264,14 +469,14 @@ Fatal access conflict detected.
 <span class="nf">addOne</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>We would use the following command for this purpose. According to the official <a href="https://github.com/apple/swift/blob/main/docs/DebuggingTheCompiler.md#printing-the-intermediate-representations">documentation</a>, this command will ‘print the SIL immediately after SILGen’:</p>
+<p>We would use the following command for this purpose. According to the official <a href="https://github.com/swiftlang/swift/blob/main/docs/DebuggingTheCompiler.md#printing-the-intermediate-representations">documentation</a>, this command will ‘print the SIL immediately after SILGen’:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swiftc <span class="nt">-emit-silgen</span> <span class="nt">-O</span> file.swift
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>swiftc <span class="nt">-emit-silgen</span> <span class="nt">-O</span> file.swift
 </code></pre></div></div>
 
 <p>After we run the command on the file, we see the following code in the terminal window.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sil_stage raw
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sil_stage raw
 
 import Builtin
 import Swift
@@ -341,7 +546,7 @@ sil [transparent] [serialized] @$sSi2peoiyySiz_SitFZ : $@convention(method) (@in
 
 <p>First, let’s take a look at the main function.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// main
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// main
 sil [ossa] @main : $@convention(c) (Int32, UnsafeMutablePointer&lt;Optional&lt;UnsafeMutablePointer&lt;Int8&gt;&gt;&gt;) -&gt; Int32 {
 bb0(%0 : $Int32, %1 : $UnsafeMutablePointer&lt;Optional&lt;UnsafeMutablePointer&lt;Int8&gt;&gt;&gt;):
   alloc_global @$s4test6numberSivp                // id: %2
@@ -370,7 +575,7 @@ bb0(%0 : $Int32, %1 : $UnsafeMutablePointer&lt;Optional&lt;UnsafeMutablePointer&
 
 <p>We can see at first <code class="language-plaintext highlighter-rouge">%3</code> is pointed to a global address and an integer is initialised to <code class="language-plaintext highlighter-rouge">%7</code>, and then <code class="language-plaintext highlighter-rouge">%7</code> is stored to <code class="language-plaintext highlighter-rouge">%3</code>.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%3 = global_addr @$s4test6numberSivp : $*Int    // users: %9, %8
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%3 = global_addr @$s4test6numberSivp : $*Int    // users: %9, %8
 %4 = integer_literal $Builtin.IntLiteral, 0     // user: %7
 %5 = metatype $@thin Int.Type                   // user: %7
 // function_ref Int.init(_builtinIntegerLiteral:)
@@ -381,7 +586,7 @@ store %7 to [trivial] %3 : $*Int                // id: %8
 
 <p>Then the part we are interested in comes.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%9 = begin_access [modify] [dynamic] %3 : $*Int // users: %12, %11
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%9 = begin_access [modify] [dynamic] %3 : $*Int // users: %12, %11
 // function_ref addOne(_:)
 %10 = function_ref @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&gt; () // user: %11
 %11 = apply %10(%9) : $@convention(thin) (@inout Int) -&gt; ()
@@ -392,7 +597,7 @@ end_access %9 : $*Int                           // id: %12
 
 <p>So, if we want to investigate further, we need to focus on the <code class="language-plaintext highlighter-rouge">addOne(_:)</code> part of the SIL.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// addOne(_:)
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// addOne(_:)
 sil hidden [ossa] @$s4test6addOneyySizF : $@convention(thin) (@inout Int) -&gt; () {
 // %0 "value"                                     // users: %7, %1
 bb0(%0 : $*Int):
@@ -415,7 +620,7 @@ bb0(%0 : $*Int):
 
 <p>We first see that it creates the number 1 and stores it in <code class="language-plaintext highlighter-rouge">%6</code> for later execution.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%2 = metatype $@thin Int.Type                   // user: %9
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%2 = metatype $@thin Int.Type                   // user: %9
 %3 = integer_literal $Builtin.IntLiteral, 1     // user: %6
 %4 = metatype $@thin Int.Type                   // user: %6
 // function_ref Int.init(_builtinIntegerLiteral:)
@@ -423,30 +628,36 @@ bb0(%0 : $*Int):
 %6 = apply %5(%3, %4) : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -&gt; Int // user: %9
 </code></pre></div></div>
 
-<p>Then we see that it begins accessing <code class="language-plaintext highlighter-rouge">%0</code>, which is the passed value from outside the function, and points to it in %7, and directly applies the execution to <code class="language-plaintext highlighter-rouge">%7</code>, and ends access to it.</p>
+<p>Then we see that it begins accessing <code class="language-plaintext highlighter-rouge">%0</code>, which is the passed value from outside the function, and points to it in <code class="language-plaintext highlighter-rouge">%7</code>, and directly applies the execution to <code class="language-plaintext highlighter-rouge">%7</code>, and ends access to it.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%7 = begin_access [modify] [unknown] %0 : $*Int // users: %10, %9
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%7 = begin_access [modify] [unknown] %0 : $*Int // users: %10, %9
 // function_ref static Int.+= infix(_:_:)
 %8 = function_ref @$sSi2peoiyySiz_SitFZ : $@convention(method) (@inout Int, Int, @thin Int.Type) -&gt; () // user: %9
 %9 = apply %8(%7, %6, %2) : $@convention(method) (@inout Int, Int, @thin Int.Type) -&gt; ()
 end_access %7 : $*Int
 </code></pre></div></div>
 
-<p>There is no point where any value is copied out of <code class="language-plaintext highlighter-rouge">%7</code> and performs any action, and then written back to <code class="language-plaintext highlighter-rouge">%7</code>, according to what we see above.</p>
+<p>There is no point where any value is copied out of <code class="language-plaintext highlighter-rouge">%7</code>, modified, and then written back to <code class="language-plaintext highlighter-rouge">%7</code>, according to what we see above.</p>
 
-<p>The <code class="language-plaintext highlighter-rouge">begin_access</code> and <code class="language-plaintext highlighter-rouge">end_access</code> pair is according to the <a href="https://github.com/apple/swift/blob/98e65d015979c7b5a58a6ecf2d8598a6f7c85794/docs/SILMemoryAccess.md?plain=1#L191">documentation</a>:</p>
+<p>The <code class="language-plaintext highlighter-rouge">begin_access</code> and <code class="language-plaintext highlighter-rouge">end_access</code> pair is according to the <a href="https://github.com/swiftlang/swift/blob/98e65d015979c7b5a58a6ecf2d8598a6f7c85794/docs/SILMemoryAccess.md?plain=1#L191">documentation</a>:</p>
 
 <blockquote>
   <p><code class="language-plaintext highlighter-rouge">begin_access</code> identifies the address of the formal access and <code class="language-plaintext highlighter-rouge">end_access</code> delimits the scope of the access.</p>
+
+  <p class="source"><a href="https://github.com/swiftlang/swift/blob/98e65d015979c7b5a58a6ecf2d8598a6f7c85794/docs/SILMemoryAccess.md?plain=1#L191">swiftlang/swift: docs/SILMemoryAccess.md</a></p>
 </blockquote>
 
-<p>According to the description, it appears that it is directly locking and sending the memory address to the function reference — which is probably the reason why we are seeing a ‘Simultaneous accesses to 0x106344130, but modification requires exclusive access’ error in the earlier experiment.</p>
+<p>According to the description, it appears that it is directly locking and sending the memory address to the function reference — which is probably the reason why we are seeing this error in the earlier experiment:</p>
 
-<h1 id="conclusion">Conclusion</h1>
+<p class="diagnostic-error">Simultaneous accesses to 0x106344130, but modification requires exclusive access</p>
 
-<p><code class="language-plaintext highlighter-rouge">inout</code> is a strange concept. At first glance, it appears to be passing an address to something. Just when you think it breaks the value type model, it reveals that it actually follows a safer model — the <em>copy-in copy-out</em> model. However, just when you begin to understand and make sense of it, it surprises you again by stating that it does not want the overhead of <em>copy-in copy-out</em>, so it shares the same memory address inside and outside the function. Just when you think, ‘so, it’s pass by reference,’ they confirm, but explain it’s just an optimization and you should pretend it’s copy-in copy-out, even though it doesn’t seem to be used anywhere under the hood.</p>
+<h2 id="conclusion">Conclusion</h2>
 
-<p>So what is <code class="language-plaintext highlighter-rouge">inout</code> exactly? It is defined as <em>copy-in copy-out</em>, but its implementation is pass by reference. Who knows, maybe someday we will see the real <em>copy-in copy-out</em> model make a comeback — or come into effect for real?</p>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="language-features" /><summary type="html"><![CDATA[Swift's documentation calls inout copy-in copy-out, yet it behaves like pass by reference. A look at the docs and the generated SIL to see what really happens.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The (Not-So) Peculiar Case of Function Retain in Swift</title><link href="https://codes.loyi.dev/posts/2023/function-retain-in-swift" rel="alternate" type="text/html" title="The (Not-So) Peculiar Case of Function Retain in Swift" /><published>2023-02-13T21:00:00+08:00</published><updated>2023-02-13T21:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2023/function-retain-in-swift</id><content type="html" xml:base="https://codes.loyi.dev/posts/2023/function-retain-in-swift"><![CDATA[<p>Consider the following Swift code:</p>
+<p><code class="language-plaintext highlighter-rouge">inout</code> is a strange concept. At first glance, it appears to be passing an address to something. Just when you think it breaks the value type model, it reveals that it actually follows a safer model — the <em>copy-in copy-out</em> model. However, just when you begin to understand and make sense of it, it surprises you again by stating that it does not want the overhead of <em>copy-in copy-out</em>, so it shares the same memory address inside and outside the function. Just when you think, ‘so, it’s pass by reference,’ they confirm, but explain it’s just an optimization and you should pretend it’s copy-in copy-out, even though, for a variable like <code class="language-plaintext highlighter-rouge">number</code>, it doesn’t seem to be used anywhere under the hood. Only a computed property or a property with observers, whose getter and setter have to run, really is copied in and out: its getter is called when the function is called, and its setter when it returns.</p>
+
+<p class="takeaway">So what is <code class="language-plaintext highlighter-rouge">inout</code> exactly? It is defined as <em>copy-in copy-out</em>. For a value stored in memory, it is implemented as pass by reference; for a computed property or a property with observers, it really is copied in and out.</p>
+
+<p>Who knows, maybe someday stored values will get the real <em>copy-in copy-out</em> model, too?</p>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="language-features" /><summary type="html"><![CDATA[Swift's documentation calls inout copy-in copy-out, yet it behaves like pass by reference. A look at the docs and the generated SIL to see what really happens.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2023-inout.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2023-inout.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The (Not-So) Peculiar Case of Function Retain in Swift</title><link href="https://codes.loyi.dev/posts/2023/function-retain-in-swift" rel="alternate" type="text/html" title="The (Not-So) Peculiar Case of Function Retain in Swift" /><published>2023-02-13T21:00:00+08:00</published><updated>2023-02-13T21:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2023/function-retain-in-swift</id><content type="html" xml:base="https://codes.loyi.dev/posts/2023/function-retain-in-swift"><![CDATA[<p>Consider the following Swift code:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">A</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">action</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span>
@@ -474,10 +685,10 @@ end_access %7 : $*Int
 
 <span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
 <span class="n">a</span> <span class="o">=</span> <span class="kc">nil</span>
+</code></pre></div></div>
 
-<span class="c1">// [Console Output]</span>
-<span class="c1">// A is deinited</span>
-<span class="c1">// B is deinited</span>
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A is deinited
+B is deinited
 </code></pre></div></div>
 
 <p>This code may look fine—because it is. However, what if we make the following change?</p>
@@ -508,9 +719,9 @@ end_access %7 : $*Int
 
 <span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
 <span class="n">a</span> <span class="o">=</span> <span class="kc">nil</span>
+</code></pre></div></div>
 
-<span class="c1">// [Console Output]</span>
-<span class="c1">// (nothing)</span>
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(nothing)
 </code></pre></div></div>
 
 <p>Okay, so the action of class <code class="language-plaintext highlighter-rouge">A</code> is changed from an instance variable to an instance method. It should be fine, right? However, the problem is: it isn’t. If you exec the code, you will find the execution result different from the former one. There is a clear retain cycle—when <code class="language-plaintext highlighter-rouge">a</code> is set to <code class="language-plaintext highlighter-rouge">nil</code>, both instances are not released.</p>
@@ -565,11 +776,11 @@ end_access %7 : $*Int
 <span class="c1">// ...</span>
 </code></pre></div></div>
 
-<p>With the two implementations above, we can already see some difference. The implementation using a closure would ask us to explicitly refer to <code class="language-plaintext highlighter-rouge">self</code> as it captures it. But why don’t we need to do that it the method version? Well, because an instance method by definition always implicitly captures <code class="language-plaintext highlighter-rouge">self</code>.</p>
+<p>With the two implementations above, we can already see some difference. The implementation using a closure would ask us to explicitly refer to <code class="language-plaintext highlighter-rouge">self</code> as it captures it. But why don’t we need to do that in the method version? Well, because an instance method by definition always implicitly captures <code class="language-plaintext highlighter-rouge">self</code>.</p>
 
 <p>If you don’t see why it is retaining <code class="language-plaintext highlighter-rouge">self</code> (I don’t see any <code class="language-plaintext highlighter-rouge">self</code> here?), maybe thinking of it this way can help:</p>
 
-<p>Any instance method can be written as <code class="language-plaintext highlighter-rouge">ClassName.methodName(instanceName)</code>. For instance, the following two method calls are identical, except that one line uses optional-chaining while the the other line uses a forced-unwrap:</p>
+<p>Any instance method can be written as <code class="language-plaintext highlighter-rouge">ClassName.methodName(instanceName)</code>. For instance, the following two method calls are identical, except that one line uses optional-chaining while the other line uses a forced-unwrap:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ...</span>
 
@@ -608,16 +819,16 @@ end_access %7 : $*Int
 
 <span class="k">var</span> <span class="nv">a</span><span class="p">:</span> <span class="kt">A</span><span class="p">?</span> <span class="o">=</span> <span class="kt">A</span><span class="p">()</span>
 <span class="n">a</span> <span class="o">=</span> <span class="kc">nil</span>
+</code></pre></div></div>
 
-<span class="c1">// [Console Output]</span>
-<span class="c1">// (nothing)</span>
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(nothing)
 </code></pre></div></div>
 
 <h2 id="if-you-are-not-convinced-yet">If You Are Not Convinced Yet</h2>
 
 <p>Okay, in case that didn’t help, let’s discuss further.</p>
 
-<p>While it would be obvious in the first place when the retain cycle happened, let’s show it with another piece of code. So what is the behaviour when an instance is not released? While, it lives longer in memory when the reference we have is already away.</p>
+<p>While it would be obvious in the first place when the retain cycle happened, let’s show it with another piece of code. So what is the behaviour when an instance is not released? Well, it lives longer in memory when the reference we have is already away.</p>
 
 <p>With a simpler example:</p>
 
@@ -640,10 +851,10 @@ end_access %7 : $*Int
 
 <span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Hello world"</span><span class="p">)</span>
 <span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Goodbye world"</span><span class="p">)</span>
+</code></pre></div></div>
 
-<span class="c1">// [Console Output]</span>
-<span class="c1">// ["Hello world"]</span>
-<span class="c1">// ["Hello world", "Goodbye world"]</span>
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>["Hello world"]
+["Hello world", "Goodbye world"]
 </code></pre></div></div>
 
 <p>We can see we already lose access to the printer when we set it to <code class="language-plaintext highlighter-rouge">nil</code>, but we can still use the instance through the <code class="language-plaintext highlighter-rouge">printLine</code> variable in the <code class="language-plaintext highlighter-rouge">instance</code>.</p>
@@ -669,17 +880,15 @@ end_access %7 : $*Int
 
 <span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Hello world"</span><span class="p">)</span>
 <span class="n">instance</span><span class="p">?</span><span class="o">.</span><span class="nf">printLine</span><span class="p">?(</span><span class="s">"Goodbye world"</span><span class="p">)</span>
+</code></pre></div></div>
 
-<span class="c1">// [Console Output]</span>
-<span class="c1">// []</span>
-<span class="c1">// []</span>
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[]
+[]
 </code></pre></div></div>
 
 <p>What a big surprise! As the closure does not retain <code class="language-plaintext highlighter-rouge">self</code>, when the printer reference is removed, there is no reference left, the instance of printer would be deinitialised.</p>
 
-<h2 id="the-takeaway">The Takeaway</h2>
-
-<p>An instance method always implicitly captures <code class="language-plaintext highlighter-rouge">self</code>, so <strong>NEVER</strong> assign it as closure to another class’s instance, especially when <code class="language-plaintext highlighter-rouge">self</code> owns the instance as it would cause a retain cycle.</p>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="memory-management" /><summary type="html"><![CDATA[Swap a closure for an instance method and Swift quietly captures self. Here's why passing a method as a closure can create a retain cycle.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Remotely Accessing a Home Computer behind Double NAT</title><link href="https://codes.loyi.dev/posts/2021/double-nat-remote-access" rel="alternate" type="text/html" title="Remotely Accessing a Home Computer behind Double NAT" /><published>2021-12-31T03:06:00+08:00</published><updated>2021-12-31T03:06:00+08:00</updated><id>https://codes.loyi.dev/posts/2021/double-nat-remote-access</id><content type="html" xml:base="https://codes.loyi.dev/posts/2021/double-nat-remote-access"><![CDATA[<p>I used to host websites and web app services at home. However, as I recently moved and the Internet setup at the new house is quite different—my ISP at home uses a giant central router to divide Internet access to each room. That is, a classic Double NAT scenerio. This is not a big deal if you are not trying to access your devices from outside the local network. However, when you need to do that, you will find it impossible because you have no access to the port forwarding features of the central router of the ISP.</p>
+<p class="takeaway">An instance method always implicitly captures <code class="language-plaintext highlighter-rouge">self</code>, so <strong>NEVER</strong> assign it as closure to another class’s instance, especially when <code class="language-plaintext highlighter-rouge">self</code> owns the instance as it would cause a retain cycle.</p>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="memory-management" /><summary type="html"><![CDATA[Swap a closure for an instance method and Swift quietly captures self. Here's why passing a method as a closure can create a retain cycle.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2023-function-retain-in-swift.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2023-function-retain-in-swift.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Remotely Accessing a Home Computer behind Double NAT</title><link href="https://codes.loyi.dev/posts/2021/double-nat-remote-access" rel="alternate" type="text/html" title="Remotely Accessing a Home Computer behind Double NAT" /><published>2021-12-31T03:06:00+08:00</published><updated>2021-12-31T03:06:00+08:00</updated><id>https://codes.loyi.dev/posts/2021/double-nat-remote-access</id><content type="html" xml:base="https://codes.loyi.dev/posts/2021/double-nat-remote-access"><![CDATA[<p>I used to host websites and web app services at home. However, as I recently moved and the Internet setup at the new house is quite different—my ISP at home uses a giant central router to divide Internet access to each room. That is, a classic Double NAT scenario. This is not a big deal if you are not trying to access your devices from outside the local network. However, when you need to do that, you will find it impossible because you have no access to the port forwarding features of the central router of the ISP.</p>
 
 <p>Therefore, I rented a server to host my website. However, the disk spaces I can rent under my budget is tiny. As I still want to host some space consuming services, I needed to find a way to build a system to access my local computer.</p>
 
@@ -716,59 +925,59 @@ end_access %7 : $*Int
   </svg>
 </figure>
 
-<p>This may sound straight-forward, but the correct tools are required to get this done. Basically, I need a tool to set up a special tunnel between my computer and the rented server—and the tool I am using is Wireguard.</p>
+<p>This may sound straight-forward, but the correct tools are required to get this done. Basically, I need a tool to set up a special tunnel between my computer and the rented server—and the tool I am using is WireGuard.</p>
 
-<p>Wireguard is basically a VPN app that can allow you to set up a direct tunnel between your server and your computer. It works like this, you assign an IP to the server (let’s say, 192.168.4.1) and assign another to the home computer (let’s say, 192.168.4.2). This solution is inspired by <a href="https://golb.hplar.ch/2019/01/expose-server-vpn.html">this blog post</a>.</p>
+<p>WireGuard is basically a VPN app that can allow you to set up a direct tunnel between your server and your computer. It works like this, you assign an IP to the server (let’s say, 192.168.4.1) and assign another to the home computer (let’s say, 192.168.4.2). This solution is inspired by <a href="https://golb.hplar.ch/2019/01/expose-server-vpn.html">this blog post</a>.</p>
 
-<p>On the server side, the setup of Wireguard looks like this:</p>
+<p>On the server side, the setup of WireGuard looks like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
-PrivateKey = &lt;Private key of the server goes here&gt;
-ListenPort = &lt;Any Port&gt;
-Address = 192.168.4.1
-
-[Peer]
-PublicKey =  &lt;Public key of the home computer goes here&gt;
-AllowedIPs = 192.168.4.2/32
+<div data-label="wg0.conf · server" class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[Interface]</span><span class="w">
+</span><span class="py">PrivateKey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&lt;Private key of the server goes here&gt;</span>
+<span class="py">ListenPort</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&lt;Any Port&gt;</span>
+<span class="py">Address</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">192.168.4.1</span>
+<span class="w">
+</span><span class="nn">[Peer]</span><span class="w">
+</span><span class="py">PublicKey</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="s">&lt;Public key of the home computer goes here&gt;</span>
+<span class="py">AllowedIPs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">192.168.4.2/32</span>
 </code></pre></div></div>
 
 <p>On the home computer side, the configuration looks like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Interface]
-PrivateKey = &lt;Private key of the home computer goes here&gt;
-Address = 192.168.4.2
-
-[Peer]
-PublicKey = &lt;Public key of the server goes here&gt;
-AllowedIPs = 192.168.4.1/32
-Endpoint = &lt;Server URL&gt;:&lt;ListeningPort above&gt;
-PersistentKeepalive = 25
+<div data-label="wg0.conf · home computer" class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[Interface]</span><span class="w">
+</span><span class="py">PrivateKey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&lt;Private key of the home computer goes here&gt;</span>
+<span class="py">Address</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">192.168.4.2</span>
+<span class="w">
+</span><span class="nn">[Peer]</span><span class="w">
+</span><span class="py">PublicKey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&lt;Public key of the server goes here&gt;</span>
+<span class="py">AllowedIPs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">192.168.4.1/32</span>
+<span class="py">Endpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&lt;Server URL&gt;:&lt;ListeningPort above&gt;</span>
+<span class="py">PersistentKeepalive</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">25</span>
 </code></pre></div></div>
 
 <p>After both sides are set up and enabled, both sides will be able to ping each other with 192.168.4.1 (to server) and 192.168.4.2 (to home computer).</p>
 
 <p>As I use my server to host multiple other dockerized services, I already setup a system to use Apache2’s ProxyPass to serve different contents based on the URL. Therefore, on the server side, I then used the same feature to connect to the home computer. The setup looks something like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
-    ProxyPass / http://192.168.4.2:3000/
-    ProxyPassReverse / http://192.168.4.2:3000/
-&lt;/VirtualHost&gt;
-</code></pre></div></div>
+<div data-label="apache site config · server" class="language-apache highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nl">VirtualHost</span><span class="sr"> *:80</span><span class="p">&gt;
+</span>    <span class="nc">ProxyPass</span> / http://192.168.4.2:3000/
+    <span class="nc">ProxyPassReverse</span> / http://192.168.4.2:3000/
+<span class="p">&lt;/</span><span class="nl">VirtualHost</span><span class="p">&gt;
+</span></code></pre></div></div>
 
-<p>The setup above will route any connection to <code class="language-plaintext highlighter-rouge">&lt;Server IP&gt;:80</code> to the <code class="language-plaintext highlighter-rouge">&lt;home computer&gt;:3000</code>. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at https://site.example.com/, I will add it to the server name field like this:</p>
+<p>The setup above will route any connection to <code class="language-plaintext highlighter-rouge">&lt;Server IP&gt;:80</code> to the <code class="language-plaintext highlighter-rouge">&lt;home computer&gt;:3000</code>. As I host multiple services on my server, I use different URL to differentiate services. For example, let’s say I want this to be accessed at http://site.example.com/, I will add it to the server name field like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
-    ServerName site.example.com
-    ProxyPass / http://192.168.4.2:3000/
-    ProxyPassReverse / http://192.168.4.2:3000/
-&lt;/VirtualHost&gt;
-</code></pre></div></div>
+<div data-label="apache site config · server" class="language-apache highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nl">VirtualHost</span><span class="sr"> *:80</span><span class="p">&gt;
+</span>    <span class="nc">ServerName</span> site.example.com
+    <span class="nc">ProxyPass</span> / http://192.168.4.2:3000/
+    <span class="nc">ProxyPassReverse</span> / http://192.168.4.2:3000/
+<span class="p">&lt;/</span><span class="nl">VirtualHost</span><span class="p">&gt;
+</span></code></pre></div></div>
 
-<p>This will trigger the connection to go to the proxied address when such connection comes, but if you go to https://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add an DNS record to point the <code class="language-plaintext highlighter-rouge">site</code> subdomain to your server address (with an <code class="language-plaintext highlighter-rouge">A</code> record) or another address (with a <code class="language-plaintext highlighter-rouge">CNAME</code> record).</p>
+<p>This will trigger the connection to go to the proxied address when such connection comes, but if you go to http://site.example.com/, it will not know where to bring you. Therefore, you will need to own the domain and add a DNS record to point the <code class="language-plaintext highlighter-rouge">site</code> subdomain to your server address (with an <code class="language-plaintext highlighter-rouge">A</code> record) or another address (with a <code class="language-plaintext highlighter-rouge">CNAME</code> record). To serve it over HTTPS instead, the virtual host also needs a certificate on port 443; Let’s Encrypt’s Certbot can obtain one and set that up for you.</p>
 
-<p>See <a href="https://www.digitalocean.com/community/tutorials/how-to-use-apache-as-a-reverse-proxy-with-mod_proxy-on-ubuntu-16-04">this article</a> if you need a more detailed explanation of how to make ProxyPass work.</p>]]></content><author><name>Loyi Hsu</name></author><category term="networking" /><summary type="html"><![CDATA[Stuck behind an ISP's Double NAT? How I used a rented server, a WireGuard tunnel and Apache's ProxyPass to reach services on my home computer.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">A Brief Introduction to SwiftUI</title><link href="https://codes.loyi.dev/posts/2020/intro-to-swiftui" rel="alternate" type="text/html" title="A Brief Introduction to SwiftUI" /><published>2020-09-21T20:00:00+08:00</published><updated>2020-09-21T20:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2020/intro-to-swiftui</id><content type="html" xml:base="https://codes.loyi.dev/posts/2020/intro-to-swiftui"><![CDATA[<p>SwiftUI was the UI framework Apple announced during the World Wide Developers Conference (WWDC) 2019. As to support this framework in your app would require the users to update to the latest operating system versions as of the year, iOS 13 and macOS Catalina, it is expected that most of the apps that adopt SwiftUI today are still majorly side projects or smaller apps.</p>
+<p>See <a href="https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html">Apache’s reverse proxy guide</a> if you need a more detailed explanation of how to make ProxyPass work.</p>]]></content><author><name>Loyi Hsu</name></author><category term="networking" /><summary type="html"><![CDATA[Stuck behind an ISP's Double NAT? How I used a rented server, a WireGuard tunnel and Apache's ProxyPass to reach services on my home computer.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2021-double-nat-remote-access.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2021-double-nat-remote-access.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">A Brief Introduction to SwiftUI</title><link href="https://codes.loyi.dev/posts/2020/intro-to-swiftui" rel="alternate" type="text/html" title="A Brief Introduction to SwiftUI" /><published>2020-09-21T20:00:00+08:00</published><updated>2020-09-21T20:00:00+08:00</updated><id>https://codes.loyi.dev/posts/2020/intro-to-swiftui</id><content type="html" xml:base="https://codes.loyi.dev/posts/2020/intro-to-swiftui"><![CDATA[<p>SwiftUI was the UI framework Apple announced during the World Wide Developers Conference (WWDC) 2019. As to support this framework in your app would require the users to update to the latest operating system versions as of the year, iOS 13 and macOS Catalina, it is expected that most of the apps that adopt SwiftUI today are still majorly side projects or smaller apps.</p>
 
-<h3 id="benefits-shorter-simpler-codes">Benefits: Shorter Simpler Codes</h3>
+<h2 id="benefits-shorter-simpler-codes">Benefits: Shorter Simpler Codes</h2>
 
 <p>In short, SwiftUI is a declarative UI framework, which means that you declare everything you need in the view and use some conditions to manage what should be shown and what should be hidden. What’s better, SwiftUI tends to do things differently with AppKit and UIKit, usually resulting in codes that are shorter and easier to understand.</p>
 
@@ -783,7 +992,7 @@ PersistentKeepalive = 25
 
 <p>This framework provides a simpler way to create UI with a set of tools. You can describe what you want, and it would pick the suitable UI elements for you. Take the code above for example: if you want a line of text on the screen saying ‘Hello World’, you simply need to write <code class="language-plaintext highlighter-rouge">Text("Hello World")</code> and it would generate the view for you.</p>
 
-<h3 id="benefits-same-syntax-across-platforms">Benefits: Same Syntax Across Platforms</h3>
+<h2 id="benefits-same-syntax-across-platforms">Benefits: Same Syntax Across Platforms</h2>
 
 <p>The great thing about this UI framework is, unlike UIKit (for iOS) and AppKit (for macOS), the syntax of SwiftUI is generally the same for all platforms. Therefore, you can easily build UI for different platforms with nearly the same syntax.</p>
 
@@ -810,7 +1019,7 @@ PersistentKeepalive = 25
 
 <p>So let’s start with a basic <code class="language-plaintext highlighter-rouge">ContentView</code> in SwiftUI.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello, world!"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
     <span class="p">}</span>
@@ -819,7 +1028,7 @@ PersistentKeepalive = 25
 
 <p>Let’s first look at what this looks like.</p>
 
-<p><img src="/assets/articles/screenshot-20200921-01.webp" alt="Development Screenshot 1" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-01.webp" alt="The Xcode preview of the new project: a ‘Hello, world!’ label with padding around it" /><figcaption aria-hidden="true">The Xcode preview of the new project: a ‘Hello, world!’ label with padding around it</figcaption></figure>
 
 <p>You can see we have a ‘Hello, world!’ label on the screen and we have some spaces (paddings) around it.</p>
 
@@ -829,9 +1038,9 @@ PersistentKeepalive = 25
 
 <p>For starters, we would need a list to store our numbers. We can create an integer array with some sample elements for now.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="2" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-added"><span class="hl hl-added">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span></span>
+</span>    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello, world!"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -839,42 +1048,50 @@ PersistentKeepalive = 25
 
 <p>The <code class="language-plaintext highlighter-rouge">@State</code> property would tell the UI framework to update the view when the variable is updated. Then, we can display the array with a SwiftUI <code class="language-plaintext highlighter-rouge">List</code>.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-removed="5" data-added="6-8" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="hl hl-removed"><span class="hl hl-removed">        <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello, world!"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="p">}</span></span>
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>For <code class="language-plaintext highlighter-rouge">List</code> would require the array to be <code class="language-plaintext highlighter-rouge">Identifiable</code>, we add a <code class="language-plaintext highlighter-rouge">id: \.self</code> here. This would work in most cases, but you can use a custom <code class="language-plaintext highlighter-rouge">struct</code> that conform to <code class="language-plaintext highlighter-rouge">Identifiable</code>, too. Like this:</p>
+<p>For <code class="language-plaintext highlighter-rouge">List</code> would require the array to be <code class="language-plaintext highlighter-rouge">Identifiable</code>, we add a <code class="language-plaintext highlighter-rouge">id: \.self</code> here. This would work in most cases, as each number serves as its own ID.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ListItem</span><span class="p">:</span> <span class="kt">Identifiable</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">UUID</span><span class="p">()</span>        <span class="c1">// Create a unique ID for each item</span>
-    <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span>
+<p class="note">Two equal numbers would share an ID, which can happen with random numbers, and SwiftUI may then mix up their rows.</p>
 
-    <span class="nf">init</span> <span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<p>To avoid that, you can use a custom <code class="language-plaintext highlighter-rouge">struct</code> that conforms to <code class="language-plaintext highlighter-rouge">Identifiable</code>, too. Like this:</p>
 
+<div data-label="ContentView.swift" data-added="1-8,12,17-18" data-removed="11,15-16" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="hl hl-added"><span class="hl hl-added"><span class="kd">struct</span> <span class="kt">ListItem</span><span class="p">:</span> <span class="kt">Identifiable</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="k">var</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">UUID</span><span class="p">()</span>        <span class="c1">// Create a unique ID for each item</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span></span>
+</span><span class="hl hl-added">
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="nf">init</span> <span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="p">}</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added"><span class="p">}</span></span>
+</span>
 <span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">ListItem</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
-
+<span class="hl hl-removed"><span class="hl hl-removed">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">ListItem</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span></span>
+</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="p">}</span>
+<span class="hl hl-removed"><span class="hl hl-removed">        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span></span>
+</span><span class="hl hl-removed"><span class="hl hl-removed">            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span></span>
+</span>        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <p>But this can be a little complicated for now, let’s go with the first version.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -887,7 +1104,7 @@ PersistentKeepalive = 25
 
 <p>Let’s preview this now.</p>
 
-<p><img src="/assets/articles/screenshot-20200921-02.webp" alt="Development Screenshot 2" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-02.webp" alt="The preview showing the sample numbers 1 to 5 in a list" /><figcaption aria-hidden="true">The preview showing the sample numbers 1 to 5 in a list</figcaption></figure>
 
 <h3 id="create-a-button-above-the-list-to-add-numbers">Create a Button above the List to Add Numbers</h3>
 
@@ -895,27 +1112,27 @@ PersistentKeepalive = 25
 
 <p>So let’s put a <code class="language-plaintext highlighter-rouge">VStack</code>, and put a button above my <code class="language-plaintext highlighter-rouge">List</code>.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="5-8,12" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">VStack</span> <span class="p">{</span>
-            <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// Perform add number</span>
-            <span class="p">}</span>
-            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+<span class="hl hl-added"><span class="hl hl-added">        <span class="kt">VStack</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">            <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">                <span class="c1">// Perform add number</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">            <span class="p">}</span></span>
+</span>            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
             <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="hl hl-added"><span class="hl hl-added">        <span class="p">}</span></span>
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/screenshot-20200921-03.webp" alt="Development Screenshot 3" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-03.webp" alt="An ‘Add number’ button above the list, close to the top of the screen" /><figcaption aria-hidden="true">An ‘Add number’ button above the list, close to the top of the screen</figcaption></figure>
 
 <p>Now we have a button but it looks too high above. Let’s add some paddings around it.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="9" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -923,8 +1140,8 @@ PersistentKeepalive = 25
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
                 <span class="c1">// Perform add number</span>
             <span class="p">}</span>
-            <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+<span class="hl hl-added"><span class="hl hl-added">            <span class="o">.</span><span class="nf">padding</span><span class="p">()</span></span>
+</span>            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -932,7 +1149,7 @@ PersistentKeepalive = 25
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/screenshot-20200921-04.webp" alt="Development Screenshot 4" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-04.webp" alt="The button with padding around it" /><figcaption aria-hidden="true">The button with padding around it</figcaption></figure>
 
 <p>Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use <code class="language-plaintext highlighter-rouge">Int.random(in: 0...1000)</code> to create a random number between 0 and 1000 (included).</p>
 
@@ -940,15 +1157,15 @@ PersistentKeepalive = 25
 
 <p>Therefore, the code would look like this:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="8" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">VStack</span> <span class="p">{</span>
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
                 <span class="c1">// Perform add number</span>
-                <span class="k">self</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">...</span><span class="mi">1000</span><span class="p">))</span>
-            <span class="p">}</span>
+<span class="hl hl-added"><span class="hl hl-added">                <span class="k">self</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">...</span><span class="mi">1000</span><span class="p">))</span></span>
+</span>            <span class="p">}</span>
             <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
             <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -958,11 +1175,11 @@ PersistentKeepalive = 25
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/sample-20200921-01.gif" alt="Sample 1" /></p>
+<figure class="image"><img src="/assets/articles/sample-20200921-01.gif" alt="Tapping ‘Add number’ appends a random number to the list" /><figcaption aria-hidden="true">Tapping ‘Add number’ appends a random number to the list</figcaption></figure>
 
 <p>Let’s now substitute our sample list items with an empty array (<code class="language-plaintext highlighter-rouge">[Int]()</code>).</p>
 
-<p><img src="/assets/articles/screenshot-20200921-05.webp" alt="Development Screenshot 5" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-05.webp" alt="With an empty array, only the ‘Add number’ button is left on the screen" /><figcaption aria-hidden="true">With an empty array, only the ‘Add number’ button is left on the screen</figcaption></figure>
 
 <h3 id="create-the-empty-list-view">Create the Empty List View</h3>
 
@@ -970,9 +1187,10 @@ PersistentKeepalive = 25
 
 <p>SwiftUI is a declarative UI framework, which means we declare everything and use some conditions to control what to show and what to hide. We would use the <code class="language-plaintext highlighter-rouge">isEmpty</code> property of our <code class="language-plaintext highlighter-rouge">numbers</code> array to be the deciding factor here. We would just display the text here.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
-
+<div data-label="ContentView.swift" data-removed="2" data-added="3,12-16,20" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-removed"><span class="hl hl-removed">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span></span>
+</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">VStack</span> <span class="p">{</span>
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
@@ -980,16 +1198,16 @@ PersistentKeepalive = 25
                 <span class="k">self</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">...</span><span class="mi">1000</span><span class="p">))</span>
             <span class="p">}</span>
             <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">numbers</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
-                <span class="c1">// When the list is empty.</span>
-                <span class="kt">Text</span><span class="p">(</span><span class="s">"No numbers available."</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="c1">// When the list is not empty.</span>
-                <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+<span class="hl hl-added"><span class="hl hl-added">            <span class="k">if</span> <span class="n">numbers</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">                <span class="c1">// When the list is empty.</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">                <span class="kt">Text</span><span class="p">(</span><span class="s">"No numbers available."</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></span>
+</span><span class="hl hl-added"><span class="hl hl-added">                <span class="c1">// When the list is not empty.</span></span>
+</span>                <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                     <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
+<span class="hl hl-added"><span class="hl hl-added">            <span class="p">}</span></span>
+</span>        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -998,11 +1216,11 @@ PersistentKeepalive = 25
 
 <p>If we make our UI this way, when we tap on the ‘Add number’ button, our UI would jump from the centre of the screen to above.</p>
 
-<p><img src="/assets/articles/sample-20200921-02.gif" alt="Sample 2" /></p>
+<figure class="image"><img src="/assets/articles/sample-20200921-02.gif" alt="Adding the first number makes the button jump from the centre of the screen to the top" /><figcaption aria-hidden="true">Adding the first number makes the button jump from the centre of the screen to the top</figcaption></figure>
 
 <p>We can simply add a <code class="language-plaintext highlighter-rouge">Spacer()</code> below the <code class="language-plaintext highlighter-rouge">Text</code> and the problem would be solved.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="14" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -1015,8 +1233,8 @@ PersistentKeepalive = 25
             <span class="k">if</span> <span class="n">numbers</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
                 <span class="c1">// When the list is empty.</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"No numbers available."</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-                <span class="kt">Spacer</span><span class="p">()</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="hl hl-added"><span class="hl hl-added">                <span class="kt">Spacer</span><span class="p">()</span></span>
+</span>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                 <span class="c1">// When the list is not empty.</span>
                 <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                     <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -1027,21 +1245,21 @@ PersistentKeepalive = 25
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/sample-20200921-03.gif" alt="Sample 3" /></p>
+<figure class="image"><img src="/assets/articles/sample-20200921-03.gif" alt="With a spacer, the button stays at the top whether or not the list is empty" /><figcaption aria-hidden="true">With a spacer, the button stays at the top whether or not the list is empty</figcaption></figure>
 
 <p>Within merely 39 lines of codes for this view, we have built a functioning random number list generator app. What’s better, we can easily port this app to other platforms such as macOS.</p>
 
 <p>As we created this app as a universal app, we simply select the pre-created build target of macOS, and we are good to go.</p>
 
-<p><img src="/assets/articles/screenshot-20200921-06.webp" alt="Development Screenshot 6" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-06.webp" alt="Choosing the macOS target, with My Mac as the run destination" /><figcaption aria-hidden="true">Choosing the macOS target, with My Mac as the run destination</figcaption></figure>
 
 <p>As we build and run, the app is now successfully built for macOS.</p>
 
-<p><img src="/assets/articles/macos-sample-20200921-01.webp" alt="macOS Sample 1" /></p>
+<figure class="image"><img src="/assets/articles/macos-sample-20200921-01.webp" alt="The same app running on macOS, before and after adding numbers" /><figcaption aria-hidden="true">The same app running on macOS, before and after adding numbers</figcaption></figure>
 
-<p>As we can see, with so little code, we can build a working cross-platform, native feeling app.</p>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="swiftui" /><category term="ios" /><summary type="html"><![CDATA[What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Improving on an Algorithm: Time Complexity</title><link href="https://codes.loyi.dev/posts/2020/time-complexity" rel="alternate" type="text/html" title="Improving on an Algorithm: Time Complexity" /><published>2020-05-14T22:50:00+08:00</published><updated>2020-05-14T22:50:00+08:00</updated><id>https://codes.loyi.dev/posts/2020/time-complexity</id><content type="html" xml:base="https://codes.loyi.dev/posts/2020/time-complexity"><![CDATA[<p>Recently, when I was looking at an old solution I wrote months ago for a LeetCode problem, <a href="https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/">How many numbers are smaller than the current number</a>, I suddenly found that although my previous solution used some tricks in an attempt to do it faster, the function I used made it as slow as the time complexity of a brute force solution.</p>
+<p class="takeaway">As we can see, with so little code, we can build a working cross-platform, native feeling app.</p>]]></content><author><name>Loyi Hsu</name></author><category term="swift" /><category term="swiftui" /><category term="ios" /><summary type="html"><![CDATA[What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2020-intro-to-swiftui.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2020-intro-to-swiftui.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Improving on an Algorithm: Time Complexity</title><link href="https://codes.loyi.dev/posts/2020/time-complexity" rel="alternate" type="text/html" title="Improving on an Algorithm: Time Complexity" /><published>2020-05-14T22:50:00+08:00</published><updated>2020-05-14T22:50:00+08:00</updated><id>https://codes.loyi.dev/posts/2020/time-complexity</id><content type="html" xml:base="https://codes.loyi.dev/posts/2020/time-complexity"><![CDATA[<p>Recently, when I was looking at an old solution I wrote months ago for a LeetCode problem, <a href="https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/">How many numbers are smaller than the current number</a>, I suddenly found that although my previous solution used some tricks in an attempt to do it faster, the function I used made it as slow as the time complexity of a brute force solution.</p>
 
-<h3 id="wait-what-is-time-complexity">Wait, What Is Time Complexity</h3>
+<h2 id="wait-what-is-time-complexity">Wait, What Is Time Complexity?</h2>
 
 <p>Time complexity is a common concept in the Computer Science world. However, as it is a necessary tool for the discussion here, let’s make sure we are on the same page before we start.</p>
 
@@ -1097,15 +1315,15 @@ PersistentKeepalive = 25
   </tbody>
 </table>
 
-<h4 id="why-improving-time-complexity-matters">Why Improving Time Complexity Matters?</h4>
+<h3 id="why-does-improving-time-complexity-matter">Why Does Improving Time Complexity Matter?</h3>
 
 <p>Although computers nowadays run pretty fast, when the algorithm has, for instance, an exponential time complexity, the programme can still take pretty long to complete when the input size gets huge.</p>
 
-<p>However, there is not always a way to solve a problem with faster algorithms—like it is impossible to solve a sorting problem within linear processing (<em>O(N)</em>). The best we can get for sorting is <em>O(N log N)</em>.</p>
+<p>However, there is not always a way to solve a problem with faster algorithms—like it is impossible to sort by comparing elements within linear processing (<em>O(N)</em>). The best a comparison-based sort can get is <em>O(N log N)</em>.</p>
 
 <p>If it is possible to find an algorithm that solves the problem with better time complexity, it would always be better even when the computers are getting faster and faster nowadays. A bad computer running an algorithm with good time complexity can still potentially outrun a good computer running an algorithm with bad time complexity.</p>
 
-<h3 id="brute-force">Brute Force</h3>
+<h2 id="brute-force">Brute Force</h2>
 
 <p>A brute force algorithm is usually the slowest way to solve a problem. It works by working through every possible combination and find the answer.</p>
 
@@ -1135,26 +1353,26 @@ PersistentKeepalive = 25
 
 <p>As we would need the nested for-in loops, each taking <em>N</em> steps, this algorithm easily reach the realm of <em>O(N<sup>2</sup>)</em>—any faster way to solve this problem would be an improvement.</p>
 
-<h3 id="consider-ver-1-solution">Consider Ver. 1 Solution</h3>
+<h2 id="consider-ver-1-solution">Consider Ver. 1 Solution</h2>
 
 <p>The following code was my first attempt:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
-     <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
-         <span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
-         <span class="k">var</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
+    <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+        <span class="k">let</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
 
-         <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
-             <span class="k">if</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-                 <span class="c1">// N steps</span>
-                 <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-             <span class="p">}</span>
-         <span class="p">}</span>
-         <span class="c1">// Still N * N steps</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// N steps</span>
+                <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="c1">// Still N * N steps</span>
 
-         <span class="k">return</span> <span class="n">output</span>
-     <span class="p">}</span>
- <span class="p">}</span>
+        <span class="k">return</span> <span class="n">output</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
 <p>Let’s walk through this code first.</p>
@@ -1165,11 +1383,12 @@ PersistentKeepalive = 25
 
 <p>Let’s consider this sample input/output:</p>
 
-<blockquote>
-  <p>Sample Input: [5,1,4,4,2]</p>
-
-  <p>Sample Output: [4,0,2,2,1]</p>
-</blockquote>
+<dl class="example">
+  <dt>Input</dt>
+  <dd>[5,1,4,4,2]</dd>
+  <dt>Output</dt>
+  <dd>[4,0,2,2,1]</dd>
+</dl>
 
 <p>If we sort the array, we would get [1,2,4,4,5], the index would be [0,1,2,3,4]. Whenever we want to know how many numbers are smaller than 5, we just need to find the index of the first instance of it in the sorted array.</p>
 
@@ -1177,7 +1396,7 @@ PersistentKeepalive = 25
 
 <p>The reason for it is that to get the index of the first instance in the array, I used the <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> function here.</p>
 
-<p>In Swift, <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup></em>).</p>
+<p>In Swift, <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup>)</em>.</p>
 
 <p>As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:</p>
 
@@ -1187,9 +1406,9 @@ PersistentKeepalive = 25
   <li>Generating output happens within the nested loops, so it wouldn’t take extra time.</li>
 </ul>
 
-<p>Therefore, although we have used the native sort function to sort the array, an <em>O(N log N)</em>) algorithm, the time complexity is still at <em>O(N<sup>2</sup>) + O(N log N)</em>, which is still <em>O(N<sup>2</sup>)</em>.</p>
+<p>Therefore, although we have used the native sort function to sort the array, an <em>O(N log N)</em> algorithm, the time complexity is still at <em>O(N<sup>2</sup>) + O(N log N)</em>, which is still <em>O(N<sup>2</sup>)</em>.</p>
 
-<h3 id="then-how-to-improve-it">Then How to Improve It</h3>
+<h2 id="then-how-to-improve-it">Then How to Improve It</h2>
 
 <p>So the bottleneck we had above was the <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.</p>
 
@@ -1197,7 +1416,7 @@ PersistentKeepalive = 25
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
     <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
-        <span class="k">var</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
+        <span class="k">let</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
         <span class="k">var</span> <span class="nv">posMap</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">:</span><span class="kt">Int</span><span class="p">]()</span>
         
         <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">enumerated</span><span class="p">()</span> <span class="k">where</span> <span class="n">posMap</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
@@ -1235,4 +1454,4 @@ PersistentKeepalive = 25
 
 <p>So <em>O(N log N) + O(N) + O(N)</em> is <em>O(N log N)</em>, better than the previous <em>O(N<sup>2</sup>)</em> method.</p>
 
-<p>Time complexity may be a complicated concept in the beginning. Nonetheless, it provides us with a nice tool to look into the pros and cons of our algorithm at hand. Although we may not endlessly improve on our algorithm, it is always a good thing to have an idea of what is holding back our code.</p>]]></content><author><name>Loyi Hsu</name></author><category term="algorithms" /><summary type="html"><![CDATA[My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N).]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/images/og-default.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/images/og-default.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>Time complexity may be a complicated concept in the beginning. Nonetheless, it provides us with a nice tool to look into the pros and cons of our algorithm at hand. Although we may not endlessly improve on our algorithm, it is always a good thing to have an idea of what is holding back our code.</p>]]></content><author><name>Loyi Hsu</name></author><category term="algorithms" /><summary type="html"><![CDATA[My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N).]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://codes.loyi.dev/assets/og/2020-time-complexity.png" /><media:content medium="image" url="https://codes.loyi.dev/assets/og/2020-time-complexity.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

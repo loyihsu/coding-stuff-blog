@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Coding Stuff Has a New Look · Coding Stuff</title>
+    <!-- Begin Jekyll SEO tag v2.9.0 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Coding Stuff Has a New Look" />
+<meta name="author" content="Loyi Hsu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tour of this blog’s redesign and the reasoning behind it, what building it with an AI agent was like, and why ‘will AI replace us?’ is quietly becoming the wrong question." />
+<meta name="twitter:description" property="og:description" content="A tour of this blog’s redesign and the reasoning behind it, what building it with an AI agent was like, and why ‘will AI replace us?’ is quietly becoming the wrong question." />
+<link rel="canonical" href="https://codes.loyi.dev/posts/2026/redesigning-with-an-agent" />
+<meta property="og:url" content="https://codes.loyi.dev/posts/2026/redesigning-with-an-agent" />
+<meta property="og:site_name" content="Coding Stuff" />
+<meta property="og:image" content="https://codes.loyi.dev/assets/og/2026-redesigning-with-an-agent.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-09-15T23:35:00+08:00" />
+<meta property="article:modified_time" content="2026-09-15T23:35:00+08:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://codes.loyi.dev/assets/og/2026-redesigning-with-an-agent.png" />
+<meta name="twitter:title" content="Coding Stuff Has a New Look" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2026-09-15T23:35:00+08:00","datePublished":"2026-09-15T23:35:00+08:00","description":"A tour of this blog’s redesign and the reasoning behind it, what building it with an AI agent was like, and why ‘will AI replace us?’ is quietly becoming the wrong question.","headline":"Coding Stuff Has a New Look","image":"https://codes.loyi.dev/assets/og/2026-redesigning-with-an-agent.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2026/redesigning-with-an-agent"},"url":"https://codes.loyi.dev/posts/2026/redesigning-with-an-agent"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
+    <meta name="tdm-reservation" content="1" />
+
+
+
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      // Set the theme before first paint to avoid a flash.
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (e) {}
+        var dark = stored === 'dark' || (stored !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        try { if (localStorage.getItem('quiet') === 'on') document.documentElement.dataset.quiet = ''; } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body>
+<div class="shell reader nav-below">
+
+    <div class="masthead">
+        <a class="brand" href="/">Coding Stuff</a>
+        <p class="tagline">by Loyi Hsu</p>
+    </div>
+
+    <div class="controls">
+        <button class="menu-toggle" type="button" popovertarget="settings">customise</button>
+    </div>
+
+    <div class="menu-panel settings" id="settings" popover>
+        <div class="setting setting-theme">
+            <span id="theme-label">theme</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="theme-label">
+                <label><input type="radio" name="theme" value="auto" /><span>auto</span></label>
+                <label><input type="radio" name="theme" value="light" /><span>light</span></label>
+                <label><input type="radio" name="theme" value="dark" /><span>dark</span></label>
+            </div>
+        </div>
+        
+        <label class="setting setting-focus">
+            <span>focus reading</span>
+            <input class="switch" type="checkbox" role="switch" data-setting="quiet" />
+        </label>
+        
+    </div>
+
+    <aside class="sidebar">
+        <nav class="side-section">
+            <a class="side-heading" href="/">Latest</a>
+            <a class="side-heading" href="/about">About</a>
+        </nav>
+
+        
+
+        <section class="side-section">
+            <a class="side-heading" href="/tags/">Tags</a>
+            
+            
+            
+            <ul class="side-list">
+                
+                <li><a href="/tags/#swift">#swift <span class="count">4</span></a></li>
+                
+                <li><a href="/tags/#opinion">#opinion <span class="count">3</span></a></li>
+                
+                <li><a href="/tags/#ai">#ai <span class="count">2</span></a></li>
+                
+                <li><a href="/tags/#ios">#ios <span class="count">2</span></a></li>
+                
+                <li><a href="/tags/#algorithms">#algorithms <span class="count">1</span></a></li>
+                
+                <li><a href="/tags/#announcement">#announcement <span class="count">1</span></a></li>
+                
+                <li><a href="/tags/#architecture">#architecture <span class="count">1</span></a></li>
+                
+                <li><a href="/tags/#design">#design <span class="count">1</span></a></li>
+                
+                <li><a href="/tags/#language-features">#language-features <span class="count">1</span></a></li>
+                
+                <li><a href="/tags/#memory-management">#memory-management <span class="count">1</span></a></li>
+                
+                <li class="side-more"><a href="/tags/">…more</a></li>
+            </ul>
+        </section>
+
+        <section class="side-section">
+            <a class="side-heading" href="/archive/">Archive</a>
+            <ul class="side-list">
+                
+                
+                <li><a href="/archive/#y2026">2026 <span class="count">1</span></a></li>
+                
+                <li><a href="/archive/#y2025">2025 <span class="count">1</span></a></li>
+                
+                <li><a href="/archive/#y2024">2024 <span class="count">1</span></a></li>
+                
+                <li><a href="/archive/#y2023">2023 <span class="count">2</span></a></li>
+                
+                <li><a href="/archive/#y2021">2021 <span class="count">1</span></a></li>
+                
+                <li><a href="/archive/#y2020">2020 <span class="count">2</span></a></li>
+                
+                <li class="side-more"><a href="/archive/">…more</a></li>
+            </ul>
+        </section>
+    </aside>
+
+    <main class="main">
+        <article class="article">
+    <header class="article-header">
+        <h1 class="article-title">Coding Stuff Has a New Look</h1>
+        <div class="meta">
+            <time datetime="2026-09-15">2026-09-15</time>
+            <span aria-hidden="true">·</span>
+            <span>12 min read</span>
+        </div>
+        
+        
+<ul class="tags">
+    
+    
+    <li><a class="tag" href="/tags/#announcement">#announcement</a></li>
+    
+    <li><a class="tag" href="/tags/#design">#design</a></li>
+    
+    <li><a class="tag" href="/tags/#ai">#ai</a></li>
+    
+    <li><a class="tag" href="/tags/#opinion">#opinion</a></li>
+    
+</ul>
+
+
+    </header>
+
+    <div class="prose">
+        <p>If you have visited Coding Stuff before, you may notice that things look a little different. Since 2020, this blog had been running on a third-party theme. It worked, but reading on it never quite felt right.</p>
+
+<p>So I drew a wireframe of what it should be and rebuilt the site from it, as a Jekyll theme of its own: <strong>lofy</strong>, as in lo-fi. This post walks through what has changed and why, and then takes a short detour into what building it with an AI agent taught me.</p>
+
+<h2 id="reading">Reading</h2>
+
+<p>The idea behind the new design is simple: <strong>everything on the page should either help you read or get out of the way.</strong></p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-home.webp" alt="The Coding Stuff home page in the light theme, with the sidebar on the left and the latest posts in a single column" class="screenshot" /><figcaption aria-hidden="true">The Coding Stuff home page in the light theme, with the sidebar on the left and the latest posts in a single column</figcaption></figure>
+
+<ul>
+  <li><strong>Distraction-free.</strong> There are no cover images or decorations between you and the first paragraph. The only images in a post are the ones that explain something.</li>
+  <li><strong>Images you can look at closely.</strong> Each image has a short caption underneath. Click one, like the one above, to open it larger; click it again to zoom in and drag around, and click the dark background to put it back.</li>
+  <li><strong>Type does the work.</strong> Headings and body text are set in Newsreader, a serif designed for reading on screens. The interface uses Inter, and code uses JetBrains Mono. All three come from Google Fonts, so the site looks the same on every device.</li>
+  <li><strong>A quiet structure.</strong> The sidebar holds only what you need to find your way around, and nothing else.</li>
+</ul>
+
+<h2 id="settings">Settings</h2>
+
+<p>A small <code class="language-plaintext highlighter-rouge">customise</code> button at the top of the page opens two settings.</p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-customise.webp" alt="The customise panel, open, with a theme control set to auto and a focus reading switch" class="screenshot" width="291" /><figcaption aria-hidden="true">The customise panel, open, with a theme control set to auto and a focus reading switch</figcaption></figure>
+
+<ul>
+  <li><strong>Theme</strong> can be set to <em>auto</em>, <em>light</em> or <em>dark</em>. <em>Auto</em> is the default and follows your system, even when it switches while you are reading; <em>light</em> and <em>dark</em> are remembered.</li>
+  <li><strong>Focus reading</strong> is available on posts and the About page on a desktop. It hides the sidebar and lets the header and footer fade back, leaving only the article. The layout slides into place rather than fading, so you can see where things went.</li>
+</ul>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-focus.gif" alt="Focus reading switched on and off in the dark theme: the sidebar slides away and the table of contents folds into a block above the article" class="screenshot" /><figcaption aria-hidden="true">Focus reading switched on and off in the dark theme: the sidebar slides away and the table of contents folds into a block above the article</figcaption></figure>
+
+<p>Both settings use text labels rather than icons. A reader should be able to read what a control does, not decode a symbol.</p>
+
+<h2 id="navigation">Navigation</h2>
+
+<ul>
+  <li><strong>On this page.</strong> Posts with headings get a table of contents. On wide screens, it sits expanded beside the article, so you always know where you are, marks the section you are reading, and scrolls on its own when the list is longer than the window. On smaller screens, it is a collapsible block above the text.</li>
+  <li><strong>Continue reading.</strong> Every post ends with up to five posts to read next: the next and previous posts first, followed by others that share a tag. A small label says why each one is there, such as <em>previous post</em> or <em>also in #swift</em>. When you finish an article, the best next read is often one about the same subject, not simply whatever came out next.</li>
+  <li><strong>Link previews.</strong> Hovering over a link to another post shows a small card with its date, title and summary, so you can decide whether to follow it without losing your place. Try it on <a href="/posts/2023/inout">the post about <code class="language-plaintext highlighter-rouge">inout</code></a>. It doesn’t appear on touch screens, where there is no hover.</li>
+  <li><strong>Heading anchors.</strong> Hovering over a heading reveals a <code class="language-plaintext highlighter-rouge">#</code> in the left margin, so you can link straight to a section while the heading itself stays aligned with the text.</li>
+  <li><strong>Tags and archive.</strong> Every post can be found by tag on the tags page, or by year in the archive.</li>
+  <li><strong>Cleaner addresses.</strong> Post URLs are shorter and no longer end in <code class="language-plaintext highlighter-rouge">.html</code>. Old links still work.</li>
+</ul>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-preview.webp" alt="A link preview card showing the date, title and summary of another post" class="screenshot" width="640" /><figcaption aria-hidden="true">A link preview card showing the date, title and summary of another post</figcaption></figure>
+
+<h2 id="mobile">Mobile</h2>
+
+<p>A phone is often where someone first lands on a post, usually from a link, so the small-screen layout makes its own decisions rather than squeezing the desktop one.</p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-mobile.webp" alt="A post on a phone: the site title, then straight into the post's title, date and tags" class="screenshot" width="390" /><figcaption aria-hidden="true">A post on a phone: the site title, then straight into the post's title, date and tags</figcaption></figure>
+
+<ul>
+  <li><strong>Posts start with the post.</strong> Below the site title comes the article itself. The links to the rest of the site wait at the end, after <em>continue reading</em>: someone arriving from a link came for this article, and looking around is what they do once they have read it.</li>
+  <li><strong>Pages start with the navigation.</strong> On the home page, About, Tags and Archive, a single quiet row of links sits under the site title, and the page you are on is simply darker and bolder. That row already names the page, so its title isn’t repeated below it.</li>
+  <li><strong>Nothing depends on hovering.</strong> Link previews stay out of the way on touch screens, the table of contents folds into a block above the text, and a zoomed-in image moves under your finger.</li>
+</ul>
+
+<h2 id="sharing">Sharing</h2>
+
+<p>When a post is shared in a chat app or on social media, its preview now shows that post rather than one generic card for the whole blog: its title, date and tags, set in the same type as the site.</p>
+
+<figure class="image"><img src="/assets/articles/redesign-20260915-og.webp" alt="The share image for the post about inout: its title in large serif type, the date and tags below it, and the author and blog name along the bottom" class="screenshot" /><figcaption aria-hidden="true">The share image for the post about inout: its title in large serif type, the date and tags below it, and the author and blog name along the bottom</figcaption></figure>
+
+<p>Each of these images is made when the site is built, so a new post gets its own without any extra work, and a long title simply shrinks to fit.</p>
+
+<h2 id="code">Code</h2>
+
+<p>Most posts here contain code, so code blocks received the most attention. The question behind each change was the same: <em>what is the reader going to do with this?</em> Rather than describe them, here they are.</p>
+
+<p>A code block can carry a <strong>label</strong> showing which file it belongs to, and <strong>highlight</strong> the lines that matter:</p>
+
+<div data-label="Theme.swift" data-highlight="2" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">Theme</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">CaseIterable</span> <span class="p">{</span>
+<span class="hl">    <span class="k">case</span> <span class="n">auto</span><span class="p">,</span> <span class="n">light</span><span class="p">,</span> <span class="n">dark</span>
+</span>
+    <span class="k">var</span> <span class="nv">label</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="n">rawValue</span><span class="o">.</span><span class="n">capitalized</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When code <strong>changes</strong>, the old and new lines can be shown together. Removed lines are marked in red and added lines in green. Try the copy button: it leaves the removed lines out, because you want the code as it is now, not the diff.</p>
+
+<div data-label="SettingsView.swift" data-removed="2,6" data-added="3,7-10" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SettingsView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-removed">    <span class="kd">@AppStorage</span><span class="p">(</span><span class="s">"isDarkMode"</span><span class="p">)</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">isDarkMode</span> <span class="o">=</span> <span class="kc">false</span>
+</span><span class="hl hl-added">    <span class="kd">@AppStorage</span><span class="p">(</span><span class="s">"theme"</span><span class="p">)</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">theme</span> <span class="o">=</span> <span class="kt">Theme</span><span class="o">.</span><span class="n">auto</span>
+</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-removed">        <span class="kt">Toggle</span><span class="p">(</span><span class="s">"Dark Mode"</span><span class="p">,</span> <span class="nv">isOn</span><span class="p">:</span> <span class="n">$isDarkMode</span><span class="p">)</span>
+</span><span class="hl hl-added">        <span class="kt">Picker</span><span class="p">(</span><span class="s">"Theme"</span><span class="p">,</span> <span class="nv">selection</span><span class="p">:</span> <span class="n">$theme</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hl hl-added">            <span class="kt">ForEach</span><span class="p">(</span><span class="kt">Theme</span><span class="o">.</span><span class="n">allCases</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="kt">Text</span><span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="hl hl-added">        <span class="p">}</span>
+</span><span class="hl hl-added">        <span class="o">.</span><span class="nf">pickerStyle</span><span class="p">(</span><span class="o">.</span><span class="n">segmented</span><span class="p">)</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Terminal commands</strong> get a terminal frame. Copying them leaves out the <code class="language-plaintext highlighter-rouge">$</code> prompts, because nobody wants to paste a prompt into their terminal.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>swift build
+<span class="gp">$</span><span class="w"> </span>swift run
+</code></pre></div></div>
+
+<p><strong>Program output</strong> has its own frame and no copy button, because nobody copies output. When it belongs to the code above it, the two are joined into one card:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">themes</span> <span class="o">=</span> <span class="kt">Theme</span><span class="o">.</span><span class="n">allCases</span><span class="o">.</span><span class="nf">map</span><span class="p">(\</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">themes</span><span class="o">.</span><span class="nf">joined</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">" / "</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Auto / Light / Dark
+</code></pre></div></div>
+
+<p><strong>Errors</strong> tint the whole block, so you can tell something went wrong before reading a single word. This one comes from the <a href="/posts/2023/inout"><code class="language-plaintext highlighter-rouge">inout</code> post</a>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">number</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="kd">func</span> <span class="nf">addOne</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="nf">addOne</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-error highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simultaneous accesses to 0x106344130, but modification requires exclusive access.
+</code></pre></div></div>
+
+<p>A compiler or runtime message mentioned on its own gets a small <strong>diagnostic card</strong> instead, for errors and warnings alike:</p>
+
+<p class="diagnostic-error">Cannot assign to value: 'theme' is a 'let' constant</p>
+
+<p class="diagnostic-warning">Variable 'result' was never mutated; consider changing to 'let' constant</p>
+
+<p><strong>Examples</strong> of input and output, such as a problem’s sample case, sit side by side:</p>
+
+<dl class="example">
+  <dt>Input</dt>
+  <dd>[8,1,2,2,3]</dd>
+  <dt>Output</dt>
+  <dd>[4,0,1,1,3]</dd>
+</dl>
+
+<p>A <strong>note</strong> sets an aside apart from the text, such as a caveat or a bit of background, so the explanation around it keeps its flow:</p>
+
+<p class="note">In <a href="/posts/2020/intro-to-swiftui">the SwiftUI introduction</a>, a note like this one explains why two equal numbers in a list can get their rows mixed up.</p>
+
+<p>And quotes can <strong>credit their source</strong>, as you will see in a moment. Finally, the one sentence a post comes down to can go into a <strong>takeaway</strong> card. This post has one near the end.</p>
+
+<p>The older posts have been updated to use them where they fit, so their code, output and conclusions read the same way.</p>
+
+<h2 id="built-with-an-ai-agent">Built with an AI Agent</h2>
+
+<p>I am an iOS developer, not a web developer, and most of the code behind this redesign was written by an AI coding agent. That deserves a few honest words, because it was neither as magical nor as disappointing as people tend to expect.</p>
+
+<p><strong>Where it helps.</strong> An agent is useful for turning a clear intention into working code, especially in a stack you don’t use every day. It can look things up, follow conventions consistently, write tests, and keep documentation in sync.</p>
+
+<p><strong>Where it doesn’t.</strong> It only knows what you tell it. It cannot tell whether a page <em>feels</em> right, whether a control is obvious, or whether a layout works on the device in your hand. It tends to add rather than remove. And it isn’t free: every unclear request costs another round of work.</p>
+
+<p>In other words, the agent made building the site much faster. It did not make any of the decisions above for me.</p>
+
+<h2 id="so-what-counts-as-a-chore">So What Counts as a Chore?</h2>
+
+<p>In <a href="/posts/2025/replaced-by-ai">my last post</a>, I wrote:</p>
+
+<blockquote>
+  <p>We only ask AI to do the things we don’t want to do.</p>
+
+  <p class="source"><a href="/posts/2025/replaced-by-ai">So Are We Bound to Be Replaced by AI?</a></p>
+</blockquote>
+
+<p>A project like this makes that sentence much less simple than it sounds.</p>
+
+<p>This is where I think my last post blurred two questions together: <em>is this boring?</em> and <em>is this indispensable?</em> Checking that the result works is boring, but indispensable. Deciding what a product should feel like is neither boring nor dispensable. Looking things up is boring and, most of the time, safe to hand over.</p>
+
+<p>And the answers differ from person to person. A designer who loves CSS may find implementation the best part of the job. A researcher may enjoy the digging more than anything else. For me, it depends on the project.</p>
+
+<h2 id="why-being-replaced-is-no-longer-the-point">Why ‘Being Replaced’ Is No Longer the Point</h2>
+
+<p>This is why I think <em>will AI replace us?</em> is slowly becoming the wrong question.</p>
+
+<p>It assumes that a job is a fixed bundle of tasks, and that AI either takes the bundle or it doesn’t. But the line between chore and non-chore doesn’t run <em>between</em> jobs. It runs through the middle of every job, and it runs through a different place for every person.</p>
+
+<p>AI doesn’t take a job. It takes whatever we hand to it. Hand over the chores, and you get more time for the parts that matter. Hand over the indispensable parts because they are boring, or the parts you enjoy because AI happens to be faster, and you have replaced yourself. If that comes down to laziness, AI was never the threat: anyone willing to do those parts properly could have taken your place long before it arrived.</p>
+
+<p>So the more useful question is:</p>
+
+<p class="takeaway">Which parts of your work are actually yours?</p>
+
+<h2 id="living-with-ai">Living with AI</h2>
+
+<p>Whether you are excited about AI or still a little doubtful — as I am — a few suggestions:</p>
+
+<ul>
+  <li><strong>Know your own map.</strong> For each part of your work, ask both questions: is it boring, and is it indispensable? Don’t borrow someone else’s answers.</li>
+  <li><strong>Delegate the work, not the accountability.</strong> You can hand over checking, but not the responsibility for what you ship.</li>
+  <li><strong>Protect the parts you enjoy.</strong> They are often the reason you do this work at all.</li>
+  <li><strong>Start from the product, not the technology.</strong> Building something to show off a technology and then looking for a use for it is a poor strategy. Start from what users need, then find, use, or even create the best technology for it.</li>
+  <li><strong>Be clear before you ask.</strong> Delegating isn’t free, and knowing what you want is the cheapest way to get it.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The new Coding Stuff is quieter, easier to read, and much kinder to code. I hope it makes the posts here more pleasant to spend time with.</p>
+
+<p>Building it with an agent didn’t convince me that AI will replace developers, nor that it won’t. It convinced me that the question matters less than knowing which parts of the work we should never hand over.</p>
+
+    </div>
+
+    
+    
+    
+    
+    
+        
+        
+        
+        
+        
+        
+        
+            
+        
+            
+        
+            
+        
+            
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+    <div class="continue-reading">
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span>continue reading</p>
+    <ul class="post-links">
+        
+        <li>
+            <a class="post-link-title" href="/posts/2025/replaced-by-ai">So Are We Bound to Be Replaced by AI?</a>
+            <div class="post-link-meta">
+                <time datetime="2025-12-09">2025-12-09</time>
+                <ul class="reasons"><li class="reason">previous post</li><li class="reason">also in #ai and #opinion</li></ul>
+            </div>
+        </li>
+        
+        <li>
+            <a class="post-link-title" href="/posts/2024/to-tca-or-not">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</a>
+            <div class="post-link-meta">
+                <time datetime="2024-11-09">2024-11-09</time>
+                <ul class="reasons"><li class="reason">also in #opinion</li></ul>
+            </div>
+        </li>
+        
+    </ul>
+</div>
+
+
+    <script src="/assets/js/post.js" defer></script>
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="author">
+            <img class="avatar" src="/assets/images/profile.png" alt="Loyi Hsu" width="56" height="56" />
+            <div>
+                <p class="author-name">Loyi Hsu</p>
+                <p class="author-bio">Builds iOS apps, writes Swift, and can't let a strange behaviour go.</p>
+            </div>
+        </div>
+        <div class="colophon">
+            
+            <ul class="social">
+                
+                <li><a href="https://site.loyi.dev" rel="me">website</a></li>
+                
+                <li><a href="https://github.com/loyihsu/" rel="me">github</a></li>
+                
+                <li><a href="https://www.linkedin.com/in/yu-sung-hsu-14977bb6/" rel="me">linkedin</a></li>
+                
+                <li><a href="https://www.threads.com/@loyihsu" rel="me">threads</a></li>
+                
+            </ul>
+            
+            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/lofy">lofy theme</a> v0.1.0 · <a href="/feed.xml">RSS</a></p>
+        </div>
+    </footer>
+
+</div>
+
+<script type="application/json" id="post-previews">{"/posts/2026/redesigning-with-an-agent": { "title": "Coding Stuff Has a New Look", "date": "2026-09-15", "summary": "A tour of this blog's redesign and the reasoning behind it, what building it with an AI agent was like, and why 'will AI replace us?' is quietly becoming the wrong question." },"/posts/2025/replaced-by-ai": { "title": "So Are We Bound to Be Replaced by AI?", "date": "2025-12-09", "summary": "AI won't replace people who use it to think better, only those who let it think for them. On what AI should take off our plates, and what it never will." },"/posts/2024/to-tca-or-not": { "title": "To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture", "date": "2024-11-09", "summary": "TCA brings structured state and great testability, but at what cost? Weighing framework dependence, setup overhead and shared state before adopting it." },"/posts/2023/inout": { "title": "What on Earth Is \"inout\"?", "date": "2023-11-20", "summary": "Swift's documentation calls inout copy-in copy-out, yet it behaves like pass by reference. A look at the docs and the generated SIL to see what really happens." },"/posts/2023/function-retain-in-swift": { "title": "The (Not-So) Peculiar Case of Function Retain in Swift", "date": "2023-02-13", "summary": "Swap a closure for an instance method and Swift quietly captures self. Here's why passing a method as a closure can create a retain cycle." },"/posts/2021/double-nat-remote-access": { "title": "Remotely Accessing a Home Computer behind Double NAT", "date": "2021-12-31", "summary": "Stuck behind an ISP's Double NAT? How I used a rented server, a WireGuard tunnel and Apache's ProxyPass to reach services on my home computer." },"/posts/2020/intro-to-swiftui": { "title": "A Brief Introduction to SwiftUI", "date": "2020-09-21", "summary": "What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS." },"/posts/2020/time-complexity": { "title": "Improving on an Algorithm: Time Complexity", "date": "2020-05-14", "summary": "My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N)." }}</script>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var panel = document.getElementById('settings');
+    var quiet = panel.querySelector('[data-setting="quiet"]');
+
+    // Open the customise panel under its trigger (absolute, so it scrolls with the page).
+    var trigger = document.querySelector('[popovertarget="settings"]');
+    var place = function () {
+      var r = trigger.getBoundingClientRect();
+      panel.style.top = (r.bottom + window.scrollY + 8) + 'px';
+      panel.style.right = (root.clientWidth - r.right) + 'px';
+    };
+    var isOpen = function () { return panel.matches(':popover-open'); };
+    panel.addEventListener('beforetoggle', function (e) { if (e.newState === 'open') place(); });
+    // Follow the button when the layout moves under an open panel.
+    addEventListener('resize', function () { if (isOpen()) place(); });
+    panel.addEventListener('toggle', function (e) {
+      trigger.setAttribute('aria-expanded', e.newState === 'open');
+    });
+
+    // Sidebar: behaves like the "on this page" column. When the full lists don't fit in the window,
+    // each shows its first few items and a "…more" link. It stays sticky and scrolls on its own if it
+    // still doesn't fit; near the bottom of the page it shrinks to stay clear of the footer (sticky is
+    // bounded by the whole page grid, footer included).
+    var sidebar = document.querySelector('.sidebar');
+    var footer = document.querySelector('.site-footer');
+    var sticky = false;
+    var shrinkSidebar = function () {
+      if (!sticky) return;
+      var room = footer.getBoundingClientRect().top - 32 - sidebar.getBoundingClientRect().top;
+      sidebar.style.maxHeight = Math.max(0, Math.min(innerHeight - 64, room)) + 'px'; // 64px = the CSS 4rem
+    };
+    var fitSidebar = function () {
+      delete sidebar.dataset.fit;
+      sidebar.style.maxHeight = '';
+      sticky = getComputedStyle(sidebar).position === 'sticky'; // not in the mobile layout
+      if (!sticky) return;
+      if (sidebar.scrollHeight > innerHeight - 64) sidebar.dataset.fit = 'compact';
+      shrinkSidebar();
+    };
+    fitSidebar();
+    addEventListener('resize', fitSidebar);
+    addEventListener('scroll', shrinkSidebar, { passive: true });
+    if (document.fonts) document.fonts.ready.then(fitSidebar);
+
+    // Theme: auto follows the system, live; light and dark are saved.
+    var system = matchMedia('(prefers-color-scheme: dark)');
+    var theme = 'auto';
+    try { theme = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') theme = 'auto';
+    var applyTheme = function () {
+      root.dataset.theme = theme === 'auto' ? (system.matches ? 'dark' : 'light') : theme;
+    };
+    system.addEventListener('change', applyTheme);
+    panel.querySelectorAll('input[name="theme"]').forEach(function (input) {
+      input.checked = input.value === theme;
+      input.addEventListener('change', function () {
+        theme = input.value;
+        try {
+          if (theme === 'auto') localStorage.removeItem('theme');
+          else localStorage.setItem('theme', theme);
+        } catch (e) {}
+        applyTheme();
+      });
+    });
+
+    if (quiet) {
+      quiet.checked = 'quiet' in root.dataset;
+      quiet.addEventListener('change', function () {
+        var on = quiet.checked;
+        var apply = function () {
+          root.toggleAttribute('data-quiet', on);
+          fitSidebar(); // it was hidden, so it hasn't been measured
+          // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
+          if (isOpen()) queueMicrotask(place);
+        };
+        try { localStorage.setItem('quiet', on ? 'on' : 'off'); } catch (e) {}
+        // Slide the layout into place where the browser supports view transitions.
+        if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+        document.startViewTransition(apply);
+      });
+    }
+  })();
+</script>
+</body>
+</html>

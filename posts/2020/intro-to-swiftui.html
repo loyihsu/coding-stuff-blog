@@ -15,23 +15,25 @@
 <link rel="canonical" href="https://codes.loyi.dev/posts/2020/intro-to-swiftui" />
 <meta property="og:url" content="https://codes.loyi.dev/posts/2020/intro-to-swiftui" />
 <meta property="og:site_name" content="Coding Stuff" />
-<meta property="og:image" content="https://codes.loyi.dev/assets/images/og-default.png" />
+<meta property="og:image" content="https://codes.loyi.dev/assets/og/2020-intro-to-swiftui.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-09-21T20:00:00+08:00" />
 <meta property="article:modified_time" content="2020-09-21T20:00:00+08:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://codes.loyi.dev/assets/images/og-default.png" />
+<meta name="twitter:image" content="https://codes.loyi.dev/assets/og/2020-intro-to-swiftui.png" />
 <meta name="twitter:title" content="A Brief Introduction to SwiftUI" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2020-09-21T20:00:00+08:00","datePublished":"2020-09-21T20:00:00+08:00","description":"What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS.","headline":"A Brief Introduction to SwiftUI","image":"https://codes.loyi.dev/assets/images/og-default.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2020/intro-to-swiftui"},"url":"https://codes.loyi.dev/posts/2020/intro-to-swiftui"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2020-09-21T20:00:00+08:00","datePublished":"2020-09-21T20:00:00+08:00","description":"What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS.","headline":"A Brief Introduction to SwiftUI","image":"https://codes.loyi.dev/assets/og/2020-intro-to-swiftui.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2020/intro-to-swiftui"},"url":"https://codes.loyi.dev/posts/2020/intro-to-swiftui"}</script>
 <!-- End Jekyll SEO tag -->
 
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
     <meta name="tdm-reservation" content="1" />
 
-    <link rel="icon" href="/assets/images/fav.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
-    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
-    
+
 
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -39,7 +41,7 @@
       (function () {
         var stored = null;
         try { stored = localStorage.getItem('theme'); } catch (e) {}
-        var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = stored === 'dark' || (stored !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         try { if (localStorage.getItem('quiet') === 'on') document.documentElement.dataset.quiet = ''; } catch (e) {}
       })();
@@ -51,7 +53,7 @@
     <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 <body>
-<div class="shell reader">
+<div class="shell reader nav-below">
 
     <div class="masthead">
         <a class="brand" href="/">Coding Stuff</a>
@@ -63,10 +65,14 @@
     </div>
 
     <div class="menu-panel settings" id="settings" popover>
-        <label class="setting">
-            <span>dark mode</span>
-            <input class="switch" type="checkbox" role="switch" data-setting="dark" />
-        </label>
+        <div class="setting setting-theme">
+            <span id="theme-label">theme</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="theme-label">
+                <label><input type="radio" name="theme" value="auto" /><span>auto</span></label>
+                <label><input type="radio" name="theme" value="light" /><span>light</span></label>
+                <label><input type="radio" name="theme" value="dark" /><span>dark</span></label>
+            </div>
+        </div>
         
         <label class="setting setting-focus">
             <span>focus reading</span>
@@ -81,6 +87,8 @@
             <a class="side-heading" href="/about">About</a>
         </nav>
 
+        
+
         <section class="side-section">
             <a class="side-heading" href="/tags/">Tags</a>
             
@@ -88,26 +96,27 @@
             
             <ul class="side-list">
                 
-                <li><a href="/tags/#swift">#swift</a></li>
+                <li><a href="/tags/#swift">#swift <span class="count">4</span></a></li>
                 
-                <li><a href="/tags/#ios">#ios</a></li>
+                <li><a href="/tags/#opinion">#opinion <span class="count">3</span></a></li>
                 
-                <li><a href="/tags/#opinion">#opinion</a></li>
+                <li><a href="/tags/#ai">#ai <span class="count">2</span></a></li>
                 
-                <li><a href="/tags/#ai">#ai</a></li>
+                <li><a href="/tags/#ios">#ios <span class="count">2</span></a></li>
                 
-                <li><a href="/tags/#algorithms">#algorithms</a></li>
+                <li><a href="/tags/#algorithms">#algorithms <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#architecture">#architecture</a></li>
+                <li><a href="/tags/#announcement">#announcement <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#language-features">#language-features</a></li>
+                <li><a href="/tags/#architecture">#architecture <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#memory-management">#memory-management</a></li>
+                <li><a href="/tags/#design">#design <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#networking">#networking</a></li>
+                <li><a href="/tags/#language-features">#language-features <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#swiftui">#swiftui</a></li>
+                <li><a href="/tags/#memory-management">#memory-management <span class="count">1</span></a></li>
                 
+                <li class="side-more"><a href="/tags/">…more</a></li>
             </ul>
         </section>
 
@@ -115,6 +124,8 @@
             <a class="side-heading" href="/archive/">Archive</a>
             <ul class="side-list">
                 
+                
+                <li><a href="/archive/#y2026">2026 <span class="count">1</span></a></li>
                 
                 <li><a href="/archive/#y2025">2025 <span class="count">1</span></a></li>
                 
@@ -126,6 +137,7 @@
                 
                 <li><a href="/archive/#y2020">2020 <span class="count">2</span></a></li>
                 
+                <li class="side-more"><a href="/archive/">…more</a></li>
             </ul>
         </section>
     </aside>
@@ -137,10 +149,12 @@
         <div class="meta">
             <time datetime="2020-09-21">2020-09-21</time>
             <span aria-hidden="true">·</span>
-            <span>11 min read</span>
+            <span>13 min read</span>
         </div>
         
+        
 <ul class="tags">
+    
     
     <li><a class="tag" href="/tags/#swift">#swift</a></li>
     
@@ -156,7 +170,7 @@
     <div class="prose">
         <p>SwiftUI was the UI framework Apple announced during the World Wide Developers Conference (WWDC) 2019. As to support this framework in your app would require the users to update to the latest operating system versions as of the year, iOS 13 and macOS Catalina, it is expected that most of the apps that adopt SwiftUI today are still majorly side projects or smaller apps.</p>
 
-<h3 id="benefits-shorter-simpler-codes">Benefits: Shorter Simpler Codes</h3>
+<h2 id="benefits-shorter-simpler-codes">Benefits: Shorter Simpler Codes</h2>
 
 <p>In short, SwiftUI is a declarative UI framework, which means that you declare everything you need in the view and use some conditions to manage what should be shown and what should be hidden. What’s better, SwiftUI tends to do things differently with AppKit and UIKit, usually resulting in codes that are shorter and easier to understand.</p>
 
@@ -171,7 +185,7 @@
 
 <p>This framework provides a simpler way to create UI with a set of tools. You can describe what you want, and it would pick the suitable UI elements for you. Take the code above for example: if you want a line of text on the screen saying ‘Hello World’, you simply need to write <code class="language-plaintext highlighter-rouge">Text("Hello World")</code> and it would generate the view for you.</p>
 
-<h3 id="benefits-same-syntax-across-platforms">Benefits: Same Syntax Across Platforms</h3>
+<h2 id="benefits-same-syntax-across-platforms">Benefits: Same Syntax Across Platforms</h2>
 
 <p>The great thing about this UI framework is, unlike UIKit (for iOS) and AppKit (for macOS), the syntax of SwiftUI is generally the same for all platforms. Therefore, you can easily build UI for different platforms with nearly the same syntax.</p>
 
@@ -198,7 +212,7 @@
 
 <p>So let’s start with a basic <code class="language-plaintext highlighter-rouge">ContentView</code> in SwiftUI.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello, world!"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
     <span class="p">}</span>
@@ -207,7 +221,7 @@
 
 <p>Let’s first look at what this looks like.</p>
 
-<p><img src="/assets/articles/screenshot-20200921-01.webp" alt="Development Screenshot 1" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-01.webp" alt="The Xcode preview of the new project: a ‘Hello, world!’ label with padding around it" /><figcaption aria-hidden="true">The Xcode preview of the new project: a ‘Hello, world!’ label with padding around it</figcaption></figure>
 
 <p>You can see we have a ‘Hello, world!’ label on the screen and we have some spaces (paddings) around it.</p>
 
@@ -217,9 +231,9 @@
 
 <p>For starters, we would need a list to store our numbers. We can create an integer array with some sample elements for now.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="2" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-added">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span>    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello, world!"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -227,42 +241,50 @@
 
 <p>The <code class="language-plaintext highlighter-rouge">@State</code> property would tell the UI framework to update the view when the variable is updated. Then, we can display the array with a SwiftUI <code class="language-plaintext highlighter-rouge">List</code>.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-removed="5" data-added="6-8" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="hl hl-removed">        <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello, world!"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+</span><span class="hl hl-added">        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+</span><span class="hl hl-added">            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+</span><span class="hl hl-added">        <span class="p">}</span>
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>For <code class="language-plaintext highlighter-rouge">List</code> would require the array to be <code class="language-plaintext highlighter-rouge">Identifiable</code>, we add a <code class="language-plaintext highlighter-rouge">id: \.self</code> here. This would work in most cases, but you can use a custom <code class="language-plaintext highlighter-rouge">struct</code> that conform to <code class="language-plaintext highlighter-rouge">Identifiable</code>, too. Like this:</p>
+<p>For <code class="language-plaintext highlighter-rouge">List</code> would require the array to be <code class="language-plaintext highlighter-rouge">Identifiable</code>, we add a <code class="language-plaintext highlighter-rouge">id: \.self</code> here. This would work in most cases, as each number serves as its own ID.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ListItem</span><span class="p">:</span> <span class="kt">Identifiable</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">UUID</span><span class="p">()</span>        <span class="c1">// Create a unique ID for each item</span>
-    <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span>
+<p class="note">Two equal numbers would share an ID, which can happen with random numbers, and SwiftUI may then mix up their rows.</p>
 
-    <span class="nf">init</span> <span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<p>To avoid that, you can use a custom <code class="language-plaintext highlighter-rouge">struct</code> that conforms to <code class="language-plaintext highlighter-rouge">Identifiable</code>, too. Like this:</p>
 
+<div data-label="ContentView.swift" data-added="1-8,12,17-18" data-removed="11,15-16" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="hl hl-added"><span class="kd">struct</span> <span class="kt">ListItem</span><span class="p">:</span> <span class="kt">Identifiable</span> <span class="p">{</span>
+</span><span class="hl hl-added">    <span class="k">var</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">UUID</span><span class="p">()</span>        <span class="c1">// Create a unique ID for each item</span>
+</span><span class="hl hl-added">    <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span>
+</span><span class="hl hl-added">
+</span><span class="hl hl-added">    <span class="nf">init</span> <span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hl hl-added">        <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class="hl hl-added">    <span class="p">}</span>
+</span><span class="hl hl-added"><span class="p">}</span>
+</span>
 <span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">ListItem</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
-
+<span class="hl hl-removed">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span><span class="hl hl-added">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">ListItem</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="p">}</span>
+<span class="hl hl-removed">        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+</span><span class="hl hl-removed">            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+</span><span class="hl hl-added">        <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+</span><span class="hl hl-added">            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+</span>        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <p>But this can be a little complicated for now, let’s go with the first version.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -275,7 +297,7 @@
 
 <p>Let’s preview this now.</p>
 
-<p><img src="/assets/articles/screenshot-20200921-02.webp" alt="Development Screenshot 2" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-02.webp" alt="The preview showing the sample numbers 1 to 5 in a list" /><figcaption aria-hidden="true">The preview showing the sample numbers 1 to 5 in a list</figcaption></figure>
 
 <h3 id="create-a-button-above-the-list-to-add-numbers">Create a Button above the List to Add Numbers</h3>
 
@@ -283,27 +305,27 @@
 
 <p>So let’s put a <code class="language-plaintext highlighter-rouge">VStack</code>, and put a button above my <code class="language-plaintext highlighter-rouge">List</code>.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="5-8,12" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">VStack</span> <span class="p">{</span>
-            <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// Perform add number</span>
-            <span class="p">}</span>
-            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+<span class="hl hl-added">        <span class="kt">VStack</span> <span class="p">{</span>
+</span><span class="hl hl-added">            <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hl hl-added">                <span class="c1">// Perform add number</span>
+</span><span class="hl hl-added">            <span class="p">}</span>
+</span>            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
             <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="hl hl-added">        <span class="p">}</span>
+</span>    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/screenshot-20200921-03.webp" alt="Development Screenshot 3" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-03.webp" alt="An ‘Add number’ button above the list, close to the top of the screen" /><figcaption aria-hidden="true">An ‘Add number’ button above the list, close to the top of the screen</figcaption></figure>
 
 <p>Now we have a button but it looks too high above. Let’s add some paddings around it.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="9" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -311,8 +333,8 @@
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
                 <span class="c1">// Perform add number</span>
             <span class="p">}</span>
-            <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+<span class="hl hl-added">            <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+</span>            <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -320,7 +342,7 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/screenshot-20200921-04.webp" alt="Development Screenshot 4" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-04.webp" alt="The button with padding around it" /><figcaption aria-hidden="true">The button with padding around it</figcaption></figure>
 
 <p>Looks better. However, the button has no function so far. We need to add random numbers to the list when we tap on the button. To create a random number, we can use <code class="language-plaintext highlighter-rouge">Int.random(in: 0...1000)</code> to create a random number between 0 and 1000 (included).</p>
 
@@ -328,15 +350,15 @@
 
 <p>Therefore, the code would look like this:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="8" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">VStack</span> <span class="p">{</span>
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
                 <span class="c1">// Perform add number</span>
-                <span class="k">self</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">...</span><span class="mi">1000</span><span class="p">))</span>
-            <span class="p">}</span>
+<span class="hl hl-added">                <span class="k">self</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">...</span><span class="mi">1000</span><span class="p">))</span>
+</span>            <span class="p">}</span>
             <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
             <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -346,11 +368,11 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/sample-20200921-01.gif" alt="Sample 1" /></p>
+<figure class="image"><img src="/assets/articles/sample-20200921-01.gif" alt="Tapping ‘Add number’ appends a random number to the list" /><figcaption aria-hidden="true">Tapping ‘Add number’ appends a random number to the list</figcaption></figure>
 
 <p>Let’s now substitute our sample list items with an empty array (<code class="language-plaintext highlighter-rouge">[Int]()</code>).</p>
 
-<p><img src="/assets/articles/screenshot-20200921-05.webp" alt="Development Screenshot 5" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-05.webp" alt="With an empty array, only the ‘Add number’ button is left on the screen" /><figcaption aria-hidden="true">With an empty array, only the ‘Add number’ button is left on the screen</figcaption></figure>
 
 <h3 id="create-the-empty-list-view">Create the Empty List View</h3>
 
@@ -358,9 +380,10 @@
 
 <p>SwiftUI is a declarative UI framework, which means we declare everything and use some conditions to control what to show and what to hide. We would use the <code class="language-plaintext highlighter-rouge">isEmpty</code> property of our <code class="language-plaintext highlighter-rouge">numbers</code> array to be the deciding factor here. We would just display the text here.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
-
+<div data-label="ContentView.swift" data-removed="2" data-added="3,12-16,20" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<span class="hl hl-removed">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span><span class="hl hl-added">    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">VStack</span> <span class="p">{</span>
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Add number"</span><span class="p">)</span> <span class="p">{</span>
@@ -368,16 +391,16 @@
                 <span class="k">self</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">...</span><span class="mi">1000</span><span class="p">))</span>
             <span class="p">}</span>
             <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">numbers</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
-                <span class="c1">// When the list is empty.</span>
-                <span class="kt">Text</span><span class="p">(</span><span class="s">"No numbers available."</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="c1">// When the list is not empty.</span>
-                <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
+<span class="hl hl-added">            <span class="k">if</span> <span class="n">numbers</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+</span><span class="hl hl-added">                <span class="c1">// When the list is empty.</span>
+</span><span class="hl hl-added">                <span class="kt">Text</span><span class="p">(</span><span class="s">"No numbers available."</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+</span><span class="hl hl-added">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class="hl hl-added">                <span class="c1">// When the list is not empty.</span>
+</span>                <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                     <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
+<span class="hl hl-added">            <span class="p">}</span>
+</span>        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -386,11 +409,11 @@
 
 <p>If we make our UI this way, when we tap on the ‘Add number’ button, our UI would jump from the centre of the screen to above.</p>
 
-<p><img src="/assets/articles/sample-20200921-02.gif" alt="Sample 2" /></p>
+<figure class="image"><img src="/assets/articles/sample-20200921-02.gif" alt="Adding the first number makes the button jump from the centre of the screen to the top" /><figcaption aria-hidden="true">Adding the first number makes the button jump from the centre of the screen to the top</figcaption></figure>
 
 <p>We can simply add a <code class="language-plaintext highlighter-rouge">Spacer()</code> below the <code class="language-plaintext highlighter-rouge">Text</code> and the problem would be solved.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+<div data-label="ContentView.swift" data-added="14" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
     <span class="kd">@State</span> <span class="k">var</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
 
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
@@ -403,8 +426,8 @@
             <span class="k">if</span> <span class="n">numbers</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
                 <span class="c1">// When the list is empty.</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"No numbers available."</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-                <span class="kt">Spacer</span><span class="p">()</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="hl hl-added">                <span class="kt">Spacer</span><span class="p">()</span>
+</span>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                 <span class="c1">// When the list is not empty.</span>
                 <span class="kt">List</span> <span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">number</span> <span class="k">in</span>
                     <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">number</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -415,37 +438,105 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><img src="/assets/articles/sample-20200921-03.gif" alt="Sample 3" /></p>
+<figure class="image"><img src="/assets/articles/sample-20200921-03.gif" alt="With a spacer, the button stays at the top whether or not the list is empty" /><figcaption aria-hidden="true">With a spacer, the button stays at the top whether or not the list is empty</figcaption></figure>
 
 <p>Within merely 39 lines of codes for this view, we have built a functioning random number list generator app. What’s better, we can easily port this app to other platforms such as macOS.</p>
 
 <p>As we created this app as a universal app, we simply select the pre-created build target of macOS, and we are good to go.</p>
 
-<p><img src="/assets/articles/screenshot-20200921-06.webp" alt="Development Screenshot 6" /></p>
+<figure class="image"><img src="/assets/articles/screenshot-20200921-06.webp" alt="Choosing the macOS target, with My Mac as the run destination" /><figcaption aria-hidden="true">Choosing the macOS target, with My Mac as the run destination</figcaption></figure>
 
 <p>As we build and run, the app is now successfully built for macOS.</p>
 
-<p><img src="/assets/articles/macos-sample-20200921-01.webp" alt="macOS Sample 1" /></p>
+<figure class="image"><img src="/assets/articles/macos-sample-20200921-01.webp" alt="The same app running on macOS, before and after adding numbers" /><figcaption aria-hidden="true">The same app running on macOS, before and after adding numbers</figcaption></figure>
 
-<p>As we can see, with so little code, we can build a working cross-platform, native feeling app.</p>
+<p class="takeaway">As we can see, with so little code, we can build a working cross-platform, native feeling app.</p>
 
     </div>
 
     
     
     
+    
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+    
+        
+        
+        
+            
+        
+            
+        
+            
+        
+    
+        
+        
+        
+            
+    
+        
+        
+        
+            
+    
+        
+        
+        
+            
+    
+        
     <div class="continue-reading">
     <p class="eyebrow"><span class="dot" aria-hidden="true"></span>continue reading</p>
     <ul class="post-links">
         
         <li>
-            <a href="/posts/2021/double-nat-remote-access">Remotely Accessing a Home Computer behind Double NAT</a>
-            <time datetime="2021-12-31">2021-12-31</time>
+            <a class="post-link-title" href="/posts/2021/double-nat-remote-access">Remotely Accessing a Home Computer behind Double NAT</a>
+            <div class="post-link-meta">
+                <time datetime="2021-12-31">2021-12-31</time>
+                <ul class="reasons"><li class="reason">next post</li></ul>
+            </div>
         </li>
         
         <li>
-            <a href="/posts/2020/time-complexity">Improving on an Algorithm: Time Complexity</a>
-            <time datetime="2020-05-14">2020-05-14</time>
+            <a class="post-link-title" href="/posts/2020/time-complexity">Improving on an Algorithm: Time Complexity</a>
+            <div class="post-link-meta">
+                <time datetime="2020-05-14">2020-05-14</time>
+                <ul class="reasons"><li class="reason">previous post</li></ul>
+            </div>
+        </li>
+        
+        <li>
+            <a class="post-link-title" href="/posts/2024/to-tca-or-not">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</a>
+            <div class="post-link-meta">
+                <time datetime="2024-11-09">2024-11-09</time>
+                <ul class="reasons"><li class="reason">also in #swift and #ios</li></ul>
+            </div>
+        </li>
+        
+        <li>
+            <a class="post-link-title" href="/posts/2023/inout">What on Earth Is "inout"?</a>
+            <div class="post-link-meta">
+                <time datetime="2023-11-20">2023-11-20</time>
+                <ul class="reasons"><li class="reason">also in #swift</li></ul>
+            </div>
+        </li>
+        
+        <li>
+            <a class="post-link-title" href="/posts/2023/function-retain-in-swift">The (Not-So) Peculiar Case of Function Retain in Swift</a>
+            <div class="post-link-meta">
+                <time datetime="2023-02-13">2023-02-13</time>
+                <ul class="reasons"><li class="reason">also in #swift</li></ul>
+            </div>
         </li>
         
     </ul>
@@ -479,16 +570,18 @@
                 
             </ul>
             
-            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/feed.xml">RSS</a></p>
+            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/lofy">lofy theme</a> v0.1.0 · <a href="/feed.xml">RSS</a></p>
         </div>
     </footer>
 
 </div>
+
+<script type="application/json" id="post-previews">{"/posts/2026/redesigning-with-an-agent": { "title": "Coding Stuff Has a New Look", "date": "2026-09-15", "summary": "A tour of this blog's redesign and the reasoning behind it, what building it with an AI agent was like, and why 'will AI replace us?' is quietly becoming the wrong question." },"/posts/2025/replaced-by-ai": { "title": "So Are We Bound to Be Replaced by AI?", "date": "2025-12-09", "summary": "AI won't replace people who use it to think better, only those who let it think for them. On what AI should take off our plates, and what it never will." },"/posts/2024/to-tca-or-not": { "title": "To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture", "date": "2024-11-09", "summary": "TCA brings structured state and great testability, but at what cost? Weighing framework dependence, setup overhead and shared state before adopting it." },"/posts/2023/inout": { "title": "What on Earth Is \"inout\"?", "date": "2023-11-20", "summary": "Swift's documentation calls inout copy-in copy-out, yet it behaves like pass by reference. A look at the docs and the generated SIL to see what really happens." },"/posts/2023/function-retain-in-swift": { "title": "The (Not-So) Peculiar Case of Function Retain in Swift", "date": "2023-02-13", "summary": "Swap a closure for an instance method and Swift quietly captures self. Here's why passing a method as a closure can create a retain cycle." },"/posts/2021/double-nat-remote-access": { "title": "Remotely Accessing a Home Computer behind Double NAT", "date": "2021-12-31", "summary": "Stuck behind an ISP's Double NAT? How I used a rented server, a WireGuard tunnel and Apache's ProxyPass to reach services on my home computer." },"/posts/2020/intro-to-swiftui": { "title": "A Brief Introduction to SwiftUI", "date": "2020-09-21", "summary": "What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS." },"/posts/2020/time-complexity": { "title": "Improving on an Algorithm: Time Complexity", "date": "2020-05-14", "summary": "My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N)." }}</script>
+
 <script>
   (function () {
     var root = document.documentElement;
     var panel = document.getElementById('settings');
-    var dark = panel.querySelector('[data-setting="dark"]');
     var quiet = panel.querySelector('[data-setting="quiet"]');
 
     // Open the customise panel under its trigger (absolute, so it scrolls with the page).
@@ -506,11 +599,50 @@
       trigger.setAttribute('aria-expanded', e.newState === 'open');
     });
 
-    dark.checked = root.dataset.theme === 'dark';
-    dark.addEventListener('change', function () {
-      var next = dark.checked ? 'dark' : 'light';
-      root.dataset.theme = next;
-      try { localStorage.setItem('theme', next); } catch (e) {}
+    // Sidebar: behaves like the "on this page" column. When the full lists don't fit in the window,
+    // each shows its first few items and a "…more" link. It stays sticky and scrolls on its own if it
+    // still doesn't fit; near the bottom of the page it shrinks to stay clear of the footer (sticky is
+    // bounded by the whole page grid, footer included).
+    var sidebar = document.querySelector('.sidebar');
+    var footer = document.querySelector('.site-footer');
+    var sticky = false;
+    var shrinkSidebar = function () {
+      if (!sticky) return;
+      var room = footer.getBoundingClientRect().top - 32 - sidebar.getBoundingClientRect().top;
+      sidebar.style.maxHeight = Math.max(0, Math.min(innerHeight - 64, room)) + 'px'; // 64px = the CSS 4rem
+    };
+    var fitSidebar = function () {
+      delete sidebar.dataset.fit;
+      sidebar.style.maxHeight = '';
+      sticky = getComputedStyle(sidebar).position === 'sticky'; // not in the mobile layout
+      if (!sticky) return;
+      if (sidebar.scrollHeight > innerHeight - 64) sidebar.dataset.fit = 'compact';
+      shrinkSidebar();
+    };
+    fitSidebar();
+    addEventListener('resize', fitSidebar);
+    addEventListener('scroll', shrinkSidebar, { passive: true });
+    if (document.fonts) document.fonts.ready.then(fitSidebar);
+
+    // Theme: auto follows the system, live; light and dark are saved.
+    var system = matchMedia('(prefers-color-scheme: dark)');
+    var theme = 'auto';
+    try { theme = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') theme = 'auto';
+    var applyTheme = function () {
+      root.dataset.theme = theme === 'auto' ? (system.matches ? 'dark' : 'light') : theme;
+    };
+    system.addEventListener('change', applyTheme);
+    panel.querySelectorAll('input[name="theme"]').forEach(function (input) {
+      input.checked = input.value === theme;
+      input.addEventListener('change', function () {
+        theme = input.value;
+        try {
+          if (theme === 'auto') localStorage.removeItem('theme');
+          else localStorage.setItem('theme', theme);
+        } catch (e) {}
+        applyTheme();
+      });
     });
 
     if (quiet) {
@@ -519,6 +651,7 @@
         var on = quiet.checked;
         var apply = function () {
           root.toggleAttribute('data-quiet', on);
+          fitSidebar(); // it was hidden, so it hasn't been measured
           // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
           if (isOpen()) queueMicrotask(place);
         };

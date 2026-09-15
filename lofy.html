@@ -4,24 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>About · Coding Stuff</title>
+    <title>lofy · Coding Stuff</title>
     <!-- Begin Jekyll SEO tag v2.9.0 -->
 <meta name="generator" content="Jekyll v4.4.1" />
-<meta property="og:title" content="About" />
+<meta property="og:title" content="lofy" />
 <meta name="author" content="Loyi Hsu" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Notes on the things I can’t leave alone, mostly Swift and iOS." />
-<meta name="twitter:description" property="og:description" content="Notes on the things I can’t leave alone, mostly Swift and iOS." />
-<link rel="canonical" href="https://codes.loyi.dev/about" />
-<meta property="og:url" content="https://codes.loyi.dev/about" />
+<meta name="description" content="A sneak peek at lofy, as in lo-fi: a minimal, typographic Jekyll theme." />
+<meta name="twitter:description" property="og:description" content="A sneak peek at lofy, as in lo-fi: a minimal, typographic Jekyll theme." />
+<link rel="canonical" href="https://codes.loyi.dev/lofy" />
+<meta property="og:url" content="https://codes.loyi.dev/lofy" />
 <meta property="og:site_name" content="Coding Stuff" />
 <meta property="og:image" content="https://codes.loyi.dev/assets/images/og-default.png" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://codes.loyi.dev/assets/images/og-default.png" />
-<meta name="twitter:title" content="About" />
+<meta name="twitter:title" content="lofy" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Loyi Hsu"},"description":"Notes on the things I can’t leave alone, mostly Swift and iOS.","headline":"About","image":"https://codes.loyi.dev/assets/images/og-default.png","url":"https://codes.loyi.dev/about"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Loyi Hsu"},"description":"A sneak peek at lofy, as in lo-fi: a minimal, typographic Jekyll theme.","headline":"lofy","image":"https://codes.loyi.dev/assets/images/og-default.png","url":"https://codes.loyi.dev/lofy"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -82,7 +82,7 @@
     <aside class="sidebar">
         <nav class="side-section">
             <a class="side-heading" href="/">Latest</a>
-            <a class="side-heading is-active" href="/about">About</a>
+            <a class="side-heading" href="/about">About</a>
         </nav>
 
         
@@ -143,17 +143,103 @@
     <main class="main">
         <article class="article">
     <header class="article-header page-header">
-        <h1 class="article-title">About</h1>
+        <h1 class="article-title">lofy</h1>
     </header>
 
     <div class="prose">
-        <p>I’m Loyi Hsu, an iOS developer. Most days, that means writing Swift.</p>
+        
+<p><strong>lofy</strong>, as in lo-fi, is a minimal, typographic Jekyll theme, and this page is a sneak peek at it. It follows one rule: <strong>everything on the page should either help you read or get out of the way.</strong> Everything below is live, so try it as you go. This site uses lofy 0.1.0.</p>
 
-<p>This blog is where I put the things I can’t leave alone. Sometimes it’s a small puzzle, like why <a href="/posts/2023/inout"><code class="language-plaintext highlighter-rouge">inout</code> promises a copy but hands over a reference</a>, or why <a href="/posts/2023/function-retain-in-swift">passing a method instead of a closure keeps an object alive</a>. Sometimes it’s a bigger question about how we build software, like <a href="/posts/2024/to-tca-or-not">whether an architecture is worth adopting</a>, or <a href="/posts/2025/replaced-by-ai">what’s left for us once AI can write the code</a>.</p>
+<h2 id="reading">Reading</h2>
 
-<p>Either way, I try to get to the bottom of it: read the documentation, look at what the compiler actually does, weigh the trade-offs, then write it up as plainly as I can.</p>
+<ul>
+  <li><strong>Type does the work.</strong> Headings and body text are set in Newsreader, the interface in Inter, and code in JetBrains Mono.</li>
+  <li><strong>Reader settings.</strong> Open <code class="language-plaintext highlighter-rouge">customise</code> at the top of the page to pick an <em>auto</em>, <em>light</em> or <em>dark</em> theme. On a desktop, focus reading hides everything but this page.</li>
+  <li><strong>On this page.</strong> The headings here make up the table of contents: beside the text on a wide screen, or in a collapsible block above it. The section you are reading is marked as you scroll.</li>
+  <li><strong>Topics.</strong> Curated reading lists with a title, a description and an optional cover, listed in the sidebar above the tags, and as an outlined pill before each post’s tags.</li>
+  <li><strong>Heading anchors.</strong> Point at a heading to reveal a <code class="language-plaintext highlighter-rouge">#</code> in the margin that links straight to it.</li>
+  <li><strong>Link previews.</strong> Point at a link to a post, such as <a href="/posts/2026/redesigning-with-an-agent">the latest one</a>, to see its date, title and summary.</li>
+</ul>
 
-<p>I fell in love with programming early enough to minor in Computer Science, and kept going through a master’s in Software Development. Along the way came C and C++, a little MeteorJS, and a lot of Java. These days it’s Swift, and I’m still as eager to learn as I was then.</p>
+<h2 id="images">Images</h2>
+
+<p>An image on its own line gets its alt text as a caption. Click it to open it larger, click again to zoom in and drag around, and click the dark background to put it back.</p>
+
+<figure class="image"><img src="/assets/lofy/home.webp" alt="A home page in lofy's light theme, with the sidebar on the left and the latest posts in a single column" class="screenshot" /><figcaption aria-hidden="true">A home page in lofy's light theme, with the sidebar on the left and the latest posts in a single column</figcaption></figure>
+
+<h2 id="code">Code</h2>
+
+<p>A code block can carry a <strong>label</strong> and <strong>highlight</strong> the lines that matter:</p>
+
+<div data-label="ReadingTime.swift" data-highlight="2" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">readingMinutes</span><span class="p">(</span><span class="k">for</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+<span class="hl">    <span class="k">let</span> <span class="nv">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">whereSeparator</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">isWhitespace</span><span class="p">)</span><span class="o">.</span><span class="n">count</span>
+</span>    <span class="k">return</span> <span class="n">words</span> <span class="o">/</span> <span class="mi">220</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>A <strong>change</strong> shows the old and new lines together. The copy button leaves the removed lines out:</p>
+
+<div data-label="ReadingTime.swift" data-removed="2" data-added="3" class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">readingMinutes</span><span class="p">(</span><span class="k">for</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+<span class="hl hl-removed">    <span class="k">let</span> <span class="nv">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">" "</span><span class="p">)</span><span class="o">.</span><span class="n">count</span>
+</span><span class="hl hl-added">    <span class="k">let</span> <span class="nv">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">whereSeparator</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">isWhitespace</span><span class="p">)</span><span class="o">.</span><span class="n">count</span>
+</span>    <span class="k">return</span> <span class="n">words</span> <span class="o">/</span> <span class="mi">220</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Terminal commands</strong> get a terminal frame, and copying them leaves out the <code class="language-plaintext highlighter-rouge">$</code> prompts:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>swift build
+<span class="gp">$</span><span class="w"> </span>swift <span class="nb">test</span>
+</code></pre></div></div>
+
+<p><strong>Program output</strong> has its own frame and no copy button, and joins the code above it into one card:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="nf">readingMinutes</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="s">"Help you read or get out of the way."</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+</code></pre></div></div>
+
+<p><strong>Errors</strong> tint the whole block:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">minutes</span> <span class="o">=</span> <span class="nf">readingMinutes</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-error highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error: 'nil' is not compatible with expected argument type 'String'
+</code></pre></div></div>
+
+<p>A message mentioned on its own gets a small <strong>diagnostic card</strong>:</p>
+
+<p class="diagnostic-error">Cannot convert value of type 'Int' to specified type 'String'</p>
+
+<p class="diagnostic-warning">Initialization of immutable value 'minutes' was never used; consider replacing with assignment to '_' or removing it</p>
+
+<p><strong>Examples</strong> of input and output sit side by side:</p>
+
+<dl class="example">
+  <dt>Input</dt>
+  <dd>“Help you read or get out of the way.”</dd>
+  <dt>Output</dt>
+  <dd>1</dd>
+</dl>
+
+<h2 id="notes-quotes-and-takeaways">Notes, Quotes and Takeaways</h2>
+
+<p>A <strong>note</strong> sets an aside apart from the text, such as a caveat or a bit of background:</p>
+
+<p class="note">A note explains something next to the text without interrupting it.</p>
+
+<p>A quote can <strong>credit its source</strong>:</p>
+
+<blockquote>
+  <p>Everything on the page should either help you read or get out of the way.</p>
+
+  <p class="source">lofy</p>
+</blockquote>
+
+<p>And the one sentence a post comes down to can go into a <strong>takeaway</strong> card:</p>
+
+<p class="takeaway">A takeaway card holds the one sentence a post comes down to.</p>
 
     </div>
 

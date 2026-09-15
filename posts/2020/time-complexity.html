@@ -15,23 +15,25 @@
 <link rel="canonical" href="https://codes.loyi.dev/posts/2020/time-complexity" />
 <meta property="og:url" content="https://codes.loyi.dev/posts/2020/time-complexity" />
 <meta property="og:site_name" content="Coding Stuff" />
-<meta property="og:image" content="https://codes.loyi.dev/assets/images/og-default.png" />
+<meta property="og:image" content="https://codes.loyi.dev/assets/og/2020-time-complexity.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-14T22:50:00+08:00" />
 <meta property="article:modified_time" content="2020-05-14T22:50:00+08:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://codes.loyi.dev/assets/images/og-default.png" />
+<meta name="twitter:image" content="https://codes.loyi.dev/assets/og/2020-time-complexity.png" />
 <meta name="twitter:title" content="Improving on an Algorithm: Time Complexity" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2020-05-14T22:50:00+08:00","datePublished":"2020-05-14T22:50:00+08:00","description":"My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N).","headline":"Improving on an Algorithm: Time Complexity","image":"https://codes.loyi.dev/assets/images/og-default.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2020/time-complexity"},"url":"https://codes.loyi.dev/posts/2020/time-complexity"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Loyi Hsu"},"dateModified":"2020-05-14T22:50:00+08:00","datePublished":"2020-05-14T22:50:00+08:00","description":"My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N).","headline":"Improving on an Algorithm: Time Complexity","image":"https://codes.loyi.dev/assets/og/2020-time-complexity.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.loyi.dev/posts/2020/time-complexity"},"url":"https://codes.loyi.dev/posts/2020/time-complexity"}</script>
 <!-- End Jekyll SEO tag -->
 
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
     <meta name="tdm-reservation" content="1" />
 
-    <link rel="icon" href="/assets/images/fav.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
-    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
-    
+
 
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -39,7 +41,7 @@
       (function () {
         var stored = null;
         try { stored = localStorage.getItem('theme'); } catch (e) {}
-        var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = stored === 'dark' || (stored !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         try { if (localStorage.getItem('quiet') === 'on') document.documentElement.dataset.quiet = ''; } catch (e) {}
       })();
@@ -51,7 +53,7 @@
     <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 <body>
-<div class="shell reader">
+<div class="shell reader nav-below">
 
     <div class="masthead">
         <a class="brand" href="/">Coding Stuff</a>
@@ -63,10 +65,14 @@
     </div>
 
     <div class="menu-panel settings" id="settings" popover>
-        <label class="setting">
-            <span>dark mode</span>
-            <input class="switch" type="checkbox" role="switch" data-setting="dark" />
-        </label>
+        <div class="setting setting-theme">
+            <span id="theme-label">theme</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="theme-label">
+                <label><input type="radio" name="theme" value="auto" /><span>auto</span></label>
+                <label><input type="radio" name="theme" value="light" /><span>light</span></label>
+                <label><input type="radio" name="theme" value="dark" /><span>dark</span></label>
+            </div>
+        </div>
         
         <label class="setting setting-focus">
             <span>focus reading</span>
@@ -81,6 +87,8 @@
             <a class="side-heading" href="/about">About</a>
         </nav>
 
+        
+
         <section class="side-section">
             <a class="side-heading" href="/tags/">Tags</a>
             
@@ -88,26 +96,27 @@
             
             <ul class="side-list">
                 
-                <li><a href="/tags/#swift">#swift</a></li>
+                <li><a href="/tags/#swift">#swift <span class="count">4</span></a></li>
                 
-                <li><a href="/tags/#ios">#ios</a></li>
+                <li><a href="/tags/#opinion">#opinion <span class="count">3</span></a></li>
                 
-                <li><a href="/tags/#opinion">#opinion</a></li>
+                <li><a href="/tags/#ai">#ai <span class="count">2</span></a></li>
                 
-                <li><a href="/tags/#ai">#ai</a></li>
+                <li><a href="/tags/#ios">#ios <span class="count">2</span></a></li>
                 
-                <li><a href="/tags/#algorithms">#algorithms</a></li>
+                <li><a href="/tags/#algorithms">#algorithms <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#architecture">#architecture</a></li>
+                <li><a href="/tags/#announcement">#announcement <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#language-features">#language-features</a></li>
+                <li><a href="/tags/#architecture">#architecture <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#memory-management">#memory-management</a></li>
+                <li><a href="/tags/#design">#design <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#networking">#networking</a></li>
+                <li><a href="/tags/#language-features">#language-features <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#swiftui">#swiftui</a></li>
+                <li><a href="/tags/#memory-management">#memory-management <span class="count">1</span></a></li>
                 
+                <li class="side-more"><a href="/tags/">…more</a></li>
             </ul>
         </section>
 
@@ -115,6 +124,8 @@
             <a class="side-heading" href="/archive/">Archive</a>
             <ul class="side-list">
                 
+                
+                <li><a href="/archive/#y2026">2026 <span class="count">1</span></a></li>
                 
                 <li><a href="/archive/#y2025">2025 <span class="count">1</span></a></li>
                 
@@ -126,6 +137,7 @@
                 
                 <li><a href="/archive/#y2020">2020 <span class="count">2</span></a></li>
                 
+                <li class="side-more"><a href="/archive/">…more</a></li>
             </ul>
         </section>
     </aside>
@@ -140,7 +152,9 @@
             <span>8 min read</span>
         </div>
         
+        
 <ul class="tags">
+    
     
     <li><a class="tag" href="/tags/#algorithms">#algorithms</a></li>
     
@@ -152,7 +166,7 @@
     <div class="prose">
         <p>Recently, when I was looking at an old solution I wrote months ago for a LeetCode problem, <a href="https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/">How many numbers are smaller than the current number</a>, I suddenly found that although my previous solution used some tricks in an attempt to do it faster, the function I used made it as slow as the time complexity of a brute force solution.</p>
 
-<h3 id="wait-what-is-time-complexity">Wait, What Is Time Complexity</h3>
+<h2 id="wait-what-is-time-complexity">Wait, What Is Time Complexity?</h2>
 
 <p>Time complexity is a common concept in the Computer Science world. However, as it is a necessary tool for the discussion here, let’s make sure we are on the same page before we start.</p>
 
@@ -208,15 +222,15 @@
   </tbody>
 </table>
 
-<h4 id="why-improving-time-complexity-matters">Why Improving Time Complexity Matters?</h4>
+<h3 id="why-does-improving-time-complexity-matter">Why Does Improving Time Complexity Matter?</h3>
 
 <p>Although computers nowadays run pretty fast, when the algorithm has, for instance, an exponential time complexity, the programme can still take pretty long to complete when the input size gets huge.</p>
 
-<p>However, there is not always a way to solve a problem with faster algorithms—like it is impossible to solve a sorting problem within linear processing (<em>O(N)</em>). The best we can get for sorting is <em>O(N log N)</em>.</p>
+<p>However, there is not always a way to solve a problem with faster algorithms—like it is impossible to sort by comparing elements within linear processing (<em>O(N)</em>). The best a comparison-based sort can get is <em>O(N log N)</em>.</p>
 
 <p>If it is possible to find an algorithm that solves the problem with better time complexity, it would always be better even when the computers are getting faster and faster nowadays. A bad computer running an algorithm with good time complexity can still potentially outrun a good computer running an algorithm with bad time complexity.</p>
 
-<h3 id="brute-force">Brute Force</h3>
+<h2 id="brute-force">Brute Force</h2>
 
 <p>A brute force algorithm is usually the slowest way to solve a problem. It works by working through every possible combination and find the answer.</p>
 
@@ -246,26 +260,26 @@
 
 <p>As we would need the nested for-in loops, each taking <em>N</em> steps, this algorithm easily reach the realm of <em>O(N<sup>2</sup>)</em>—any faster way to solve this problem would be an improvement.</p>
 
-<h3 id="consider-ver-1-solution">Consider Ver. 1 Solution</h3>
+<h2 id="consider-ver-1-solution">Consider Ver. 1 Solution</h2>
 
 <p>The following code was my first attempt:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
-     <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
-         <span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
-         <span class="k">var</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
+    <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">output</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+        <span class="k">let</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
 
-         <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
-             <span class="k">if</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-                 <span class="c1">// N steps</span>
-                 <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-             <span class="p">}</span>
-         <span class="p">}</span>
-         <span class="c1">// Still N * N steps</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span> <span class="c1">// N steps</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// N steps</span>
+                <span class="n">output</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="c1">// Still N * N steps</span>
 
-         <span class="k">return</span> <span class="n">output</span>
-     <span class="p">}</span>
- <span class="p">}</span>
+        <span class="k">return</span> <span class="n">output</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
 <p>Let’s walk through this code first.</p>
@@ -276,11 +290,12 @@
 
 <p>Let’s consider this sample input/output:</p>
 
-<blockquote>
-  <p>Sample Input: [5,1,4,4,2]</p>
-
-  <p>Sample Output: [4,0,2,2,1]</p>
-</blockquote>
+<dl class="example">
+  <dt>Input</dt>
+  <dd>[5,1,4,4,2]</dd>
+  <dt>Output</dt>
+  <dd>[4,0,2,2,1]</dd>
+</dl>
 
 <p>If we sort the array, we would get [1,2,4,4,5], the index would be [0,1,2,3,4]. Whenever we want to know how many numbers are smaller than 5, we just need to find the index of the first instance of it in the sorted array.</p>
 
@@ -288,7 +303,7 @@
 
 <p>The reason for it is that to get the index of the first instance in the array, I used the <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> function here.</p>
 
-<p>In Swift, <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup></em>).</p>
+<p>In Swift, <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> is a linear search. It scans each item of the whole array linearly until it reaches the intended item, taking linear time (<em>O(N)</em>) on average. What’s worse, when you put it in a for-in loop that runs through every element of the array, another <em>O(N)</em>, what we have at hand become nested loops that both run through the input array one by one. That is <em>O(N<sup>2</sup>)</em>.</p>
 
 <p>As we mentioned, when we are considering time complexity, we focus on the ‘growth’ of time complexity of the algorithm. Then, let’s calculate the time complexity of this solution:</p>
 
@@ -298,9 +313,9 @@
   <li>Generating output happens within the nested loops, so it wouldn’t take extra time.</li>
 </ul>
 
-<p>Therefore, although we have used the native sort function to sort the array, an <em>O(N log N)</em>) algorithm, the time complexity is still at <em>O(N<sup>2</sup>) + O(N log N)</em>, which is still <em>O(N<sup>2</sup>)</em>.</p>
+<p>Therefore, although we have used the native sort function to sort the array, an <em>O(N log N)</em> algorithm, the time complexity is still at <em>O(N<sup>2</sup>) + O(N log N)</em>, which is still <em>O(N<sup>2</sup>)</em>.</p>
 
-<h3 id="then-how-to-improve-it">Then How to Improve It</h3>
+<h2 id="then-how-to-improve-it">Then How to Improve It</h2>
 
 <p>So the bottleneck we had above was the <code class="language-plaintext highlighter-rouge">firstIndex(of:)</code> function. If we can reduce the time we need to search the index of the first instance in the sorted array, it can be a lot faster.</p>
 
@@ -308,7 +323,7 @@
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Solution</span> <span class="p">{</span>
     <span class="kd">func</span> <span class="nf">smallerNumbersThanCurrent</span><span class="p">(</span><span class="n">_</span> <span class="nv">nums</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span>
-        <span class="k">var</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
+        <span class="k">let</span> <span class="nv">sorted</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="c1">// O(N log N)</span>
         <span class="k">var</span> <span class="nv">posMap</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">:</span><span class="kt">Int</span><span class="p">]()</span>
         
         <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">sorted</span><span class="o">.</span><span class="nf">enumerated</span><span class="p">()</span> <span class="k">where</span> <span class="n">posMap</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
@@ -353,13 +368,58 @@
     
     
     
+    
+    
+        
+        
+        
+            
+        
+    
+        
+        
+        
+            
+        
+    
+        
+        
+        
+            
+        
+    
+        
+        
+        
+            
+        
+    
+        
+        
+        
+            
+        
+    
+        
+        
+        
+            
+        
+    
+        
+        
+        
+        
     <div class="continue-reading">
     <p class="eyebrow"><span class="dot" aria-hidden="true"></span>continue reading</p>
     <ul class="post-links">
         
         <li>
-            <a href="/posts/2020/intro-to-swiftui">A Brief Introduction to SwiftUI</a>
-            <time datetime="2020-09-21">2020-09-21</time>
+            <a class="post-link-title" href="/posts/2020/intro-to-swiftui">A Brief Introduction to SwiftUI</a>
+            <div class="post-link-meta">
+                <time datetime="2020-09-21">2020-09-21</time>
+                <ul class="reasons"><li class="reason">next post</li></ul>
+            </div>
         </li>
         
     </ul>
@@ -393,16 +453,18 @@
                 
             </ul>
             
-            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/feed.xml">RSS</a></p>
+            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/lofy">lofy theme</a> v0.1.0 · <a href="/feed.xml">RSS</a></p>
         </div>
     </footer>
 
 </div>
+
+<script type="application/json" id="post-previews">{"/posts/2026/redesigning-with-an-agent": { "title": "Coding Stuff Has a New Look", "date": "2026-09-15", "summary": "A tour of this blog's redesign and the reasoning behind it, what building it with an AI agent was like, and why 'will AI replace us?' is quietly becoming the wrong question." },"/posts/2025/replaced-by-ai": { "title": "So Are We Bound to Be Replaced by AI?", "date": "2025-12-09", "summary": "AI won't replace people who use it to think better, only those who let it think for them. On what AI should take off our plates, and what it never will." },"/posts/2024/to-tca-or-not": { "title": "To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture", "date": "2024-11-09", "summary": "TCA brings structured state and great testability, but at what cost? Weighing framework dependence, setup overhead and shared state before adopting it." },"/posts/2023/inout": { "title": "What on Earth Is \"inout\"?", "date": "2023-11-20", "summary": "Swift's documentation calls inout copy-in copy-out, yet it behaves like pass by reference. A look at the docs and the generated SIL to see what really happens." },"/posts/2023/function-retain-in-swift": { "title": "The (Not-So) Peculiar Case of Function Retain in Swift", "date": "2023-02-13", "summary": "Swap a closure for an instance method and Swift quietly captures self. Here's why passing a method as a closure can create a retain cycle." },"/posts/2021/double-nat-remote-access": { "title": "Remotely Accessing a Home Computer behind Double NAT", "date": "2021-12-31", "summary": "Stuck behind an ISP's Double NAT? How I used a rented server, a WireGuard tunnel and Apache's ProxyPass to reach services on my home computer." },"/posts/2020/intro-to-swiftui": { "title": "A Brief Introduction to SwiftUI", "date": "2020-09-21", "summary": "What sets SwiftUI apart from UIKit and AppKit, shown by building a small random-number list app that runs on both iOS and macOS." },"/posts/2020/time-complexity": { "title": "Improving on an Algorithm: Time Complexity", "date": "2020-05-14", "summary": "My old LeetCode solution looked clever but was still O(N²). A practical walk through time complexity, and how a dictionary brings it down to O(N log N)." }}</script>
+
 <script>
   (function () {
     var root = document.documentElement;
     var panel = document.getElementById('settings');
-    var dark = panel.querySelector('[data-setting="dark"]');
     var quiet = panel.querySelector('[data-setting="quiet"]');
 
     // Open the customise panel under its trigger (absolute, so it scrolls with the page).
@@ -420,11 +482,50 @@
       trigger.setAttribute('aria-expanded', e.newState === 'open');
     });
 
-    dark.checked = root.dataset.theme === 'dark';
-    dark.addEventListener('change', function () {
-      var next = dark.checked ? 'dark' : 'light';
-      root.dataset.theme = next;
-      try { localStorage.setItem('theme', next); } catch (e) {}
+    // Sidebar: behaves like the "on this page" column. When the full lists don't fit in the window,
+    // each shows its first few items and a "…more" link. It stays sticky and scrolls on its own if it
+    // still doesn't fit; near the bottom of the page it shrinks to stay clear of the footer (sticky is
+    // bounded by the whole page grid, footer included).
+    var sidebar = document.querySelector('.sidebar');
+    var footer = document.querySelector('.site-footer');
+    var sticky = false;
+    var shrinkSidebar = function () {
+      if (!sticky) return;
+      var room = footer.getBoundingClientRect().top - 32 - sidebar.getBoundingClientRect().top;
+      sidebar.style.maxHeight = Math.max(0, Math.min(innerHeight - 64, room)) + 'px'; // 64px = the CSS 4rem
+    };
+    var fitSidebar = function () {
+      delete sidebar.dataset.fit;
+      sidebar.style.maxHeight = '';
+      sticky = getComputedStyle(sidebar).position === 'sticky'; // not in the mobile layout
+      if (!sticky) return;
+      if (sidebar.scrollHeight > innerHeight - 64) sidebar.dataset.fit = 'compact';
+      shrinkSidebar();
+    };
+    fitSidebar();
+    addEventListener('resize', fitSidebar);
+    addEventListener('scroll', shrinkSidebar, { passive: true });
+    if (document.fonts) document.fonts.ready.then(fitSidebar);
+
+    // Theme: auto follows the system, live; light and dark are saved.
+    var system = matchMedia('(prefers-color-scheme: dark)');
+    var theme = 'auto';
+    try { theme = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') theme = 'auto';
+    var applyTheme = function () {
+      root.dataset.theme = theme === 'auto' ? (system.matches ? 'dark' : 'light') : theme;
+    };
+    system.addEventListener('change', applyTheme);
+    panel.querySelectorAll('input[name="theme"]').forEach(function (input) {
+      input.checked = input.value === theme;
+      input.addEventListener('change', function () {
+        theme = input.value;
+        try {
+          if (theme === 'auto') localStorage.removeItem('theme');
+          else localStorage.setItem('theme', theme);
+        } catch (e) {}
+        applyTheme();
+      });
     });
 
     if (quiet) {
@@ -433,6 +534,7 @@
         var on = quiet.checked;
         var apply = function () {
           root.toggleAttribute('data-quiet', on);
+          fitSidebar(); // it was hidden, so it hasn't been measured
           // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
           if (isOpen()) queueMicrotask(place);
         };

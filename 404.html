@@ -24,12 +24,14 @@
 {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Loyi Hsu"},"description":"Notes on the things I can’t leave alone, mostly Swift and iOS.","headline":"Page Not Found","image":"https://codes.loyi.dev/assets/images/og-default.png","url":"https://codes.loyi.dev/404.html"}</script>
 <!-- End Jekyll SEO tag -->
 
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
     <meta name="tdm-reservation" content="1" />
 
-    <link rel="icon" href="/assets/images/fav.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch.jpg" />
-    <link type="application/atom+xml" rel="alternate" href="https://codes.loyi.dev/feed.xml" title="Coding Stuff" />
-    
+
 
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -37,7 +39,7 @@
       (function () {
         var stored = null;
         try { stored = localStorage.getItem('theme'); } catch (e) {}
-        var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = stored === 'dark' || (stored !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         try { if (localStorage.getItem('quiet') === 'on') document.documentElement.dataset.quiet = ''; } catch (e) {}
       })();
@@ -61,10 +63,14 @@
     </div>
 
     <div class="menu-panel settings" id="settings" popover>
-        <label class="setting">
-            <span>dark mode</span>
-            <input class="switch" type="checkbox" role="switch" data-setting="dark" />
-        </label>
+        <div class="setting setting-theme">
+            <span id="theme-label">theme</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="theme-label">
+                <label><input type="radio" name="theme" value="auto" /><span>auto</span></label>
+                <label><input type="radio" name="theme" value="light" /><span>light</span></label>
+                <label><input type="radio" name="theme" value="dark" /><span>dark</span></label>
+            </div>
+        </div>
         
     </div>
 
@@ -74,6 +80,8 @@
             <a class="side-heading" href="/about">About</a>
         </nav>
 
+        
+
         <section class="side-section">
             <a class="side-heading" href="/tags/">Tags</a>
             
@@ -81,26 +89,27 @@
             
             <ul class="side-list">
                 
-                <li><a href="/tags/#swift">#swift</a></li>
+                <li><a href="/tags/#swift">#swift <span class="count">4</span></a></li>
                 
-                <li><a href="/tags/#ios">#ios</a></li>
+                <li><a href="/tags/#opinion">#opinion <span class="count">3</span></a></li>
                 
-                <li><a href="/tags/#opinion">#opinion</a></li>
+                <li><a href="/tags/#ai">#ai <span class="count">2</span></a></li>
                 
-                <li><a href="/tags/#ai">#ai</a></li>
+                <li><a href="/tags/#ios">#ios <span class="count">2</span></a></li>
                 
-                <li><a href="/tags/#algorithms">#algorithms</a></li>
+                <li><a href="/tags/#algorithms">#algorithms <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#architecture">#architecture</a></li>
+                <li><a href="/tags/#announcement">#announcement <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#language-features">#language-features</a></li>
+                <li><a href="/tags/#architecture">#architecture <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#memory-management">#memory-management</a></li>
+                <li><a href="/tags/#design">#design <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#networking">#networking</a></li>
+                <li><a href="/tags/#language-features">#language-features <span class="count">1</span></a></li>
                 
-                <li><a href="/tags/#swiftui">#swiftui</a></li>
+                <li><a href="/tags/#memory-management">#memory-management <span class="count">1</span></a></li>
                 
+                <li class="side-more"><a href="/tags/">…more</a></li>
             </ul>
         </section>
 
@@ -108,6 +117,8 @@
             <a class="side-heading" href="/archive/">Archive</a>
             <ul class="side-list">
                 
+                
+                <li><a href="/archive/#y2026">2026 <span class="count">1</span></a></li>
                 
                 <li><a href="/archive/#y2025">2025 <span class="count">1</span></a></li>
                 
@@ -119,6 +130,7 @@
                 
                 <li><a href="/archive/#y2020">2020 <span class="count">2</span></a></li>
                 
+                <li class="side-more"><a href="/archive/">…more</a></li>
             </ul>
         </section>
     </aside>
@@ -140,18 +152,27 @@
     <ul class="post-links">
         
         <li>
-            <a href="/posts/2025/replaced-by-ai">So Are We Bound to Be Replaced by AI?</a>
-            <time datetime="2025-12-09">2025-12-09</time>
+            <a class="post-link-title" href="/posts/2026/redesigning-with-an-agent">Coding Stuff Has a New Look</a>
+            <div class="post-link-meta">
+                <time datetime="2026-09-15">2026-09-15</time>
+                
+            </div>
         </li>
         
         <li>
-            <a href="/posts/2024/to-tca-or-not">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</a>
-            <time datetime="2024-11-09">2024-11-09</time>
+            <a class="post-link-title" href="/posts/2025/replaced-by-ai">So Are We Bound to Be Replaced by AI?</a>
+            <div class="post-link-meta">
+                <time datetime="2025-12-09">2025-12-09</time>
+                
+            </div>
         </li>
         
         <li>
-            <a href="/posts/2023/inout">What on Earth Is "inout"?</a>
-            <time datetime="2023-11-20">2023-11-20</time>
+            <a class="post-link-title" href="/posts/2024/to-tca-or-not">To TCA or Not to TCA: Weighing the Pros and Cons of Adopting The Composable Architecture</a>
+            <div class="post-link-meta">
+                <time datetime="2024-11-09">2024-11-09</time>
+                
+            </div>
         </li>
         
     </ul>
@@ -183,16 +204,16 @@
                 
             </ul>
             
-            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/feed.xml">RSS</a></p>
+            <p>&copy; 2026 Loyi Hsu · Built with <a href="https://jekyllrb.com">Jekyll</a> · <a href="/lofy">lofy theme</a> v0.1.0 · <a href="/feed.xml">RSS</a></p>
         </div>
     </footer>
 
 </div>
+
 <script>
   (function () {
     var root = document.documentElement;
     var panel = document.getElementById('settings');
-    var dark = panel.querySelector('[data-setting="dark"]');
     var quiet = panel.querySelector('[data-setting="quiet"]');
 
     // Open the customise panel under its trigger (absolute, so it scrolls with the page).
@@ -210,11 +231,50 @@
       trigger.setAttribute('aria-expanded', e.newState === 'open');
     });
 
-    dark.checked = root.dataset.theme === 'dark';
-    dark.addEventListener('change', function () {
-      var next = dark.checked ? 'dark' : 'light';
-      root.dataset.theme = next;
-      try { localStorage.setItem('theme', next); } catch (e) {}
+    // Sidebar: behaves like the "on this page" column. When the full lists don't fit in the window,
+    // each shows its first few items and a "…more" link. It stays sticky and scrolls on its own if it
+    // still doesn't fit; near the bottom of the page it shrinks to stay clear of the footer (sticky is
+    // bounded by the whole page grid, footer included).
+    var sidebar = document.querySelector('.sidebar');
+    var footer = document.querySelector('.site-footer');
+    var sticky = false;
+    var shrinkSidebar = function () {
+      if (!sticky) return;
+      var room = footer.getBoundingClientRect().top - 32 - sidebar.getBoundingClientRect().top;
+      sidebar.style.maxHeight = Math.max(0, Math.min(innerHeight - 64, room)) + 'px'; // 64px = the CSS 4rem
+    };
+    var fitSidebar = function () {
+      delete sidebar.dataset.fit;
+      sidebar.style.maxHeight = '';
+      sticky = getComputedStyle(sidebar).position === 'sticky'; // not in the mobile layout
+      if (!sticky) return;
+      if (sidebar.scrollHeight > innerHeight - 64) sidebar.dataset.fit = 'compact';
+      shrinkSidebar();
+    };
+    fitSidebar();
+    addEventListener('resize', fitSidebar);
+    addEventListener('scroll', shrinkSidebar, { passive: true });
+    if (document.fonts) document.fonts.ready.then(fitSidebar);
+
+    // Theme: auto follows the system, live; light and dark are saved.
+    var system = matchMedia('(prefers-color-scheme: dark)');
+    var theme = 'auto';
+    try { theme = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') theme = 'auto';
+    var applyTheme = function () {
+      root.dataset.theme = theme === 'auto' ? (system.matches ? 'dark' : 'light') : theme;
+    };
+    system.addEventListener('change', applyTheme);
+    panel.querySelectorAll('input[name="theme"]').forEach(function (input) {
+      input.checked = input.value === theme;
+      input.addEventListener('change', function () {
+        theme = input.value;
+        try {
+          if (theme === 'auto') localStorage.removeItem('theme');
+          else localStorage.setItem('theme', theme);
+        } catch (e) {}
+        applyTheme();
+      });
     });
 
     if (quiet) {
@@ -223,6 +283,7 @@
         var on = quiet.checked;
         var apply = function () {
           root.toggleAttribute('data-quiet', on);
+          fitSidebar(); // it was hidden, so it hasn't been measured
           // After post.js has moved the TOC (its MutationObserver runs first), so the button is in place.
           if (isOpen()) queueMicrotask(place);
         };
