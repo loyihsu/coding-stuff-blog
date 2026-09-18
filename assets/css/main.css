@@ -1749,7 +1749,6 @@ ul {
 .prose .diagram {
   margin: 2rem 0;
 }
-
 .prose .diagram svg {
   display: block;
   width: 100%;
@@ -1758,42 +1757,33 @@ ul {
   margin: 0 auto;
   color: var(--ink-soft);
 }
-
 .prose .diagram .box {
   fill: var(--surface);
   stroke: var(--line);
   stroke-width: 1.5;
 }
-
 .prose .diagram .wall, .prose .diagram .pointer {
   stroke: var(--muted);
 }
-
 .prose .diagram .request {
   stroke: var(--accent);
 }
-
 .prose .diagram .response {
   stroke: var(--ink-soft);
 }
-
 .prose .diagram .head.request {
   fill: var(--accent);
 }
-
 .prose .diagram .head.response {
   fill: var(--ink-soft);
 }
-
 .prose .diagram .head.label {
   fill: var(--muted);
 }
-
 .prose .diagram .name {
   fill: var(--ink);
   font: 500 17px var(--sans);
 }
-
 .prose .diagram .note {
   fill: var(--muted);
   font: 400 13px var(--mono);
